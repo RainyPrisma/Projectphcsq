@@ -1,0 +1,185 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #65eb2b;
+    border-bottom: 3px solid #2c3e50;
+}
+.gallery-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+.header-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+.header-buttons .btn {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    background-color: #28a745;
+    color: #eee8ed;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.header-buttons .btn:hover {
+    background-color: #fa0606;
+    transform: scale(1.05);
+}
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #eee8ed;
+}
+.gallery-item {
+    border: 1px solid #eee8ed;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding: 1rem;
+    background-color: #eee8ed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.gallery-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+.gallery-item h2 {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+.gallery-item p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+}
+.gallery-item button {
+    padding: 0.5rem 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.gallery-item button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+.gallery-header {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.gallery-header {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 100%;
+}
+
+.dropdown-btn h1 {
+    color: white;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    background: white;
+    min-width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    padding: 20px;
+    z-index: 1000;
+}
+
+.dropdown-content.active {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.dropdown-category h3 {
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    color: #444;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: #f5f8fa;
+    transform: translateX(5px);
+}
+
+.icon {
+    font-size: 1.2em;
+}
+
+/* Simple fade animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-content {
+    /* ... properties อื่นๆ คงเดิม ... */
+    opacity: 0; /* เพิ่มบรรทัดนี้ */
+}
+
+.dropdown-content.active {
+    display: grid;
+    opacity: 1; /* เพิ่มบรรทัดนี้ */
+    animation: fadeIn 0.3s ease forwards;
+}

@@ -1,0 +1,235 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.home-button {
+    display: inline-block;
+    background-color: coral;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: background 0.3s;
+    box-shadow: 0 4px 15px rgba(251, 133, 0, 0.3);
+}
+
+.home-button:hover {
+    background-color: rgb(208, 67, 16);
+}
+
+/* Centering elements */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.navbar {
+    background: linear-gradient(to right, #0077be, #00aaff);
+    padding: 10px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+/* Styling สำหรับตาราง */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    opacity: 0.8; /* ให้ตารางโปร่งใสทั้งหมด */
+}
+
+/* ปรับดีไซน์หัวตาราง */
+.table thead {
+    background-color: rgba(0, 119, 190, 0.8); /* ใช้สีฟ้าและโปร่งใส */
+    color: white;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid rgba(221, 221, 221, 0.7); /* เพิ่มความโปร่งใสให้ขอบตาราง */
+}
+
+/* ทำให้แถวต่างๆ โปร่งใส */
+.table tbody tr:hover {
+    background-color: rgba(241, 241, 241, 0.9); /* ใช้สีเบาๆ และโปร่งใส */
+}
+
+/* ปรับดีไซน์ปุ่มในแถว */
+.btn {
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    border: 2px solid rgb(0, 0, 0); /* กรอบสีดำ */
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* ปุ่มแก้ไข */
+.btn-primary {
+    background-color: rgb(0, 170, 255);
+    border-color: rgb(0, 0, 0); /* กรอบดำ */
+}
+
+.btn-primary:hover {
+    background-color: rgb(0, 119, 190);
+}
+
+/* ปุ่มลบ */
+.btn-danger {
+    background-color: rgb(255, 77, 77);
+    border-color: rgb(0, 0, 0); /* กรอบดำ */
+}
+
+.btn-danger:hover {
+    background-color: rgb(255, 26, 26);
+}
+
+/* ปุ่มกลับหน้าหลัก */
+.home-button {
+    display: inline-block;
+    background-color: rgb(255, 127, 80); /* Coral */
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: background 0.3s;
+    box-shadow: 0 4px 15px rgb(251, 133, 0, 0.3);
+    border: 2px solid rgb(0, 0, 0); /* กรอบดำ */
+}
+
+.home-button:hover {
+    background-color: rgb(208, 67, 16);
+}
+
+/* รูปภาพในตาราง */
+.table img {
+    border-radius: 8px;
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: cover;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    background-color: #0077be;
+    color: white;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ปรับให้ Modal ขนาดเหมาะสม */
+.modal-dialog {
+    max-width: 500px;
+}
+
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border: none;
+    box-shadow: 2px solid coral !important;
+}
+
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border: none;
+    box-shadow: 0 4px 10px rgba(251, 133, 0, 0.3) !important;
+}
+
+.dropdown-item:hover {
+    background-color: #e9ecef;
+}
+
+/* ปรับแต่ง dropdown toggle button ให้เข้ากับ home-button */
+.home-button.dropdown-toggle {
+    padding-right: 1.5rem;
+}
+
+.home-button.dropdown-toggle::after {
+    margin-left: 0.5rem;
+}
+
+.search-container {
+    max-width: 500px;
+    margin: auto;
+}
+
+.search-container .input-group {
+    display: flex;
+    align-items: center;
+    border-radius: 19px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-container .form-control {
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+.search-container .form-control:focus {
+    box-shadow: none;
+    border: none;
+}
+
+.search-container .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;  /* กำหนดขนาดปุ่มให้เท่ากัน */
+    height: 45px;
+    border: none;
+    transition: 0.3s;
+}
+
+.search-container .search-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.search-container .search-btn:hover {
+    background-color: #0056b3;
+}
+
+.search-container .clear-btn {
+    background-color: #dc3545;
+    color: white;
+    margin-left: 5px;
+}
+
+.search-container .clear-btn:hover {
+    background-color: #b02a37;
+}
+
+h2 {
+    text-align: center;
+}
+
+th, td {
+    border-bottom: 1px solid rgba(251, 133, 0, 0.5); /* ใช้ Coral โปร่งใส */
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(251, 133, 0, 0.5); /* ← อาจเปลี่ยนเป็นสีที่เข้ากับธีม */
+}

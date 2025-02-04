@@ -1,0 +1,177 @@
+/* ใส่โค้ดนี้ไว้บนสุดของไฟล์ account.css */
+body {
+    background-color: red !important;
+}
+/* Body background */
+body {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Main container styles */
+.account-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+}
+
+/* Header styles */
+.account-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #ebedf0;
+}
+
+.account-header h1 {
+    color: #1a73e8;
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.account-header .text-muted {
+    color: #666 !important;
+    font-size: 1.1rem;
+}
+
+/* Section headings */
+h4 {
+    color: #202124;
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-size: 1.4rem;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #1a73e8;
+    border-radius: 3px;
+}
+
+/* List group customization */
+.list-group-item {
+    padding: 16px 20px;
+    border: 1px solid #ebedf0;
+    background-color: #f8f9fa;
+    margin-bottom: 12px;
+    border-radius: 12px !important;
+    transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+    transform: translateX(5px);
+    border-color: #1a73e8;
+    background-color: #f4f8ff;
+}
+
+.list-group-item strong {
+    color: #202124;
+    margin-right: 12px;
+    font-weight: 600;
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Form styles */
+.form-label {
+    color: #202124;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #dde1e6;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+}
+
+/* Button styles */
+.btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-custom {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #1557b0;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .account-container {
+        margin: 15px;
+        padding: 25px;
+    }
+    
+    .account-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .list-group-item {
+        padding: 12px 15px;
+    }
+    
+    .list-group-item strong {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
+
+/* Form section spacing */
+.mb-4 {
+    margin-bottom: 2.5rem !important;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem !important;
+}
