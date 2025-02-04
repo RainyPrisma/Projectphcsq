@@ -40,7 +40,7 @@ $result = $conn->query($sql);
     <link rel="icon" href="https://i.pinimg.com/736x/0e/20/49/0e204916ebb9f86ee7f5cfc7433b91c0.jpg" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Gallery - Buying</title>
-    <link rel="stylesheet" href="../Gallery/Gallery.css">
+    <link rel="stylesheet" href="../View/Gallery.css">
 </head>
 <body>
 <header class="gallery-header">

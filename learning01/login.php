@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  <span class="show">SHOW</span>
               </div>
               <div class="pass">
-                 <a href="#">Forgot Password?</a>
+                 <a href="Model/forgot_password.php">Forgot Password?</a>
               </div>
               <div class="field">
                  <input type="submit" value="LOGIN">

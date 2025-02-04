@@ -11,7 +11,7 @@
 <div class="bg-img">
     <div class="content">
         <header>Register</header>
-        <form action="register.php" method="POST">
+        <form id="registerForm" action="register.php" method="POST" onsubmit="return validateForm()">
             <div class="field">
                 <span class="fas fa-user"></span>
                 <input type="text" id="username" name="username" required placeholder="Username">
@@ -22,12 +22,17 @@
             </div>
             <div class="field space">
                 <span class="fas fa-lock"></span>
-                <input type="password" id="password" name="password" required placeholder="Password">
+                <input type="password" id="password" name="password" required placeholder="Password" minlength="8">
+                <span class="show"></span>
+            </div>
+            <div class="field space">
+                <span class="fas fa-lock"></span>
+                <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirm Password" minlength="8">
                 <span class="show"></span>
             </div>
             <div class="field space">
                 <span class="fas fa-phone"></span>
-                <input type="tel" id="phone_number" name="phone_number" required placeholder="Phonenumber">
+                <input type="tel" id="phone_number" name="phone_number" required placeholder="Phonenumber" pattern="[0-9]{10}">
             </div>
             <div class="field space">
                 <input type="submit" value="REGISTER">
@@ -39,16 +44,33 @@
     </div>    
 </div>
 <script>
-    const pass_field = document.querySelector('.pass-key');
-    const showBtn = document.querySelector('.show');
-    showBtn.addEventListener('click', function(){
-        if(pass_field.type === "password"){
-            pass_field.type = "text";
-            showBtn.textContent = "HIDE";
-        }else{
-            pass_field.type = "password";
-            showBtn.textContent = "SHOW";
+    // ฟังก์ชันตรวจสอบการกรอกฟอร์ม
+    function validateForm() {
+        var password = document.getElementById('password').value;
+        var confirm_password = document.getElementById('confirm_password').value;
+        
+        if (password !== confirm_password) {
+            alert('รหัสผ่านไม่ตรงกัน กรุณากรอกใหม่');
+            return false;
         }
+        
+        return true;
+    }
+
+    // ฟังก์ชันซ่อน/แสดงรหัสผ่าน
+    const pass_fields = document.querySelectorAll('[type="password"]');
+    const showBtns = document.querySelectorAll('.show');
+    
+    showBtns.forEach((showBtn, index) => {
+        showBtn.addEventListener('click', function(){
+            if(pass_fields[index].type === "password"){
+                pass_fields[index].type = "text";
+                showBtn.textContent = "HIDE";
+            } else {
+                pass_fields[index].type = "password";
+                showBtn.textContent = "SHOW";
+            }
+        });
     });
 </script>
 <script>
