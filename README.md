@@ -11,3 +11,5 @@ On 1.2 Add on
 - improve ui in more page
 - change input on account page
 - etc.
+
+On 1.3 plan Using Ajax instead form and more input function
