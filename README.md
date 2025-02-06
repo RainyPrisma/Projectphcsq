@@ -7,7 +7,7 @@ On 1.1 Add on
 - Improve etc.
   
 On 1.2 Add on
-- change database type use view instead morefile
+- change database type use view instead more file
 - improve ui in more page
 - change input on account page
 - etc.
