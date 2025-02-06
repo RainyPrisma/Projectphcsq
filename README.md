@@ -5,6 +5,7 @@ On 1.1 Add on
 - New Design on Dashboard
 - Intro.html page for Design
 - Improve etc.
+  
 On 1.2 Add on
 - change database type use view instead morefile
 - improve ui in more page
