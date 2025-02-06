@@ -2,39 +2,142 @@
 session_start();
 require 'config.php';
 
-// เปลี่ยนการตรวจสอบ session จาก email เป็น user_email
 if (!isset($_SESSION['user_email'])) {
     header("Location: login.php");
     exit;
 }
 
-// ถ้าผู้ใช้ส่งข้อมูลแก้ไขมา
+// ดึงข้อมูลจาก view_account
+$sql = "SELECT * FROM view_account WHERE email = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $_SESSION['user_email']);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $email = $row['email'];
+    $username = $row['username'];
+    $full_name = $row['full_name'];
+    $phone_number = $row['phone_number'];
+    $address = $row['address'];
+    $city = $row['city'];
+    $state = $row['state'];
+    $zip_code = $row['zip_code'];
+    $country = $row['country'];
+    $gender = $row['gender'];
+} else {
+    echo "<script>alert('ไม่พบข้อมูลผู้ใช้');</script>";
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $username = $_POST['username'];
+    $full_name = $_POST['full_name'];
     $phone_number = $_POST['phone_number'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $zip_code = $_POST['zip_code'];
+    $country = $_POST['country'];
+    $gender = $_POST['gender'];
 
-    // คำสั่ง SQL สำหรับอัปเดตข้อมูล
-    $sql = "UPDATE users SET email = ?, username = ?, phone_number = ? WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    // เปลี่ยนจาก $_SESSION['email'] เป็น $_SESSION['user_email']
-    $stmt->bind_param("ssss", $email, $username, $phone_number, $_SESSION['user_email']);
-    
-    if ($stmt->execute()) {
-        // อัปเดตข้อมูลใน Session ให้ใช้ชื่อ key ใหม่
+    // ตรวจสอบ username
+    $check_user_sql = "SELECT * FROM users WHERE username = ? AND email != ?";
+    $check_user_stmt = $conn->prepare($check_user_sql);
+    $check_user_stmt->bind_param("ss", $username, $_SESSION['user_email']);
+    $check_user_stmt->execute();
+    $user_result = $check_user_stmt->get_result();
+
+    if ($user_result->num_rows > 0) {
+        echo "<script>alert('Username นี้ถูกใช้งานแล้ว กรุณาเลือก username อื่น');</script>";
+        exit;
+    }
+
+    // เริ่ม transaction
+    $conn->begin_transaction();
+
+    try {
+        // 1. อัพเดต username ชั่วคราวในตาราง users
+        $temp_username = $username . '_temp';
+        $update_user_sql = "UPDATE users SET username = ? WHERE email = ?";
+        $update_user_stmt = $conn->prepare($update_user_sql);
+        $update_user_stmt->bind_param("ss", $temp_username, $_SESSION['user_email']);
+        if (!$update_user_stmt->execute()) {
+            throw new Exception("ไม่สามารถอัพเดต username ชั่วคราวในตาราง users ได้");
+        }
+
+        // 2. อัพเดต username ชั่วคราวในตาราง user_details
+        $update_details_temp_sql = "UPDATE user_details SET username = ? WHERE email = ?";
+        $update_details_temp_stmt = $conn->prepare($update_details_temp_sql);
+        $update_details_temp_stmt->bind_param("ss", $temp_username, $_SESSION['user_email']);
+        if (!$update_details_temp_stmt->execute()) {
+            throw new Exception("ไม่สามารถอัพเดต username ชั่วคราวในตาราง user_details ได้");
+        }
+
+        // 3. อัพเดต username จริงในตาราง users
+        $update_user_final_sql = "UPDATE users SET username = ? WHERE email = ?";
+        $update_user_final_stmt = $conn->prepare($update_user_final_sql);
+        $update_user_final_stmt->bind_param("ss", $username, $_SESSION['user_email']);
+        if (!$update_user_final_stmt->execute()) {
+            throw new Exception("ไม่สามารถอัพเดต username ในตาราง users ได้");
+        }
+
+        // 4. ถ้ามีการเปลี่ยน email ให้อัพเดต email ก่อน
+        if ($email !== $_SESSION['user_email']) {
+            $update_email_sql = "UPDATE user_details SET email = ? WHERE email = ?";
+            $update_email_stmt = $conn->prepare($update_email_sql);
+            $update_email_stmt->bind_param("ss", $email, $_SESSION['user_email']);
+            if (!$update_email_stmt->execute() || $update_email_stmt->affected_rows === 0) {
+                throw new Exception("ไม่สามารถอัพเดต email ได้");
+            }
+        }
+
+        // 5. อัพเดตข้อมูลอื่นๆ ใน user_details
+        $update_details_sql = "UPDATE user_details SET 
+            username = ?,
+            full_name = ?, 
+            phone_number = ?, 
+            address = ?, 
+            city = ?, 
+            state = ?, 
+            zip_code = ?, 
+            country = ?, 
+            gender = ? 
+            WHERE email = ?";
+        $update_details_stmt = $conn->prepare($update_details_sql);
+        $update_details_stmt->bind_param("ssssssssss", 
+        $username, $full_name, $phone_number, 
+        $address, $city, $state, $zip_code, 
+        $country, $gender, $_SESSION['user_email']
+        );
+        if (!$update_details_stmt->execute() || $update_details_stmt->affected_rows === 0) {
+            throw new Exception("ไม่สามารถอัพเดตข้อมูลใน user_details ได้");
+        }
+
+        // ถ้าทุกอย่างผ่าน ให้ commit การเปลี่ยนแปลง
+        $conn->commit();
+
+        // อัพเดต session
         $_SESSION['user_email'] = $email;
         $_SESSION['username'] = $username;
+        $_SESSION['full_name'] = $full_name;
         $_SESSION['phone_number'] = $phone_number;
-        echo "<script>alert('ข้อมูลถูกอัปเดตเรียบร้อย');</script>";
-    } else {
-        echo "<script>alert('ไม่สามารถอัปเดตข้อมูลได้');</script>";
+        $_SESSION['address'] = $address;
+        $_SESSION['city'] = $city;
+        $_SESSION['state'] = $state;
+        $_SESSION['zip_code'] = $zip_code;
+        $_SESSION['country'] = $country;
+        $_SESSION['gender'] = $gender;
+
+        echo "<script>alert('ข้อมูลถูกบันทึกเรียบร้อย');</script>";
+    } catch (Exception $e) {
+        // ถ้าเกิดข้อผิดพลาด ให้ rollback การเปลี่ยนแปลงทั้งหมด
+        $conn->rollback();
+        echo "<script>alert('ไม่สามารถบันทึกข้อมูลได้: " . $e->getMessage() . "');</script>";
     }
 }
-
-// ดึงข้อมูลผู้ใช้จาก Session ให้ใช้ชื่อ key ใหม่
-$email = $_SESSION['user_email'];
-$username = $_SESSION['username'];
-$phone_number = $_SESSION['phone_number'];
 ?>
 
 <!DOCTYPE html>
@@ -43,60 +146,89 @@ $phone_number = $_SESSION['phone_number'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Page</title>
-    <link rel="icon" href="https://i.pinimg.com/736x/0e/20/49/0e204916ebb9f86ee7f5cfc7433b91c0.jpg" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="View/account.css">
 </head>
 <body>
     <div class="account-container">
+        <a href="index.php" class="back-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Home
+        </a>
+
         <div class="account-header">
             <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
-            <p class="text-muted">Manage your account details below.</p>
+            <p class="text-muted">Manage your account details below</p>
         </div>
 
-        <!-- ส่วนแสดงข้อมูลผู้ใช้ -->
-        <div class="mb-4">
-            <h4>Account Information</h4>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <strong>Email:</strong> <?php echo htmlspecialchars($email); ?>
-                </li>
-                <li class="list-group-item">
-                    <strong>Phone Number:</strong> <?php echo htmlspecialchars($phone_number); ?>
-                </li>
-                <li class="list-group-item">
-                    <strong>Username:</strong> <?php echo htmlspecialchars($username); ?>
-                </li>
-            </ul>
-        </div>
-
-        <!-- ฟอร์มแก้ไขข้อมูล -->
-        <div class="mb-4">
-            <h4>Edit Your Information</h4>
-            <form action="" method="POST">
+        <form action="" method="POST">
+            <div class="form-section">
+                <h4>Personal Information</h4>
+                
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
+                    <label class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($email); ?>" required>
                 </div>
+
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
+                    <label class="form-label">Username</label>
                     <input type="text" name="username" class="form-control" value="<?php echo htmlspecialchars($username); ?>" required>
                 </div>
+
                 <div class="mb-3">
-                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="full_name" class="form-control" value="<?php echo htmlspecialchars($full_name); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
                     <input type="text" name="phone_number" class="form-control" value="<?php echo htmlspecialchars($phone_number); ?>" required>
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Gender</label>
+                    <select name="gender" class="form-control" required>
+                        <option value="Male" <?php if ($gender == 'Male') echo 'selected'; ?>>Male</option>
+                        <option value="Female" <?php if ($gender == 'Female') echo 'selected'; ?>>Female</option>
+                        <option value="Other" <?php if ($gender == 'Other') echo 'selected'; ?>>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h4>Contact Information</h4>
+                
+                <div class="mb-3 full-width">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="address" class="form-control" value="<?php echo htmlspecialchars($address); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">City</label>
+                    <input type="text" name="city" class="form-control" value="<?php echo htmlspecialchars($city); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">State</label>
+                    <input type="text" name="state" class="form-control" value="<?php echo htmlspecialchars($state); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">ZIP Code</label>
+                    <input type="text" name="zip_code" class="form-control" value="<?php echo htmlspecialchars($zip_code); ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Country</label>
+                    <input type="text" name="country" class="form-control" value="<?php echo htmlspecialchars($country); ?>" required>
+                </div>
+
                 <button type="submit" class="btn btn-success">Save Changes</button>
-            </form>
-        </div>
-
-        <!-- ปุ่มกลับไปหน้า Home และ Logout -->
-        <div class="d-flex justify-content-between">
-            <a href="index.php" class="btn btn-custom">Back to Home</a>
-            <a href="logout.php" class="btn btn-danger">Logout</a>
-        </div>
+            </div>
+        </form>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

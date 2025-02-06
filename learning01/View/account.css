@@ -1,177 +1,245 @@
-/* ใส่โค้ดนี้ไว้บนสุดของไฟล์ account.css */
-body {
-    background-color: red !important;
+/* account.css */
+:root {
+    --ocean-deep: #005687;
+    --ocean-medium: #2d8cbd;
+    --ocean-light: #a8d0e6;
+    --ocean-foam: #e3f2fd;
+    --sand-light: #f5e6d3;
+    --coral: #ff7f50;
+    --seafoam: #98d7c2;
+    --wave-light: #bae6fd;
+    --text-primary: #1e3d59;
+    --text-secondary: #5c6f7f;
+    --border-color: #cce4f0;
 }
-/* Body background */
+
 body {
-    background-color: #f0f2f5;
+    background: linear-gradient(135deg, var(--wave-light) 0%, var(--ocean-medium) 100%);
     min-height: 100vh;
-    padding: 20px;
+    padding: 2rem 0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: var(--text-primary);
+    background-attachment: fixed;
+    position: relative;
 }
 
-/* Main container styles */
+/* Add wave animation to background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background: 
+        radial-gradient(circle at 50% 50%, transparent 65%, rgba(255, 255, 255, 0.1) 66%),
+        radial-gradient(circle at 50% 50%, transparent 45%, rgba(255, 255, 255, 0.1) 46%),
+        radial-gradient(circle at 50% 50%, transparent 25%, rgba(255, 255, 255, 0.1) 26%);
+    background-size: 100px 100px;
+    animation: waves 8s linear infinite;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@keyframes waves {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+}
+
 .account-container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 40px;
-    background: white;
+    background-color: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+    box-shadow: 0 15px 50px rgba(0, 86, 135, 0.15);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--wave-light);
 }
 
-/* Header styles */
+/* Add subtle wave decoration to container */
+.account-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--ocean-deep), var(--ocean-medium), var(--ocean-light));
+    border-radius: 20px 20px 0 0;
+}
+
+.back-button {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    padding: 0.6rem 1.2rem;
+    color: var(--ocean-deep);
+    border: 2px solid var(--ocean-deep);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--ocean-foam);
+}
+
+.back-button:hover {
+    background-color: var(--ocean-deep);
+    color: white;
+    transform: translateY(-2px);
+}
+
 .account-header {
     text-align: center;
-    margin-bottom: 40px;
-    padding-bottom: 25px;
-    border-bottom: 2px solid #ebedf0;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--ocean-light);
+    position: relative;
+}
+
+.account-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--ocean-medium) 50%, 
+        transparent 100%
+    );
 }
 
 .account-header h1 {
-    color: #1a73e8;
-    font-size: 2.2rem;
-    margin-bottom: 12px;
+    color: var(--ocean-deep);
+    font-size: 2.5rem;
     font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-shadow: 2px 2px 4px rgba(0, 86, 135, 0.1);
 }
 
-.account-header .text-muted {
-    color: #666 !important;
-    font-size: 1.1rem;
+.form-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(to bottom, var(--ocean-foam) 0%, rgba(255, 255, 255, 0) 100%);
+    padding: 2rem;
+    border-radius: 15px;
 }
 
-/* Section headings */
 h4 {
-    color: #202124;
-    margin-bottom: 25px;
+    color: var(--ocean-deep);
+    font-size: 1.5rem;
     font-weight: 600;
-    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    grid-column: 1 / -1;
     position: relative;
-    padding-bottom: 12px;
+    padding-left: 1.5rem;
 }
 
-h4::after {
-    content: '';
+h4::before {
+    content: '🌊';
     position: absolute;
-    bottom: 0;
     left: 0;
-    width: 60px;
-    height: 3px;
-    background-color: #1a73e8;
-    border-radius: 3px;
+    font-size: 1.2rem;
 }
 
-/* List group customization */
-.list-group-item {
-    padding: 16px 20px;
-    border: 1px solid #ebedf0;
-    background-color: #f8f9fa;
-    margin-bottom: 12px;
-    border-radius: 12px !important;
-    transition: all 0.3s ease;
-}
-
-.list-group-item:hover {
-    transform: translateX(5px);
-    border-color: #1a73e8;
-    background-color: #f4f8ff;
-}
-
-.list-group-item strong {
-    color: #202124;
-    margin-right: 12px;
-    font-weight: 600;
-    min-width: 120px;
-    display: inline-block;
-}
-
-/* Form styles */
 .form-label {
-    color: #202124;
+    color: var(--ocean-deep);
     font-weight: 500;
-    margin-bottom: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
 }
 
 .form-control {
-    padding: 12px 16px;
+    border: 2px solid var(--border-color);
     border-radius: 10px;
-    border: 1px solid #dde1e6;
+    padding: 0.875rem;
+    font-size: 1rem;
     transition: all 0.3s ease;
+    background-color: white;
 }
 
 .form-control:focus {
-    border-color: #1a73e8;
-    box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+    border-color: var(--ocean-medium);
+    box-shadow: 0 0 0 4px rgba(45, 140, 189, 0.1);
 }
 
-/* Button styles */
-.btn {
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-custom {
-    background-color: #1a73e8;
-    color: white;
-    border: none;
-}
-
-.btn-custom:hover {
-    background-color: #1557b0;
-    color: white;
-    transform: translateY(-2px);
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    border: none;
-}
-
-.btn-danger:hover {
-    background-color: #bb2d3b;
-    transform: translateY(-2px);
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
 }
 
 .btn-success {
-    background-color: #28a745;
-    color: white;
+    background: linear-gradient(135deg, var(--ocean-medium) 0%, var(--ocean-deep) 100%);
     border: none;
-    width: 100%;
-    margin-top: 10px;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    grid-column: 1 / -1;
+    justify-self: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-success::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--wave-light), transparent);
+    animation: wave 2s linear infinite;
+}
+
+@keyframes wave {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .btn-success:hover {
-    background-color: #218838;
     transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 86, 135, 0.2);
+}
+
+.full-width {
+    grid-column: 1 / -1;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .account-container {
-        margin: 15px;
-        padding: 25px;
+        margin: 1rem;
+        padding: 2rem;
+    }
+    
+    .form-section {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     .account-header h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
     
-    .list-group-item {
-        padding: 12px 15px;
+    .back-button {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 2rem;
     }
-    
-    .list-group-item strong {
-        display: block;
-        margin-bottom: 5px;
-    }
-}
-
-/* Form section spacing */
-.mb-4 {
-    margin-bottom: 2.5rem !important;
-}
-
-.mb-3 {
-    margin-bottom: 1.5rem !important;
 }

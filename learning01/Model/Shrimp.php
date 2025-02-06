@@ -30,7 +30,7 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 // Fetch products with new fields
-$sql = "SELECT * FROM productdetails";
+$sql = "SELECT * FROM productdetails where product_id = '3'";
 $result = $conn->query($sql);
 ?>
 
