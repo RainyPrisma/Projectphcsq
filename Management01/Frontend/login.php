@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require 'config.php';
+require '../Database/config.php';
 
 // ถ้ามีการล็อกอินแล้ว ให้ redirect ไปหน้า index.php
 if(isset($_SESSION['user_email'])) {
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Management website</title>
-    <link rel="stylesheet" href="View/login.css">
+    <link rel="stylesheet" href="../Assets/CSS/login.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  <span class="show">SHOW</span>
               </div>
               <div class="pass">
-                 <a href="Model/forgot_password.php">Forgot Password?</a>
+                 <a href="../Backend/forgot_password.php">Forgot Password?</a>
               </div>
               <div class="field">
                  <input type="submit" value="LOGIN">

@@ -95,17 +95,11 @@ if (isset($_POST['update'])) {
     $stmt->close();
 }
 
-// ดึงข้อมูลสินค้าทั้งหมดพร้อมการค้นหา
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+// ดึงข้อมูลสินค้าทั้งหมดสำหรับการแสดงผลครั้งแรก
 $sql = "SELECT pl.*, p.id as product_id 
         FROM productlist pl 
-        JOIN product p ON pl.product_id = p.id 
-        WHERE pl.name LIKE ?";
-$stmt = $conn->prepare($sql);
-$searchTerm = "%" . $search . "%";
-$stmt->bind_param("s", $searchTerm);
-$stmt->execute();
-$result = $stmt->get_result();
+        JOIN product p ON pl.product_id = p.id";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -114,15 +108,13 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>จัดการข้อมูลสินค้า (สำหรับผู้ดูแลระบบ)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../View/management.css?v=1.3" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../Assets/CSS/management.css" rel="stylesheet">
 </head>
 <body>
-    <!-- ส่วน Navigation bar ยังคงเหมือนเดิม -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid px-4">
-            <a class="navbar-brand" href="#">
-                StorageManagement
-            </a>
+            <a class="navbar-brand" href="#">StorageManagement</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -130,7 +122,7 @@ $result = $stmt->get_result();
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="../index.php">หน้าหลัก</a>
+                        <a class="nav-link" href="../Frontend/index.php">หน้าหลัก</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -169,20 +161,10 @@ $result = $stmt->get_result();
         <?php endif; ?>
 
         <div class="search-container my-4">
-            <form method="GET">
-                <div class="input-group">
-                    <input type="search" class="form-control" placeholder="🔍 ค้นหาสินค้า..." 
-                           name="search" value="<?= htmlspecialchars($search) ?>">
-                    <button class="btn search-btn" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <?php if ($search): ?>
-                        <a href="?" class="btn clear-btn">
-                            <i class="bi bi-x-circle"></i>
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </form>
+            <div class="input-group">
+                <input type="search" class="form-control" name="search" 
+                       placeholder="🔍 ค้นหาสินค้า..." autocomplete="off">
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -247,11 +229,13 @@ $result = $stmt->get_result();
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">วันที่สั่ง</label>
-                                                <input type="datetime-local" class="form-control" name="orderdate" value="<?= date('Y-m-d\TH:i', strtotime($row['orderdate'])) ?>" required>
+                                                <input type="datetime-local" class="form-control" name="orderdate" 
+                                                       value="<?= date('Y-m-d\TH:i', strtotime($row['orderdate'])) ?>" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">URL รูปภาพ</label>
-                                                <input type="text" class="form-control" name="image_url" value="<?= htmlspecialchars($row['image_url']) ?>" required>
+                                                <input type="text" class="form-control" name="image_url" 
+                                                       value="<?= htmlspecialchars($row['image_url']) ?>" required>
                                                 <div class="mt-2">
                                                     <img src="<?= htmlspecialchars($row['image_url']) ?>" alt="Preview" style="max-width: 100px;">
                                                 </div>
@@ -270,8 +254,9 @@ $result = $stmt->get_result();
             </table>
         </div>
     </div>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../Assets/JS/manage_search.js"></script>
     <?php $conn->close(); ?>
 </body>
 </html>

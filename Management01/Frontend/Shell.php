@@ -46,7 +46,6 @@ $result = $conn->query($sql);
 </head>
 <body>
 <header class="gallery-header">
-    <!-- Header content remains the same -->
     <div class="dropdown">
         <button class="dropdown-btn">
             <h1>Product Gallery <span class="dropdown-arrow">▾</span></h1>

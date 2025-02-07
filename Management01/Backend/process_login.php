@@ -1,6 +1,6 @@
 <?php 
 session_start(); // เริ่มต้น session
-require 'config.php';
+require '../Database/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email_or_phone = $_POST['email_or_phone']; // รับค่า email หรือ phone

@@ -34,6 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn->close();
 
 // Redirect back to the account page
-header("Location: index.php");
+header("Location: ../Frontend/index.php");
 exit();
 ?>

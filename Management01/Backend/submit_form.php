@@ -23,7 +23,7 @@ $sql = "INSERT INTO contacts (name, email, message) VALUES ('$name', '$email', '
 
 if ($conn->query($sql) === TRUE) {
     // ส่งผู้ใช้กลับไปยังหน้า contact us
-    header("Location: contactus.php");
+    header("Location: ../Frontend/contactus.php");
     exit(); // หยุดการทำงานของสคริปต์หลังจาก redirect
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;

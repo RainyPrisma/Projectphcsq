@@ -183,3 +183,30 @@ body {
     opacity: 1; /* เพิ่มบรรทัดนี้ */
     animation: fadeIn 0.3s ease forwards;
 }
+
+#searchInput {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    font-size: 14px;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #666;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ปรับ header-buttons ให้รองรับ search */
+.header-buttons {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

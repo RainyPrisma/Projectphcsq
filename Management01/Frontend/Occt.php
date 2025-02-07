@@ -30,7 +30,7 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 // Fetch products with new fields
-$sql = "SELECT * FROM productdetails where product_id = '1'";
+$sql = "SELECT * FROM productdetails where product_id = '2'";
 $result = $conn->query($sql);
 ?>
 
@@ -46,7 +46,6 @@ $result = $conn->query($sql);
 </head>
 <body>
 <header class="gallery-header">
-    <!-- Header content remains the same -->
     <div class="dropdown">
         <button class="dropdown-btn">
             <h1>Product Gallery <span class="dropdown-arrow">▾</span></h1>

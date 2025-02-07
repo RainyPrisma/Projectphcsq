@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->execute()) {
             echo "<script>
                    alert('ลงทะเบียนสำเร็จ! กรุณาเข้าสู่ระบบ');
-                   window.location.href = 'login.php';
+                   window.location.href = '../Frontend/login.php';
                  </script>";
             exit();
         } else {

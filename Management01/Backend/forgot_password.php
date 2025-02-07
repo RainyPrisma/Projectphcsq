@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config.php';
+include '../Database/config.php';
 
 // ตรวจสอบว่าเป็น AJAX request หรือไม่
 if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
@@ -58,5 +58,5 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
 }
 
 // ถ้าไม่ใช่ AJAX request ให้แสดงหน้า HTML
-include '../View/forgot_password_view.php';
+include '../Frontend/forgot_password_view.php';
 ?>

@@ -26,7 +26,7 @@ document.getElementById('changePasswordForm').addEventListener('submit', functio
         showAlert(data.message, data.status);
         if (data.status === 'success') {
             setTimeout(() => {
-                window.location.href = '../login.php';
+                window.location.href = '../Frontend/login.php';
             }, 2000);
         }
     })

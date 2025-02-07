@@ -35,7 +35,7 @@ if (!isset($_SESSION['user_email'])) {
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="View/index.css">
+    <link rel="stylesheet" href="../Assets/CSS/index.css">
 </head>
 <body class="bg-light">
     <!-- Navbar -->
@@ -56,23 +56,23 @@ if (!isset($_SESSION['user_email'])) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Model/gallery.php">
+                        <a class="nav-link" href="gallery.php">
                             <i class="bi bi-collection-fill"></i> Products
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Model/contactus.php">
+                        <a class="nav-link" href="../Frontend/contactus.php">
                             <i class="bi bi-telephone-fill"></i> Contact Us
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Model/management.php">
+                        <a class="nav-link" href="../Backend/management.php">
                             <i class="bi bi-gear-fill"></i> Management
                         </a>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="Account.php" class="btn btn-outline-light me-2">
+                    <a href="account.php" class="btn btn-outline-light me-2">
                         <i class="bi bi-person-circle"></i> Account
                     </a>
                     <a href="logout.php" class="btn btn-danger">

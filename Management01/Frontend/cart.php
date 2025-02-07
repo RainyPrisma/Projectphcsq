@@ -3,7 +3,7 @@ session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-require '../vendor/autoload.php'; // โหลด PHPMailer
+require '../Backend/vendor/autoload.php'; // โหลด PHPMailer
 
 if (!isset($_SESSION['user_email'])) {
     header('Location: ../login.php');
@@ -69,13 +69,13 @@ if (isset($_POST['checkout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
-    <link rel="stylesheet" href="cart.css?=v1.1">
+    <link rel="stylesheet" href="../Assets/CSS/cart.css">
 </head>
 <body>
     <div class="cart-container">
         <div class="cart-header">
             <h1>Shopping Cart</h1>
-            <a href="../Model/Gallery.php" class="btn btn-continue">Continue Shopping</a>
+            <a href="gallery.php" class="btn btn-continue">Continue Shopping</a>
         </div>
 
         <?php if (!empty($_SESSION['cart'])): ?>

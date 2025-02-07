@@ -85,7 +85,7 @@ $result = $stmt->get_result();
     <title>จัดการข้อมูลสินค้า (สำหรับผู้ดูแลระบบ)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- แก้ path CSS เป็น -->
-    <link href="../View/management.css?v=1.3" rel="stylesheet">
+    <link href="../Management01/Assets/CSS/management.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">

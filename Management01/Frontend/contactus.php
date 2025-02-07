@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us - Ocean Theme</title>
-  <link rel="stylesheet" href="../View/contactus.css">
+  <link rel="stylesheet" href="../Assets/CSS/contactus.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="waves"></div>
   </div>
   
-  <a href="../index.php" class="btn btn-custom">
+  <a href="index.php" class="btn btn-custom">
     <i class="fas fa-arrow-left"></i> Back to Home
   </a>
   

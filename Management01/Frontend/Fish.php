@@ -30,7 +30,7 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 // Fetch products with new fields
-$sql = "SELECT * FROM productdetails";
+$sql = "SELECT * FROM productdetails where product_id = '1'";
 $result = $conn->query($sql);
 ?>
 
@@ -42,11 +42,10 @@ $result = $conn->query($sql);
     <link rel="icon" href="https://i.pinimg.com/736x/0e/20/49/0e204916ebb9f86ee7f5cfc7433b91c0.jpg" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Gallery - Buying</title>
-    <link rel="stylesheet" href="../View/Gallery.css">
+    <link rel="stylesheet" href="../Management01/Assets/CSS/gallery.css">
 </head>
 <body>
 <header class="gallery-header">
-    <!-- Header content remains the same -->
     <div class="dropdown">
         <button class="dropdown-btn">
             <h1>Product Gallery <span class="dropdown-arrow">▾</span></h1>

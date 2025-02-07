@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 
 // Check session
 if (!isset($_SESSION['user_email'])) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit();
 }
 
@@ -30,7 +30,7 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 // Fetch products with new fields
-$sql = "SELECT * FROM productdetails where product_id = '2'";
+$sql = "SELECT * FROM productdetails";
 $result = $conn->query($sql);
 ?>
 
@@ -42,7 +42,10 @@ $result = $conn->query($sql);
     <link rel="icon" href="https://i.pinimg.com/736x/0e/20/49/0e204916ebb9f86ee7f5cfc7433b91c0.jpg" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Gallery - Buying</title>
-    <link rel="stylesheet" href="../View/Gallery.css">
+    <link rel="stylesheet" href="../Assets/CSS/gallery.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../Assets/JS/search.js"></script>
+    <script src="../Assets/JS/script.js"></script>
 </head>
 <body>
 <header class="gallery-header">
@@ -67,8 +70,9 @@ $result = $conn->query($sql);
         </div>
     </div>
     <div class="header-buttons">
-        <a href="../index.php" class="btn">Home</a>
-        <a href="../Cart/cart.php" class="btn">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <a href="../Frontend/index.php" class="btn">Home</a>
+        <a href="../Frontend/cart.php" class="btn">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
     </div>
 </header>
 
@@ -99,7 +103,5 @@ $result = $conn->query($sql);
     }
     ?>
 </main>
-
-<script src="../Controller/script.js"></script>
 </body>
 </html>
