@@ -42,7 +42,11 @@ $result = $conn->query($sql);
     <link rel="icon" href="https://i.pinimg.com/736x/0e/20/49/0e204916ebb9f86ee7f5cfc7433b91c0.jpg" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Gallery - Buying</title>
-    <link rel="stylesheet" href="../View/Gallery.css">
+    <link rel="stylesheet" href="../Assets/CSS/gallery.css">
+    <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../Assets/JS/search.js"></script>
+    <script src="../Assets/JS/script.js"></script>
 </head>
 <body>
 <header class="gallery-header">
@@ -54,9 +58,10 @@ $result = $conn->query($sql);
         <div class="dropdown-content">
             <div class="dropdown-category">
                 <h3>Categories</h3>
+                <a href="gallery.php" class="dropdown-item"><span class="icon">🏠</span>Main Page</a>
                 <a href="Fish.php" class="dropdown-item"><span class="icon">🐠</span>Any of Fish</a>
                 <a href="Occt.php" class="dropdown-item"><span class="icon">🐙</span>Any of Squid</a>
-                <a href="Shrimp.php" class="dropdown-item"><span class="icon">🐚</span>Any of Shrimp</a>
+                <a href="Shrimp.php" class="dropdown-item"><span class="icon">🦐</span>Any of Shrimp</a>
                 <a href="Shell.php" class="dropdown-item"><span class="icon">🐚</span>Any of Shell</a>
             </div>
             <div class="dropdown-category">
@@ -67,8 +72,8 @@ $result = $conn->query($sql);
         </div>
     </div>
     <div class="header-buttons">
-        <a href="../index.php" class="btn">Home</a>
-        <a href="../Cart/cart.php" class="btn">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+        <a href="../Frontend/index.php" class="btn">Home</a>
+        <a href="../Frontend/cart.php" class="btn">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
     </div>
 </header>
 

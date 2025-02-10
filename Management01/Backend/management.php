@@ -89,6 +89,10 @@ if (isset($_POST['update'])) {
 
     if ($stmt->execute()) {
         $message = "อัปเดตข้อมูลสินค้าสำเร็จ!";
+    // เพิ่มหลังจากบรรทัด $message = "";
+    if (isset($_GET['success']) && $_GET['success'] == 1) {
+        $message = "เพิ่มสินค้าใหม่สำเร็จ!";
+    }
     } else {
         $message = "เกิดข้อผิดพลาด: " . $stmt->error;
     }
@@ -106,9 +110,10 @@ $result = $conn->query($sql);
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>จัดการข้อมูลสินค้า (สำหรับผู้ดูแลระบบ)</title>
+    <title>Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
     <link href="../Assets/CSS/management.css" rel="stylesheet">
 </head>
 <body>
@@ -121,28 +126,17 @@ $result = $conn->query($sql);
             
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../Frontend/index.php">หน้าหลัก</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            จัดการข้อมูล
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="management.php">Special & Seasonal</a></li>
-                            <li><a class="dropdown-item" href="Fishmanagement.php">Fish</a></li>
-                            <li><a class="dropdown-item" href="Octsmanagement.php">Octs</a></li>
-                            <li><a class="dropdown-item" href="Shellmanagement.php">Shell</a></li>
-                        </ul>
-                    </li>
                 </ul>
-                
                 <div class="d-flex align-items-center">
                     <span class="text-white me-3">
                         <i class="bi bi-person-circle me-1"></i>
                         <?= htmlspecialchars($_SESSION['user_email']) ?>
                     </span>
-                    <a href="../logout.php" class="btn btn-danger">
+                    <a href="../Frontend/index.php" class="btn btn-success me-3">
+                        <i class="bi bi-house-door me-1"></i>
+                        หน้าหลัก
+                    </a>
+                    <a href="../Frontend/logout.php" class="btn btn-danger">
                         <i class="bi bi-box-arrow-right me-1"></i>
                         ออกจากระบบ
                     </a>
@@ -165,6 +159,13 @@ $result = $conn->query($sql);
                 <input type="search" class="form-control" name="search" 
                        placeholder="🔍 ค้นหาสินค้า..." autocomplete="off">
             </div>
+        </div>
+
+        <div class="mb-4">
+            <a href="add_product.php" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i>
+            เพิ่มสินค้าใหม่
+            </a>
         </div>
 
         <div class="table-responsive">

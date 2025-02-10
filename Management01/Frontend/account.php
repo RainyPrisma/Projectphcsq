@@ -1,113 +1,155 @@
 <?php
-require '../Database/config.php';
-require_once '../Database/account_handler.php'; 
+session_start();
 
-// ตรวจสอบการล็อกอิน
 if (!isset($_SESSION['user_email'])) {
-    header("Location: login.php");
-    exit;
-}
-
-// ดึงข้อมูลผู้ใช้
-$handler = new AccountHandler($conn);
-$userData = $handler->getUserData($_SESSION['user_email']);
-
-if (!$userData) {
-    echo "<script>alert('ไม่พบข้อมูลผู้ใช้');</script>";
-    exit;
+    header('Location: login.php');
+    exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Assets/CSS/account.css">
-    <script src="../Assets/JS/account.js"></script>
+    <title>Account Management</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
+    <style>
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
+        .error { color: red; }
+        .success { color: green; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logout-btn {
+            padding: 8px 15px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="account-container">
-        <a href="../Frontend/index.php" class="back-button">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            Back to Home
-        </a>
-
-        <div class="account-header">
-            <h1>Welcome, <?php echo htmlspecialchars($userData['username']); ?>!</h1>
-            <p class="text-muted">Manage your account details below</p>
+    <div id="account-form">
+        <div class="header">
+            <h2>Account Management</h2>
+            <a href="logout.php" class="logout-btn">Logout</a>
+            <a href="index.php" class="home-btn">Home</a>
         </div>
-
-        <form id="accountForm">
-            <div class="form-section">
-                <h4>Personal Information</h4>
-                
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($userData['email']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" value="<?php echo htmlspecialchars($userData['username']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" name="full_name" class="form-control" value="<?php echo htmlspecialchars($userData['full_name']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Phone Number</label>
-                    <input type="text" name="phone_number" class="form-control" value="<?php echo htmlspecialchars($userData['phone_number']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Gender</label>
-                    <select name="gender" class="form-control" required>
-                        <option value="Male" <?php if ($userData['gender'] == 'Male') echo 'selected'; ?>>Male</option>
-                        <option value="Female" <?php if ($userData['gender'] == 'Female') echo 'selected'; ?>>Female</option>
-                        <option value="Other" <?php if ($userData['gender'] == 'Other') echo 'selected'; ?>>Other</option>
-                    </select>
-                </div>
+        <div id="message"></div>
+        
+        <form id="userForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" 
+                    value="<?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : ''; ?>" 
+                    readonly>
             </div>
 
-            <div class="form-section">
-                <h4>Contact Information</h4>
-                
-                <div class="mb-3 full-width">
-                    <label class="form-label">Address</label>
-                    <input type="text" name="address" class="form-control" value="<?php echo htmlspecialchars($userData['address']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">City</label>
-                    <input type="text" name="city" class="form-control" value="<?php echo htmlspecialchars($userData['city']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">State</label>
-                    <input type="text" name="state" class="form-control" value="<?php echo htmlspecialchars($userData['state']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">ZIP Code</label>
-                    <input type="text" name="zip_code" class="form-control" value="<?php echo htmlspecialchars($userData['zip_code']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Country</label>
-                    <input type="text" name="country" class="form-control" value="<?php echo htmlspecialchars($userData['country']); ?>" required>
-                </div>
-
-                <button type="submit" class="btn btn-success">Save Changes</button>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" maxlength="50">
             </div>
+
+            <div class="form-group">
+                <label for="full_name">Full Name:</label>
+                <input type="text" id="full_name" name="full_name" maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label for="zip_code">Zip Code:</label>
+                <input type="text" id="zip_code" name="zip_code" maxlength="10">
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Phone Number:</label>
+                <input type="tel" id="phone_number" name="phone_number" maxlength="255">
+            </div>
+
+            <button type="submit">Update Account</button>
         </form>
     </div>
+
+    <script>
+    $(document).ready(function() {
+        // Load user data automatically
+        $.ajax({
+            url: 'get_user.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    for (const [key, value] of Object.entries(response.data)) {
+                        $(`#${key}`).val(value);
+                    }
+                } else {
+                    $('#message').html('<div class="error">' + response.message + '</div>');
+                }
+            },
+            error: function() {
+                $('#message').html('<div class="error">Error occurred while loading data</div>');
+            }
+        });
+
+        // Update user information
+        $('#userForm').submit(function(e) {
+            e.preventDefault();
+            
+            $.ajax({
+                url: 'update_user.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        $('#message').html('<div class="success">' + response.message + '</div>');
+                    } else {
+                        $('#message').html('<div class="error">' + response.message + '</div>');
+                    }
+                },
+                error: function() {
+                    $('#message').html('<div class="error">Error occurred while updating</div>');
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>

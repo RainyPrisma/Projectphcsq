@@ -24,14 +24,15 @@ if (!isset($_SESSION['user_email'])) {
         $_SESSION['user_name'] = $user_data['username'];
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marine Business Dashboard</title>
-    <link rel="icon" href="https://i.pinimg.com/736x/0e/20/49/0e204916ebb9f86ee7f5cfc7433b91c0.jpg" type="image/png">
+    <title>MarineHomepage</title>
+    <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -42,8 +43,8 @@ if (!isset($_SESSION['user_email'])) {
     <nav class="navbar navbar-expand-lg navbar-dark bg-ocean sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="https://i.pinimg.com/474x/18/d2/9b/18d29b964ba470502134e2d1cc0dcc35.jpg" alt="Logo" class="me-2">
-                <span>Marine Business Hub</span>
+                <img src="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" alt="Logo" class="me-2">
+                <span>Marine Seafood Hub</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
