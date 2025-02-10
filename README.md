@@ -19,3 +19,4 @@ On 1.3 Add on
 - Insert function for super Role in Management
 - etc.
 
+On 1.4 planing Cookie system , More Design and Security thing
