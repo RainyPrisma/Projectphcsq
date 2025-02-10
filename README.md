@@ -12,4 +12,10 @@ On 1.2 Add on
 - change input on account page
 - etc.
 
-On 1.3 plan Using Ajax instead form and more input function
+On 1.3 Add on
+- Manage account form (No Design yet)
+- CSS Improve on gallery
+- Some Diagram create
+- Insert function for super Role in Management
+- etc.
+
