@@ -22,3 +22,11 @@ On 1.3 Add on
 On 1.4 No an Update Only Diagram
 
 On 1.5 EMERGENCY UPD 
+
+On 1.6 Almost MAJOR UPD
+- New Design Dashboard
+- Add product function like a fix value , number value chaset etc.
+- improve some UI
+- Gallery set to design
+
+On 1.7 planing ui and fix somebug that sitll has , add on etc.
