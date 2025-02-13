@@ -19,4 +19,5 @@ On 1.3 Add on
 - Insert function for super Role in Management
 - etc.
 
-On 1.4 planing Cookie system , More Design and Security thing
+On 1.4 No an Update Only Diagram
+On 1.5 EMERGENCY UPD 
