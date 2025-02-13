@@ -1,245 +1,236 @@
-/* account.css */
+/* Ocean Theme Variables */
 :root {
-    --ocean-deep: #005687;
-    --ocean-medium: #2d8cbd;
-    --ocean-light: #a8d0e6;
-    --ocean-foam: #e3f2fd;
-    --sand-light: #f5e6d3;
-    --coral: #ff7f50;
-    --seafoam: #98d7c2;
-    --wave-light: #bae6fd;
-    --text-primary: #1e3d59;
-    --text-secondary: #5c6f7f;
-    --border-color: #cce4f0;
+  --beach-sand: #f8e4c9;
+  --shallow-water: #a8e6df;
+  --ocean-blue: #3ab0ea;
+  --deep-sea: #2389da;
+  --coral: #ff8d7b;
+  --seafoam: #dcf5f1;
+  --shell-pink: #ffd5cc;
+  --wave-white: #ffffff;
 }
 
+/* Ocean Background */
 body {
-    background: linear-gradient(135deg, var(--wave-light) 0%, var(--ocean-medium) 100%);
-    min-height: 100vh;
-    padding: 2rem 0;
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    color: var(--text-primary);
-    background-attachment: fixed;
-    position: relative;
+  background: linear-gradient(
+    180deg, 
+    var(--ocean-blue) 0%,
+    var(--shallow-water) 70%,
+    var(--beach-sand) 100%
+  );
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Add wave animation to background */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100vh;
-    background: 
-        radial-gradient(circle at 50% 50%, transparent 65%, rgba(255, 255, 255, 0.1) 66%),
-        radial-gradient(circle at 50% 50%, transparent 45%, rgba(255, 255, 255, 0.1) 46%),
-        radial-gradient(circle at 50% 50%, transparent 25%, rgba(255, 255, 255, 0.1) 26%);
-    background-size: 100px 100px;
-    animation: waves 8s linear infinite;
-    opacity: 0.5;
-    pointer-events: none;
+/* Animated Waves */
+.wave-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
 }
 
-@keyframes waves {
-    0% { background-position: 0 0; }
-    100% { background-position: 100px 100px; }
+.wave {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 100% 120px;
 }
 
+.wave-1 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='rgba(255, 255, 255, 0.1)'/%3E%3C/svg%3E");
+  animation: wave-animation 12s linear infinite;
+  opacity: 0.3;
+}
+
+.wave-2 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='rgba(255, 255, 255, 0.2)'/%3E%3C/svg%3E");
+  animation: wave-animation 8s linear infinite;
+  opacity: 0.2;
+}
+
+@keyframes wave-animation {
+  0% { background-position-x: 0; }
+  100% { background-position-x: 1200px; }
+}
+
+/* Container with Beach Theme */
+/* Container with Beach Theme */
 .account-container {
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    box-shadow: 0 15px 50px rgba(0, 86, 135, 0.15);
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 3rem;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid var(--wave-light);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem;
+  margin: 2rem auto;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  max-width: 800px;  /* Added max-width */
+  width: 90%;        /* Added width */
 }
 
-/* Add subtle wave decoration to container */
 .account-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 8px;
-    background: linear-gradient(90deg, var(--ocean-deep), var(--ocean-medium), var(--ocean-light));
-    border-radius: 20px 20px 0 0;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--coral), var(--shallow-water));
 }
 
-.back-button {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
-    padding: 0.6rem 1.2rem;
-    color: var(--ocean-deep);
-    border: 2px solid var(--ocean-deep);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: var(--ocean-foam);
+/* Ocean-themed Header */
+.page-header {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 0;
+  margin-bottom: 2.5rem;
+  border-bottom: 3px solid var(--shallow-water);
 }
 
-.back-button:hover {
-    background-color: var(--ocean-deep);
-    color: white;
-    transform: translateY(-2px);
+/* Add this new style for the header text */
+.page-header h1 {
+  color: var(--wave-white);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.account-header {
-    text-align: center;
-    margin-bottom: 4rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid var(--ocean-light);
-    position: relative;
-}
-
-.account-header::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        var(--ocean-medium) 50%, 
-        transparent 100%
-    );
-}
-
-.account-header h1 {
-    color: var(--ocean-deep);
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    text-shadow: 2px 2px 4px rgba(0, 86, 135, 0.1);
-}
-
-.form-section {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin-bottom: 2rem;
-    background: linear-gradient(to bottom, var(--ocean-foam) 0%, rgba(255, 255, 255, 0) 100%);
-    padding: 2rem;
-    border-radius: 15px;
-}
-
-h4 {
-    color: var(--ocean-deep);
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    grid-column: 1 / -1;
-    position: relative;
-    padding-left: 1.5rem;
-}
-
-h4::before {
-    content: '🌊';
-    position: absolute;
-    left: 0;
-    font-size: 1.2rem;
-}
-
+/* Form Elements with Beach Colors */
 .form-label {
-    color: var(--ocean-deep);
-    font-weight: 500;
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
+  color: var(--deep-sea);
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
 }
 
 .form-control {
-    border: 2px solid var(--border-color);
-    border-radius: 10px;
-    padding: 0.875rem;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background-color: white;
+  border: 2px solid var(--shallow-water);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .form-control:focus {
-    border-color: var(--ocean-medium);
-    box-shadow: 0 0 0 4px rgba(45, 140, 189, 0.1);
+  border-color: var(--ocean-blue);
+  box-shadow: 0 0 0 4px rgba(168, 230, 223, 0.3);
+  background: white;
 }
 
-select.form-control {
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1em;
+.form-select {
+  border-radius: 10px;
+  border: 2px solid var(--shallow-water);
+  padding: 0.75rem 1rem;
 }
 
-.btn-success {
-    background: linear-gradient(135deg, var(--ocean-medium) 0%, var(--ocean-deep) 100%);
-    border: none;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
-    grid-column: 1 / -1;
-    justify-self: center;
-    color: white;
-    position: relative;
-    overflow: hidden;
+/* Ocean-themed Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
 }
 
-.btn-success::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--wave-light), transparent);
-    animation: wave 2s linear infinite;
+.btn-ocean {
+  background: linear-gradient(135deg, var(--ocean-blue), var(--shallow-water));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(58, 176, 234, 0.2);
 }
 
-@keyframes wave {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+.btn-ocean:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(58, 176, 234, 0.3);
+  color: white;
 }
 
-.btn-success:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 86, 135, 0.2);
+.btn-danger {
+  background: var(--coral);
+  border: none;
+  box-shadow: 0 4px 15px rgba(255, 141, 123, 0.2);
 }
 
-.full-width {
-    grid-column: 1 / -1;
+.btn-danger:hover {
+  background: #ff7b66;
+  transform: translateY(-2px);
 }
 
-/* Responsive adjustments */
+/* Beach-themed Alerts */
+.alert {
+  border-radius: 12px;
+  border: none;
+  padding: 1rem 1.5rem;
+  position: relative;
+}
+
+.alert-success {
+  background: var(--seafoam);
+  color: #2a9187;
+  border-left: 4px solid var(--shallow-water);
+}
+
+.alert-danger {
+  background: var(--shell-pink);
+  color: #e65d4a;
+  border-left: 4px solid var(--coral);
+}
+
+/* Form Groups with Shell Effect */
+.form-group {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(168, 230, 223, 0.3);
+}
+
+.form-group:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Shell Decoration */
+.shell-decoration {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%233ab0ea' d='M256,0C114.6,0,0,114.6,0,256s114.6,256,256,256s256-114.6,256-256S397.4,0,256,0z M256,448 c-105.9,0-192-86.1-192-192S150.1,64,256,64s192,86.1,192,192S361.9,448,256,448z'/%3E%3C/svg%3E");
+  background-size: contain;
+  z-index: 0;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    .account-container {
-        margin: 1rem;
-        padding: 2rem;
-    }
-    
-    .form-section {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .account-header h1 {
-        font-size: 2rem;
-    }
-    
-    .back-button {
-        position: relative;
-        top: 0;
-        left: 0;
-        margin-bottom: 2rem;
-    }
+  .account-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Loading Animation */
+.loading {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--shallow-water);
+  border-top: 4px solid var(--ocean-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

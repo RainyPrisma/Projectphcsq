@@ -13,6 +13,15 @@ if (!isset($_SESSION['user_email'])) {
     exit();
 }
 
+// ตรวจสอบ Session Timeout
+$session_timeout = 1800; // 30 นาที
+if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) > $session_timeout) {
+    session_unset();
+    session_destroy();
+    header("Location: ../Frontend/login.php");
+    exit;
+}
+
 // Handle Add to Cart
 if (isset($_POST['add_to_cart'])) {
     $product_name = $_POST['product_name'];
