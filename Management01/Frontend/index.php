@@ -58,9 +58,8 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarineHomepage</title>
     <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/CSS/index.css">
 </head>
 <body class="bg-light">
@@ -108,21 +107,45 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
             </div>
         </div>
     </nav>
-
-    <!-- Main Content -->
-    <div class="container py-4">
-        <!-- Welcome Section -->
-        <div class="row mb-4">
-            <div class="col">
-                <div class="card bg-ocean text-white">
-                    <div class="card-body">
-                        <h1 class="card-title mb-3">Marine Business Solutions</h1>
-                        <p class="card-text fs-5">Your one-stop platform for marine industry management and Products</p>
-                    </div>
+        <!-- Hero Carousel -->
+    <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../Assets/images/fish.jpg" class="d-block w-100" alt="Welcome slide">
+                <div class="carousel-caption">
+                    <h1>Welcome to Marine Seafood Hub</h1>
+                    <p class="fs-4">Your Premier Destination for Marine Industry Excellence</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../Assets/images/banner3.jpg" class="d-block w-100" alt="Sustainable slide">
+                <div class="carousel-caption">
+                    <h1>Sustainable Seafood Solutions</h1>
+                    <p class="fs-4">Leading the Way in Responsible Marine Resource Management</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../Assets/images/banner2.jpg" class="d-block w-100" alt="Global slide">
+                <div class="carousel-caption">
+                    <h1>Global Marine Network</h1>
+                    <p class="fs-4">Connecting Businesses Across the Seven Seas</p>
                 </div>
             </div>
         </div>
-
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+    <!-- Main Content -->
+    <div class="container py-4">
         <!-- Stats Section -->
         <div class="row g-4 mb-4">
             <div class="col-md-4">
@@ -160,6 +183,8 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
             </div>
         </div>
 
+        <div class="wave-divider"></div>
+
         <!-- Market Insights Section -->
         <div class="row mb-4">
             <div class="col">
@@ -177,7 +202,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
         </div>
 
         <!-- Business Sectors Section -->
-        <h2 class="mb-4">Key Business Sectors</h2>
+        <h2 class="mb-4 text-center">Key Business Sectors</h2>
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card h-100 ecosystem-card">
@@ -209,8 +234,6 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

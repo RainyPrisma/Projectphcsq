@@ -1,23 +1,103 @@
-       .stat-card {
-            transition: transform 0.3s;
-            border-left: 4px solid #0d6efd;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        .ecosystem-card {
-            border-radius: 15px;
-            transition: all 0.3s;
-        }
-        .ecosystem-card:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .navbar-brand img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        .bg-ocean {
-            background: linear-gradient(135deg, #0077be, #005c8f);
-        }
+:root {
+    --ocean-dark: #1a4564;
+    --ocean-medium: #2c7da0;
+    --ocean-light: #a8dadc;
+}
+
+.bg-ocean {
+    background: linear-gradient(135deg, var(--ocean-dark), var(--ocean-medium));
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative; /* เพิ่ม */
+    z-index: 1000;    /* เพิ่ม */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    height: 40px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* แก้ไขส่วน Hero Carousel */
+.hero-carousel {
+    height: 500px;
+    position: relative; /* เพิ่ม */
+    z-index: 1;        /* เพิ่ม */
+}
+
+.carousel-item {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* ส่วนอื่นๆ คงเดิม */
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.stat-card {
+    transition: transform 0.3s;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.ecosystem-card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, #fff, var(--ocean-light) 200%);
+}
+
+.wave-divider {
+    height: 50px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232c7da0' fill-opacity='0.2' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: cover;
+    margin: 2rem 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-carousel {
+        height: 400px;
+    }
+    
+    .carousel-item {
+        height: 400px;
+    }
+    
+    .carousel-caption h1 {
+        font-size: 1.8rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-carousel {
+        height: 300px;
+    }
+    
+    .carousel-item {
+        height: 300px;
+    }
+    
+    .carousel-caption h1 {
+        font-size: 1.5rem;
+    }
+}

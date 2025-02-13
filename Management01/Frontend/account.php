@@ -24,6 +24,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/CSS/account.css">
     <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
+    <script src="../Assets/JS/disable-autocomplete.js"></script>
 </head>
 <body>
     <!-- Page Header -->

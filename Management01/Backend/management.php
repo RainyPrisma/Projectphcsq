@@ -190,7 +190,7 @@ $result = $conn->query($sql);
                             <td><?= $row['product_id'] ?></td>
                             <td><?= htmlspecialchars($row['name']) ?></td>
                             <td><?= htmlspecialchars($row['detail']) ?></td>
-                            <td><?= number_format($row['price'], 2) ?> บาท</td>
+                            <td><?= number_format($row['price'], 2) ?> ฿</td>
                             <td><?= $row['quantity'] ?></td>
                             <td><?= $row['orderdate'] ?></td>
                             <td><img src="<?= htmlspecialchars($row['image_url']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" style="max-width: 100px;"></td>

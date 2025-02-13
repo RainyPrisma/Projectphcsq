@@ -97,7 +97,7 @@ $result = $conn->query($sql);
             echo '<h2>' . $row["product_name"] . '</h2>';
             echo '<p class="detail">' . $row["detail"] . '</p>';
             echo '<p>Quantity: ' . $row["quantity"] . '</p>';
-            echo '<p class="price">$' . $row["price"] . '</p>';
+            echo '<p class="price">฿ ' . $row["price"] . '</p>';
             
             // ส่วน form สำหรับเพิ่มลงตะกร้า
             echo '<form method="POST" action="">';

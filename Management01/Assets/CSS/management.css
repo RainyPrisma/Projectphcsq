@@ -41,6 +41,7 @@
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    text-align: center; /* เพิ่มบรรทัดนี้เพื่อจัดกลางทั้งตาราง */
 }
 
 .table thead {
@@ -52,11 +53,13 @@
     font-weight: 600;
     padding: 1rem;
     border-bottom: none;
+    text-align: center; /* เพิ่มบรรทัดนี้เพื่อจัดกลางส่วนหัวตาราง */
 }
 
 .table td {
     padding: 1rem;
     vertical-align: middle;
+    text-align: center; /* เพิ่มบรรทัดนี้เพื่อจัดกลางเนื้อหาในตาราง */
 }
 
 .table tbody tr {
@@ -280,4 +283,16 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: #2a5298;
+}
+
+.input-group .btn {
+    z-index: 0;
+}
+
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    min-width: 300px;
 }
