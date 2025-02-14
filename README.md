@@ -29,4 +29,10 @@ On 1.6 Almost MAJOR UPD
 - improve some UI
 - Gallery set to design
 
-On 1.7 planing ui and fix somebug that sitll has , add on etc.
+On 1.7 ALT Almost MAJOR UPD
+- Delete type function
+- conntect to next page
+- fix some error
+- css manage link etc.
+
+On 1.8 We gonna not giveup #targetisproductdetailspage
