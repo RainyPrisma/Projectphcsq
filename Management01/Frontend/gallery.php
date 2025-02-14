@@ -24,7 +24,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
 
 // Handle Add to Cart
 if (isset($_POST['add_to_cart'])) {
-    $product_name = $_POST['product_name'];
+    $product_name = $_POST['name'];
     $detail = $_POST['detail'];
     $quantity = $_POST['quantity'];
     $price = $_POST['product_price'];  // แก้จาก price เป็น product_price ให้ตรงกับ form
@@ -51,7 +51,7 @@ $result = $conn->query($sql);
     <link rel="icon" href="https://i.pinimg.com/736x/0e/20/49/0e204916ebb9f86ee7f5cfc7433b91c0.jpg" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Gallery - Buying</title>
-    <link rel="stylesheet" href="../Assets/CSS/gallery.css">
+    <link rel="stylesheet" href="/learning01/Management01/Assets/CSS/gallery.css">
     <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../Assets/JS/search.js"></script>
@@ -91,26 +91,30 @@ $result = $conn->query($sql);
     <?php
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo '<div class="gallery-item">';
-            // ส่วนแสดงข้อมูล
-            echo '<img src="' . $row["image_url"] . '" alt="Product Image">';
-            echo '<h2>' . $row["product_name"] . '</h2>';
-            echo '<p class="detail">' . $row["detail"] . '</p>';
-            echo '<p>Quantity: ' . $row["quantity"] . '</p>';
-            echo '<p class="price">฿ ' . $row["price"] . '</p>';
-            
-            // ส่วน form สำหรับเพิ่มลงตะกร้า
-            echo '<form method="POST" action="">';
-            echo '<input type="hidden" name="product_name" value="' . $row["product_name"] . '">';
-            echo '<input type="hidden" name="detail" value="' . $row["detail"] . '">';
-            echo '<input type="hidden" name="quantity" value="' . $row["quantity"] . '">';
-            echo '<input type="hidden" name="product_price" value="' . $row["price"] . '">';
-            echo '<button type="submit" name="add_to_cart">Add to Cart</button>';
-            echo '</form>';
-            echo '</div>';
+            ?>
+            <div class="gallery-item">
+                <a href="product_details.php?id=<?php echo $row['name']; ?>" class="product-link">
+                    <img src="<?php echo $row['image_url']; ?>" alt="<?php echo $row['name']; ?>">
+                    <div class="product-info">
+                        <h2><?php echo $row['name']; ?></h2>
+                        <p class="detail"><?php echo $row['detail']; ?></p>
+                        <p class="quantity">Stock: <?php echo $row['quantity']; ?></p>
+                        <p class="price">฿<?php echo number_format($row['price'], 2); ?></p>
+                    </div>
+                </a>
+                
+                <form method="POST">
+                    <input type="hidden" name="name" value="<?php echo $row['name']; ?>">
+                    <input type="hidden" name="detail" value="<?php echo $row['detail']; ?>">
+                    <input type="hidden" name="quantity" value="<?php echo $row['quantity']; ?>">
+                    <input type="hidden" name="product_price" value="<?php echo $row['price']; ?>">
+                    <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
+                </form>
+            </div>
+            <?php
         }
     } else {
-        echo '<p>No products found.</p>';
+        echo '<div class="no-products">No products found.</div>';
     }
     ?>
 </main>

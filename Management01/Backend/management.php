@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_email']) || $_SESSION['role'] !== 'admin') {
 }
 
 // ตรวจสอบ Session Timeout
-$session_timeout = 600; // 10 นาที
+$session_timeout = 18000; // 10 นาที
 if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) > $session_timeout) {
     session_unset();
     session_destroy();

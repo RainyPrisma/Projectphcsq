@@ -323,3 +323,24 @@ body {
         padding: 12px 8px;
     }
 }
+
+/* เพิ่มในไฟล์ gallery.css */
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.product-link:hover {
+    transform: translateY(-5px);
+}
+
+.gallery-item {
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}

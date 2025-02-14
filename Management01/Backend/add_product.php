@@ -37,6 +37,34 @@ if ($conn->connect_error) {
 
 $message = "";
 
+// ฟังก์ชันสำหรับลบประเภทสินค้า
+if (isset($_POST['delete_product_type'])) {
+    $type_id = $_POST['type_id'];
+    
+    // ตรวจสอบว่ามีสินค้าในประเภทนี้หรือไม่
+    $check_products = $conn->prepare("SELECT COUNT(*) as count FROM productlist WHERE product_id = ?");
+    $check_products->bind_param("i", $type_id);
+    $check_products->execute();
+    $result = $check_products->get_result();
+    $count = $result->fetch_assoc()['count'];
+    
+    if ($count > 0) {
+        echo json_encode(['success' => false, 'message' => 'ไม่สามารถลบได้เนื่องจากมีสินค้าในประเภทนี้']);
+        exit;
+    }
+    
+    // ดำเนินการลบประเภทสินค้า
+    $delete_stmt = $conn->prepare("DELETE FROM product WHERE id = ?");
+    $delete_stmt->bind_param("i", $type_id);
+    
+    if ($delete_stmt->execute()) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'เกิดข้อผิดพลาดในการลบประเภทสินค้า']);
+    }
+    exit;
+}
+
 // การเพิ่มสินค้าใหม่
 if (isset($_POST['add'])) {
     $product_id = $_POST['product_id'];
@@ -83,7 +111,7 @@ if (isset($_POST['add'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="../Assets/CSS/management.css" rel="stylesheet">
-    <script src="../Assets/JS/addprouct.js"></script>
+    <script src="../Assets/JS/addproduct.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
@@ -133,7 +161,7 @@ if (isset($_POST['add'])) {
                         <?php endif; ?>
 
                         <form method="post">
-                        <div class="mb-3">
+                            <div class="mb-3">
                                 <label class="form-label">ประเภทสินค้า</label>
                                 <div class="input-group">
                                     <select class="form-select" name="product_id" id="product_id" required>
@@ -149,6 +177,9 @@ if (isset($_POST['add'])) {
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
                                         + เพิ่มประเภทใหม่
                                     </button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#manageProductTypesModal">
+                                        จัดการประเภท
+                                    </button>
                                 </div>
                             </div>
 
@@ -163,7 +194,7 @@ if (isset($_POST['add'])) {
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label class="form-label">ชื่อประเภทสินค้า</label>
-                                                <input type="text" class="form-control" id="newProductType" required>
+                                                <input type="text" class="form-control" id="newProductType">
                                                 <div class="invalid-feedback">
                                                     กรุณากรอกชื่อประเภทสินค้า
                                                 </div>
@@ -176,6 +207,36 @@ if (isset($_POST['add'])) {
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Modal จัดการประเภทสินค้า -->
+                            <div class="modal fade" id="manageProductTypesModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">จัดการประเภทสินค้า</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="list-group">
+                                                <?php
+                                                $product_result = $conn->query("SELECT id, nameType FROM product");
+                                                while ($product = $product_result->fetch_assoc()) {
+                                                    echo '<div class="list-group-item d-flex justify-content-between align-items-center">';
+                                                    echo htmlspecialchars($product['nameType']);
+                                                    echo '<button type="button" class="btn btn-danger btn-sm" onclick="deleteProductType(' . $product['id'] . ')">';
+                                                    echo '<i class="bi bi-trash"></i> ลบ</button>';
+                                                    echo '</div>';
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="mb-3">
                                 <label class="form-label">ชื่อสินค้า</label>
                                 <input type="text" class="form-control" name="name" autocomplete="off" required>
@@ -184,23 +245,10 @@ if (isset($_POST['add'])) {
                                 <label class="form-label">รายละเอียด</label>
                                 <textarea class="form-control" name="detail" required></textarea>
                             </div>
-                                <div class="mb-3">
-                                    <label class="form-label">ราคา</label>
-                                    <input type="text" class="form-control" name="price" id="priceInput" required>
-                                </div>
-                                <script>
-                                    document.getElementById("priceInput").addEventListener("input", function (e) {
-                                        // ลบทุกอย่างที่ไม่ใช่ตัวเลข
-                                        let value = e.target.value.replace(/[^0-9]/g, "").replace(/^0+/, ""); 
-                                        
-                                        // ตรวจสอบว่าไม่เป็นค่าว่าง
-                                        if (value !== "") {
-                                            e.target.value = Number(value).toLocaleString();
-                                        } else {
-                                            e.target.value = ""; // ถ้าผู้ใช้ลบหมดให้เป็นค่าว่าง
-                                        }
-                                    });
-                                </script>
+                            <div class="mb-3">
+                                <label class="form-label">ราคา</label>
+                                <input type="text" class="form-control" name="price" id="priceInput" required>
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label">จำนวน</label>
                                 <input type="number" class="form-control" name="quantity" required>
@@ -225,6 +273,43 @@ if (isset($_POST['add'])) {
             </div>
         </div>
     </div>
+
+    <script>
+    // ฟังก์ชันสำหรับลบประเภทสินค้า
+    function deleteProductType(typeId) {
+        if (confirm('คุณแน่ใจหรือไม่ที่จะลบประเภทสินค้านี้?')) {
+            fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'delete_product_type=1&type_id=' + typeId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message || 'เกิดข้อผิดพลาดในการลบประเภทสินค้า');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาดในการลบประเภทสินค้า');
+            });
+        }
+    }
+
+    // จัดการการแสดงผลราคา
+    document.getElementById("priceInput").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/[^0-9]/g, "").replace(/^0+/, ""); 
+        if (value !== "") {
+            e.target.value = Number(value).toLocaleString();
+        } else {
+            e.target.value = "";
+        }
+    });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
