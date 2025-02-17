@@ -344,3 +344,16 @@ body {
 .gallery-item:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
+
+/* Footer Styles */
+.gallery-footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.gallery-footer p {
+    margin: 5px 0;
+}

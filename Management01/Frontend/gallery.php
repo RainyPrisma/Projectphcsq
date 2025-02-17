@@ -118,5 +118,11 @@ $result = $conn->query($sql);
     }
     ?>
 </main>
+
+<footer class="gallery-footer">
+    <p>&copy; <?php echo date('Y'); ?> Custom Seafoods. All rights reserved.</p>
+    <p>ติดต่อ: info@customseafoods.com | โทร: 02-123-4567</p>
+</footer>
+
 </body>
 </html>
