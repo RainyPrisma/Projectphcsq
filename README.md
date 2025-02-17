@@ -35,4 +35,8 @@ On 1.7 ALT Almost MAJOR UPD
 - fix some error
 - css manage link etc.
 
-On 1.8 We gonna not giveup #targetisproductdetailspage
+On 1.8 Nah not even MAJOR
+- product_details.php page
+- Design on details, function for details page
+- Change some type of function in account
+- etc.
