@@ -40,3 +40,10 @@ On 1.8 Nah not even MAJOR
 - Design on details, function for details page
 - Change some type of function in account
 - etc.
+
+On 1.9 No Major just do it ok
+- log login that keep some info of customer
+- log buyer customer for admin
+- count system from product
+- table in database
+- etc.
