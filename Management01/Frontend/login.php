@@ -23,9 +23,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['username'] = $user['username'];
+            $_SESSION['user_id'] = $user['id']; // Make sure to store user_id in session
             $_SESSION['phone_number'] = $user['phone_number'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['last_activity'] = time();
+            
+            // Get client IP address
+            function getClientIP() {
+               // ถ้ามี HTTP_X_FORWARDED_FOR ให้ใช้ IP แรกที่พบ
+               if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                  $ipAddresses = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+                  return trim($ipAddresses[0]);
+               }
+               // ถ้าไม่มีให้ใช้ REMOTE_ADDR
+               else if (isset($_SERVER['REMOTE_ADDR'])) {
+                  return $_SERVER['REMOTE_ADDR'];
+               }
+               
+               return 'Unknown';
+            }
+
+            $ip_address = getClientIP();
+
+            // Validate IP address
+            if (filter_var($ip_address, FILTER_VALIDATE_IP)) {
+               // Insert into database
+               $login_sql = "INSERT INTO login_logs (user_id, username, email, login_time, ip_address) VALUES (?, ?, ?, NOW(), ?)";
+               $login_stmt = $conn->prepare($login_sql);
+               $login_stmt->bind_param("isss", $user['id'], $user['username'], $user['email'], $ip_address);
+               $login_stmt->execute();
+            } else {
+               // ถ้า IP ไม่ถูกต้อง ให้บันทึกเป็น Unknown
+               $ip_address = 'Unknown';
+               $login_sql = "INSERT INTO login_logs (user_id, username, email, login_time, ip_address) VALUES (?, ?, ?, NOW(), ?)";
+               $login_stmt = $conn->prepare($login_sql);
+               $login_stmt->bind_param("isss", $user['id'], $user['username'], $user['email'], $ip_address);
+               $login_stmt->execute();
+            }
+                                    
             // ทุก role ไปที่หน้า index.php
             header("Location: index.php");
             exit();

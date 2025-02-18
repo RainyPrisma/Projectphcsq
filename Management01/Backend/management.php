@@ -126,6 +126,15 @@ $result = $conn->query($sql);
             
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link text-white active" href="management.php">จัดการสินค้า</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="login_logs.php">ประวัติการเข้าสู่ระบบ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white active" href="order_history.php">ประวัติการสั่งซื้อ</a>
+                    </li>
                 </ul>
                 <div class="d-flex align-items-center">
                     <span class="text-white me-3">

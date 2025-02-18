@@ -296,3 +296,26 @@
     z-index: 1050;
     min-width: 300px;
 }
+
+.table th, .table td {
+    vertical-align: middle;
+}
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+}
+.status-active {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+.status-inactive {
+    background-color: #f8d7da;
+    color: #842029;
+}
+.filter-form {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}

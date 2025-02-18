@@ -3,7 +3,7 @@ session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-require '../Backend/vendor/autoload.php'; // โหลด PHPMailer
+require '../Backend/vendor/autoload.php';
 
 if (!isset($_SESSION['user_email'])) {
     header('Location: ../login.php');
@@ -28,37 +28,83 @@ if (isset($_POST['checkout'])) {
     if (!isset($_SESSION['user_email'])) {
         echo "<script>alert('Error: No email found! Please login.');</script>";
     } else {
-        $mail = new PHPMailer(true);
-        try {
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bignagniza13@gmail.com'; // เปลี่ยนเป็นอีเมลของคุณ
-            $mail->Password = 'dugxaxfziwqizhpk';   // ใส่รหัสผ่านแอป (App Password)
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
-
-            $mail->setFrom('bignagniza13@gmail.com', 'AdminSeafoodMagica'); // เปลี่ยนชื่อร้าน
-            $mail->addAddress($_SESSION['user_email']);
-            $mail->isHTML(true);
-            $mail->Subject = 'Your Order Confirmation';
-
-            $emailBody = "<h2>Thank you for your order!</h2><p>Here are the details:</p><ul>";
-            $total = 0;
-            foreach ($_SESSION['cart'] as $item) {
-                $emailBody .= "<li>{$item['name']} - $" . number_format($item['price'], 2) . "</li>";
-                $total += $item['price'];
-            }
-            $emailBody .= "</ul><p><strong>Total: $" . number_format($total, 2) . "</strong></p>";
-
-            $mail->Body = $emailBody;
-            $mail->send();
-
-            echo "<script>alert('Order placed! A confirmation email has been sent.');</script>";
-            unset($_SESSION['cart']);
-        } catch (Exception $e) {
-            echo "<script>alert('Order placed, but email could not be sent.');</script>";
+        // สร้างการเชื่อมต่อกับฐานข้อมูล
+        $conn = new mysqli("localhost", "root", "1234", "management01");
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
+        
+        // คำนวณยอดรวมและรวบรวมรายการสินค้า
+        $total_price = 0;
+        $items_list = array();
+        
+        foreach ($_SESSION['cart'] as $item) {
+            $quantity = isset($item['quantity']) ? $item['quantity'] : 1;
+            $total_price += $item['price'] * $quantity;
+            $items_list[] = $item['name'] . " (x" . $quantity . ")";
+            
+            // อัพเดตจำนวนสินค้าในฐานข้อมูล
+            $update_sql = "UPDATE productlist SET quantity = quantity - ? 
+                          WHERE name = ? AND quantity >= ?";
+            $stmt = $conn->prepare($update_sql);
+            $stmt->bind_param("isi", $quantity, $item['name'], $quantity);
+            $stmt->execute();
+            $stmt->close();
+        }
+        
+        // แก้ไขส่วนสร้าง order reference แบบมีตัวอักษรนำหน้า (แทนที่ intval ซึ่งเป็นสาเหตุของ out of range error)
+        $order_reference = 'ORD-' . date('ymd') . '-' . rand(1000, 9999);
+        
+        // บันทึกข้อมูลการสั่งซื้อลงในฐานข้อมูลโดยใช้ order_reference แทน order_id
+        $username = $_SESSION['username'] ?? 'Guest'; // ถ้าไม่มี username ให้ใช้ 'Guest'
+        $items_string = implode(", ", $items_list);
+  
+        $insert_sql = "INSERT INTO orderhistory (order_id, order_reference, username, email, item, total_price) 
+              VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($insert_sql);
+        $stmt->bind_param("issssd", $order_id, $order_reference, $username, $user_email, $items_string, $total_price);
+        
+        if ($stmt->execute()) {
+            // ส่งอีเมลยืนยันการสั่งซื้อ
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'bignagniza13@gmail.com';
+                $mail->Password = 'dugxaxfziwqizhpk';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                $mail->setFrom('bignagniza13@gmail.com', 'AdminSeafoodMagica');
+                $mail->addAddress($user_email);
+                $mail->isHTML(true);
+                $mail->Subject = 'Your Order Confirmation';
+
+                $emailBody = "<h2>Thank you for your order!</h2>";
+                $emailBody .= "<p>Order Reference: " . $order_reference . "</p>";
+                $emailBody .= "<p>Here are the details:</p><ul>";
+                
+                foreach ($items_list as $item) {
+                    $emailBody .= "<li>" . $item . "</li>";
+                }
+                
+                $emailBody .= "</ul><p><strong>Total: $" . number_format($total_price, 2) . "</strong></p>";
+
+                $mail->Body = $emailBody;
+                $mail->send();
+
+                echo "<script>alert('Order placed successfully! Order Reference: " . $order_reference . "\\nA confirmation email has been sent.');</script>";
+                unset($_SESSION['cart']);
+            } catch (Exception $e) {
+                echo "<script>alert('Order placed successfully! Order Reference: " . $order_reference . "\\nBut email could not be sent.');</script>";
+            }
+        } else {
+            echo "<script>alert('Error placing order. Please try again.');</script>";
+        }
+        
+        $stmt->close();
+        $conn->close();
     }
 }
 ?>
