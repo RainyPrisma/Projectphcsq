@@ -1,27 +1,6 @@
 <?php
 session_start();
-
-// Database connection
-$conn = new mysqli("localhost", "root", "1234", "management01");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check session
-if (!isset($_SESSION['user_email'])) {
-    header('Location: login.php');
-    exit();
-}
-
-// ตรวจสอบ Session Timeout
-$session_timeout = 1800; // 30 นาที
-if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) > $session_timeout) {
-    session_unset();
-    session_destroy();
-    header("Location: ../Frontend/login.php");
-    exit;
-}
-
+require_once '../Backend/productreq.php';
 // อัพเดท timestamp ของกิจกรรมล่าสุด
 $_SESSION['last_activity'] = time();
 

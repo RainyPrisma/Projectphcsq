@@ -357,3 +357,10 @@ body {
 .gallery-footer p {
     margin: 5px 0;
 }
+
+.quantity-input {
+    width: 60px;
+    padding: 5px;
+    margin: 5px 0;
+    text-align: center;
+}

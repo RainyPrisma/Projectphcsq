@@ -33,6 +33,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="h3 mb-0">Account Management</h1>
                 <div>
+                    <a href="../Backend/ordercus_history.php" class="btn btn-ocean me-2">Order History</a>
                     <a href="index.php" class="btn btn-ocean me-2">Home</a>
                     <a href="logout.php" class="btn btn-danger">Logout</a>
                 </div>

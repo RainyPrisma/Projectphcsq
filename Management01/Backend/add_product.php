@@ -1,42 +1,6 @@
 <?php
 session_start();
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// ตรวจสอบสถานะการล็อกอินและบทบาท
-if (!isset($_SESSION['user_email']) || $_SESSION['role'] !== 'admin') {
-    session_unset();
-    session_destroy();
-    header("Location: ../login.php");
-    exit;
-}
-
-// ตรวจสอบ Session Timeout
-$session_timeout = 1800; // 30 นาที
-if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) > $session_timeout) {
-    session_unset();
-    session_destroy();
-    header("Location: ../login.php");
-    exit;
-}
-
-$_SESSION['last_activity'] = time();
-
-// การเชื่อมต่อฐานข้อมูล
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$dbname = "management01";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$message = "";
-
+require_once('backendreq.php');
 // ฟังก์ชันสำหรับลบประเภทสินค้า
 if (isset($_POST['delete_product_type'])) {
     $type_id = $_POST['type_id'];
@@ -70,7 +34,7 @@ if (isset($_POST['add'])) {
     $product_id = $_POST['product_id'];
     $name = $_POST['name'];
     $detail = $_POST['detail'];
-    $price = $_POST['price'];
+    $price = str_replace(',', '', $_POST['price']); // ลบ comma ออกจากราคา
     $quantity = $_POST['quantity'];
     $image_url = $_POST['image_url'];
     $orderdate = $_POST['orderdate'];
@@ -79,6 +43,7 @@ if (isset($_POST['add'])) {
                            VALUES (?, ?, ?, ?, ?, ?, ?)");
     
     if (!$stmt) {
+        http_response_code(500);
         die('Prepare failed: ' . $conn->error);
     }
 
@@ -92,13 +57,17 @@ if (isset($_POST['add'])) {
         $orderdate
     );
 
-    if ($stmt->execute()) {
+    $result = $stmt->execute();
+    $stmt->close();
+
+    if ($result) {
+        http_response_code(200);
         header("Location: management.php?success=1");
         exit;
     } else {
-        $message = "เกิดข้อผิดพลาด: " . $stmt->error;
+        http_response_code(500);
+        die('Execute failed: ' . $conn->error);
     }
-    $stmt->close();
 }
 ?>
 
@@ -160,7 +129,7 @@ if (isset($_POST['add'])) {
                             </div>
                         <?php endif; ?>
 
-                        <form method="post">
+                        <form method="post" id="myForm">
                             <div class="mb-3">
                                 <label class="form-label">ประเภทสินค้า</label>
                                 <div class="input-group">
@@ -262,10 +231,10 @@ if (isset($_POST['add'])) {
                                 <input type="text" class="form-control" name="image_url" autocomplete="off" required>
                             </div>
                             <div class="text-end">
-                                <button type="submit" name="add" class="btn btn-success">
-                                    <i class="bi bi-plus-circle me-1"></i>
-                                    เพิ่มสินค้า
-                                </button>
+                            <button type="submit" name="add" id="submitButton" class="btn btn-success">
+                                <i class="bi bi-plus-circle me-1"></i>
+                                เพิ่มสินค้า
+                            </button>
                             </div>
                         </form>
                     </div>
@@ -309,6 +278,40 @@ if (isset($_POST['add'])) {
             e.target.value = "";
         }
     });
+    </script>
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            // เก็บข้อมูลฟอร์ม
+            const formData = new FormData(this);
+            
+            // ปิดปุ่มและแสดง loading
+            let submitButton = document.getElementById("submitButton");
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> กำลังเพิ่ม...`;
+            
+            // รอ 1.5 วินาทีแล้วค่อยส่งข้อมูล
+            setTimeout(() => {
+                fetch('', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = 'management.php?success=1';
+                    } else {
+                        throw new Error('Something went wrong');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = `<i class="bi bi-plus-circle me-1"></i>เพิ่มสินค้า`;
+                });
+            }, 1500);
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

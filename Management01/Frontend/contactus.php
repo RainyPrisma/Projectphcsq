@@ -1,3 +1,8 @@
+<?php
+session_start() ;
+require_once '../Backend/productreq.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

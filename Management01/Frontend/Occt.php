@@ -1,48 +1,10 @@
 <?php
 session_start();
-
-// Database connection
-$conn = new mysqli("localhost", "root", "1234", "management01");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check session
-if (!isset($_SESSION['user_email'])) {
-    header('Location: login.php');
-    exit();
-}
-
-// ตรวจสอบ Session Timeout
-$session_timeout = 1800; // 30 นาที
-if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) > $session_timeout) {
-    session_unset();
-    session_destroy();
-    header("Location: ../Frontend/login.php");
-    exit;
-}
-
-// Handle Add to Cart
-if (isset($_POST['add_to_cart'])) {
-    $product_name = $_POST['name'];
-    $detail = $_POST['detail'];
-    $quantity = $_POST['quantity'];
-    $price = $_POST['product_price'];  // แก้จาก price เป็น product_price ให้ตรงกับ form
-
-    // Add to cart session with new fields
-    $_SESSION['cart'][] = [
-        'name' => $product_name,
-        'detail' => $detail,
-        'quantity' => $quantity,
-        'price' => $price
-    ];
-}
-
+require_once '../Backend/productreq.php';
 // Fetch products with new fields
 $sql = "SELECT * FROM productdetails where product_id = '2'";
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,7 +68,7 @@ $result = $conn->query($sql);
                 <form method="POST">
                     <input type="hidden" name="name" value="<?php echo $row['name']; ?>">
                     <input type="hidden" name="detail" value="<?php echo $row['detail']; ?>">
-                    <input type="hidden" name="quantity" value="<?php echo $row['quantity']; ?>">
+                    <input type="number" name="quantity" min="1" max="<?php echo $row['quantity']; ?>" value="1" class="quantity-input">
                     <input type="hidden" name="product_price" value="<?php echo $row['price']; ?>">
                     <button type="submit" name="add_to_cart" class="add-to-cart-btn">Add to Cart</button>
                 </form>
@@ -118,5 +80,11 @@ $result = $conn->query($sql);
     }
     ?>
 </main>
+
+<footer class="gallery-footer">
+    <p>&copy; <?php echo date('Y'); ?> Custom Seafoods. All rights reserved.</p>
+    <p>ติดต่อ: info@customseafoods.com | โทร: 02-123-4567</p>
+</footer>
+
 </body>
 </html>

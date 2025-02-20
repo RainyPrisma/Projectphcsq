@@ -1,125 +1,138 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Modal handling
-    const modalElement = document.getElementById('addProductModal');    
-    if (modalElement) {
-        modalElement.addEventListener('hidden.bs.modal', function () {
-            const newTypeInput = document.getElementById('newProductType');
-            if (newTypeInput) {
-                newTypeInput.value = '';
-                newTypeInput.classList.remove('is-invalid');
-            }
-        });
-
-        // เพิ่ม event listener สำหรับ modal show
-        modalElement.addEventListener('shown.bs.modal', function () {
-            const newTypeInput = document.getElementById('newProductType');
-            if (newTypeInput) {
-                newTypeInput.focus();
-            }
-        });
+// Object สำหรับจัดการการป้องกันการกดซ้ำของฟอร์ม
+const formProtection = {
+    submitting: {},
+    
+    // ฟังก์ชันป้องกันการกดซ้ำ
+    protect: function(formId, button, loadingText = 'กำลังดำเนินการ...') {
+        if (this.submitting[formId]) {
+            return false;
+        }
+        
+        this.submitting[formId] = true;
+        
+        // เก็บข้อความเดิมของปุ่ม
+        button.dataset.originalText = button.innerHTML;
+        
+        // เปลี่ยนข้อความปุ่มเป็น loading
+        button.disabled = true;
+        button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ${loadingText}`;
+        
+        return true;
+    },
+    
+    // ฟังก์ชันรีเซ็ตปุ่มกลับสู่สถานะปกติ
+    reset: function(formId, button) {
+        this.submitting[formId] = false;
+        button.disabled = false;
+        button.innerHTML = button.dataset.originalText;
     }
-
-    // Price input handling
-    const priceInput = document.getElementById("priceInput");
-    if (priceInput) {
-        priceInput.addEventListener("input", function(e) {
-            let value = e.target.value.replace(/[^0-9]/g, "").replace(/^0+/, ""); 
-            if (value !== "") {
-                e.target.value = Number(value).toLocaleString();
-            } else {
-                e.target.value = "";
+};
+document.addEventListener('DOMContentLoaded', () => {
+    // จัดการฟอร์มเพิ่มสินค้า
+    const addProductForm = document.querySelector('form');
+    if (addProductForm) {
+        addProductForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitButton = this.querySelector('button[name="add"]');
+            if (!formProtection.protect('addProductForm', submitButton, 'กำลังเพิ่มสินค้า...')) {
+                return;
             }
+
+            // เก็บข้อมูลฟอร์ม
+            const formData = new FormData(this);
+            formData.append('add', '1'); // เพิ่ม flag add เพื่อให้ตรงกับเงื่อนไข isset($_POST['add']) ในฝั่ง PHP
+
+            // ส่งข้อมูลด้วย fetch
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = 'management.php?success=1';
+                } else {
+                    throw new Error('Something went wrong');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                formProtection.reset('addProductForm', submitButton);
+                alert('เกิดข้อผิดพลาดในการเพิ่มสินค้า');
+            });
         });
     }
 });
-
+// ฟังก์ชันสำหรับเพิ่มประเภทสินค้าใหม่
 function saveNewProduct() {
-    const newTypeInput = document.getElementById('newProductType');
-    if (!newTypeInput) return;
-
-    const newType = newTypeInput.value.trim();
-    
-    // ตรวจสอบว่ามีการกรอกข้อมูล
-    if (!newType) {
-        newTypeInput.classList.add('is-invalid');
-        newTypeInput.focus();
+    const button = document.querySelector('.modal-footer .btn-primary');
+    if (!formProtection.protect('saveProductType', button, 'กำลังบันทึก...')) {
         return;
     }
 
-    newTypeInput.classList.remove('is-invalid');
+    const productTypeInput = document.getElementById('newProductType');
+    const productType = productTypeInput.value.trim();
     
-    // แสดง loading state
-    const saveButton = document.querySelector('#addProductModal .btn-primary');
-    if (!saveButton) return;
+    if (!productType) {
+        productTypeInput.classList.add('is-invalid');
+        formProtection.reset('saveProductType', button);
+        return;
+    }
 
-    const originalText = saveButton.innerHTML;
-    saveButton.disabled = true;
-    saveButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> กำลังบันทึก...';
-    
-    // ส่งข้อมูลไปบันทึก
-    fetch('save_product_type.php', {
+    const formData = new FormData();
+    formData.append('new_product_type', '1');
+    formData.append('nameType', productType);
+
+    fetch('', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'nameType=' + encodeURIComponent(newType)
+        body: formData
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // เพิ่มตัวเลือกใหม่ใน select
-            const select = document.getElementById('product_id');
-            if (select) {
-                const option = new Option(newType, data.id);
-                select.add(option);
-                select.value = data.id;
-            }
-            
-            // ปิด modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addProductModal'));
-            if (modal) {
-                modal.hide();
-                newTypeInput.value = '';
-                newTypeInput.classList.remove('is-invalid');
-            }
-            
-            // แสดงข้อความสำเร็จ
-            showAlert('success', 'เพิ่มประเภทสินค้าสำเร็จ');
+            location.reload();
         } else {
-            showAlert('danger', data.message || 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+            alert(data.message || 'เกิดข้อผิดพลาดในการเพิ่มประเภทสินค้า');
+            formProtection.reset('saveProductType', button);
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        showAlert('danger', 'เกิดข้อผิดพลาดในการเชื่อมต่อ');
-    })
-    .finally(() => {
-        if (saveButton) {
-            saveButton.disabled = false;
-            saveButton.innerHTML = originalText;
-        }
+        alert('เกิดข้อผิดพลาดในการเพิ่มประเภทสินค้า');
+        formProtection.reset('saveProductType', button);
     });
 }
 
-function showAlert(type, message) {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
-    alertDiv.style.zIndex = '1050';
-    alertDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-    
-    document.body.appendChild(alertDiv);
-    
-    setTimeout(() => {
-        if (alertDiv && alertDiv.parentNode) {
-            alertDiv.remove();
-        }
-    }, 3000);
+// ฟังก์ชันสำหรับลบประเภทสินค้า
+function deleteProductType(typeId) {
+    const button = document.querySelector(`button[onclick="deleteProductType(${typeId})"]`);
+    if (!formProtection.protect(`deleteProductType_${typeId}`, button, 'กำลังลบ...')) {
+        return;
+    }
+
+    if (confirm('คุณแน่ใจหรือไม่ที่จะลบประเภทสินค้านี้?')) {
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'delete_product_type=1&type_id=' + typeId
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'เกิดข้อผิดพลาดในการลบประเภทสินค้า');
+                formProtection.reset(`deleteProductType_${typeId}`, button);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('เกิดข้อผิดพลาดในการลบประเภทสินค้า');
+            formProtection.reset(`deleteProductType_${typeId}`, button);
+        });
+    } else {
+        formProtection.reset(`deleteProductType_${typeId}`, button);
+    }
 }

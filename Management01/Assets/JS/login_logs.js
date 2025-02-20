@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const dataContainer = document.getElementById('data-container');
     const paginationContainer = document.getElementById('pagination-container');
     
-    // โหลดข้อมูลเริ่มต้น
-    loadData();
-    
     // จัดการการส่งฟอร์ม
     filterForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -18,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         filterForm.reset();
         loadData(1);
     });
-    
+
     function loadData(page = 1) {
         // แสดงตัวโหลด
         dataContainer.innerHTML = `
@@ -71,7 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error:', error);
             });
     }
-    
+
+    function setFiltersFromResponse(filters) {
+        for (const key in filters) {
+            const input = filterForm.elements[key];
+            if (input && filters[key]) {
+                input.value = filters[key];
+            }
+        }
+    }
+
     function renderTable(data) {
         if (data.length === 0) {
             dataContainer.innerHTML = `
@@ -112,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${formatDateTime(loginTime)}</td>
                     <td>${logoutTime ? formatDateTime(logoutTime) : '<span class="text-muted">-</span>'}</td>
                     <td>${duration}</td>
-                    <td><code>${formatIPAddress(row.ip_address)}</code></td>
+                    <td>${formatIPAddress(row.ip_address)}</td>
                 </tr>
             `;
         });
@@ -125,6 +131,72 @@ document.addEventListener('DOMContentLoaded', function() {
         
         dataContainer.innerHTML = tableHtml;
     }
+
+    function renderPagination(pagination) {
+        if (!pagination || pagination.total_pages <= 1) {
+            paginationContainer.innerHTML = '';
+            return;
+        }
+
+        let html = '<nav><ul class="pagination justify-content-center">';
+        
+        // ปุ่ม Previous
+        html += `
+            <li class="page-item ${pagination.current_page === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${pagination.current_page - 1}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+        `;
+        
+        // สร้างปุ่มตัวเลขหน้า
+        for (let i = 1; i <= pagination.total_pages; i++) {
+            if (
+                i === 1 || // หน้าแรก
+                i === pagination.total_pages || // หน้าสุดท้าย
+                Math.abs(i - pagination.current_page) <= 2 // หน้าใกล้เคียงปัจจุบัน
+            ) {
+                html += `
+                    <li class="page-item ${i === pagination.current_page ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            } else if (
+                i === pagination.current_page - 3 ||
+                i === pagination.current_page + 3
+            ) {
+                html += `
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                `;
+            }
+        }
+        
+        // ปุ่ม Next
+        html += `
+            <li class="page-item ${pagination.current_page === pagination.total_pages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${pagination.current_page + 1}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        `;
+        
+        html += '</ul></nav>';
+        
+        paginationContainer.innerHTML = html;
+        
+        // เพิ่ม event listener สำหรับปุ่มเปลี่ยนหน้า
+        paginationContainer.querySelectorAll('.page-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = parseInt(this.dataset.page);
+                if (!isNaN(page) && page > 0) {
+                    loadData(page);
+                }
+            });
+        });
+    }
     
     function renderStatus(isActive) {
         if (isActive == 1) {
@@ -135,7 +207,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function formatIPAddress(ip) {
-        return ip.replace(/[^0-9.]/g, ''); // ลบอักขระที่ไม่ใช่ตัวเลขและจุด
+        if (!ip) return '<span class="text-muted">-</span>';
+        
+        // จัดการกรณีพิเศษ
+        if (ip === 'localhost' || ip === 'Unknown') {
+            return `<span class="badge bg-secondary">${escapeHtml(ip)}</span>`;
+        }
+
+        // ตรวจสอบว่าเป็น IP ที่ถูกต้องหรือไม่
+        const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+        if (ipPattern.test(ip)) {
+            return `<code>${escapeHtml(ip)}</code>`;
+        }
+        
+        // กรณีที่ไม่ใช่รูปแบบ IP ที่ถูกต้อง
+        return `<span class="text-muted">${escapeHtml(ip)}</span>`;
     }
     
     function calculateDuration(loginTime, logoutTime) {
@@ -167,15 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // ฟังก์ชันที่มีอยู่เดิมยังคงเหมือนเดิม...
-    function renderPagination(pagination) {
-        // ... (คงเดิม)
-    }
-    
-    function setFiltersFromResponse(filters) {
-        // ... (คงเดิม)
-    }
-    
     function escapeHtml(text) {
         if (!text) return '';
         return text
@@ -186,5 +263,31 @@ document.addEventListener('DOMContentLoaded', function() {
             .replace(/'/g, "&#039;");
     }
     
+    function loadInitialFiltersFromUrl() {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        
+        // ดึงค่าจาก URL parameters มาใส่ในฟอร์ม
+        const fields = ['username', 'email', 'is_active', 'date_from', 'date_to'];
+        
+        fields.forEach(field => {
+            const value = params.get(field);
+            if (value) {
+                const input = filterForm.elements[field];
+                if (input) {
+                    input.value = value;
+                }
+            }
+        });
+        
+        // ถ้ามีการกำหนด page ใน URL ให้โหลดข้อมูลหน้านั้น
+        const page = params.get('page');
+        if (page) {
+            loadData(parseInt(page));
+        }
+    }
+
+    // เริ่มต้นโหลดข้อมูล
     loadInitialFiltersFromUrl();
+    loadData();
 });

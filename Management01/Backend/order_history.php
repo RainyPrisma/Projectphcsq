@@ -1,30 +1,6 @@
 <?php
 session_start();
-
-$session_timeout = 30 * 60; // 30 นาที (เป็นวินาที)
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-if (!isset($_SESSION['user_email']) || $_SESSION['role'] !== 'admin') {
-    session_unset();
-    session_destroy();
-    header("Location: ../Frontend/login.php");
-    exit;
-}
-
-// การเชื่อมต่อฐานข้อมูล
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$dbname = "management01";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+require_once('backendreq.php');
 // ดึงข้อมูลประวัติการสั่งซื้อทั้งหมด (เริ่มต้น)
 $order_sql = "SELECT id, order_id, username, email, item, total_price, 	order_reference, created_at 
               FROM orderhistory
@@ -35,7 +11,7 @@ $orders_result = $conn->query($order_sql);
 if (isset($_GET['search_order']) && !empty($_GET['search_order'])) {
     $search_term = "%" . $_GET['search_order'] . "%";
     $order_sql = "SELECT id, order_id, username, email, item, total_price, 	order_reference, created_at 
-                  FROM orders 
+                  FROM orderhistory 
                   WHERE username LIKE ? OR email LIKE ? OR 	order_reference LIKE ?
                   ORDER BY created_at DESC";
     $stmt = $conn->prepare($order_sql);

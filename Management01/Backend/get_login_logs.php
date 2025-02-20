@@ -1,4 +1,6 @@
 <?php
+// API สำหรับดึงข้อมูลบันทึกการเข้าสู่ระบบ
+// Method: GET
 // เพิ่ม header สำหรับ CORS และกำหนดชนิดข้อมูลเป็น JSON
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); // หรือระบุโดเมนที่อนุญาตให้เรียกใช้
