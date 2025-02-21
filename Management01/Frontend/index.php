@@ -81,7 +81,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gallery.php">
+                        <a class="nav-link" href="../Product/gallery.php">
                             <i class="bi bi-collection-fill"></i> Products
                         </a>
                     </li>
@@ -91,13 +91,13 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../Backend/management.php">
+                        <a class="nav-link" href="../Admin/management.php">
                             <i class="bi bi-gear-fill"></i> Management
                         </a>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="account.php" class="btn btn-outline-light me-2">
+                    <a href="../Users/account.php" class="btn btn-outline-light me-2">
                         <i class="bi bi-person-circle"></i> Account
                     </a>
                     <a href="logout.php" class="btn btn-danger">

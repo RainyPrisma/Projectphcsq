@@ -1,5 +1,6 @@
-<?php
-require_once('backendreq.php');
+<?php   
+include '../Database/config.php';
+include '../Frontend/modal.php';
 // รับค่าจากฟอร์ม
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ตรวจสอบว่ามีค่าที่ส่งมาครบหรือไม่
@@ -58,49 +59,99 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $check_stmt->close();
 
-        // หากมี errors ให้แสดงข้อผิดพลาด
+        // หากมี errors ให้แสดงข้อผิดพลาดผ่าน Modal
         if (!empty($errors)) {
-            $error_message = implode('\n', $errors);
-            die("<script>
-                alert('$error_message');
-                window.history.back();
-            </script>");
+            $error_message = implode('<br>', $errors);
+            ?>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showModal('แจ้งเตือน', '<?php echo $error_message; ?>', function() {
+                        window.history.back();
+                    });
+                });
+            </script>
+            <?php
+            exit();
         }
 
         // หากผ่านการตรวจสอบทั้งหมด
         $pass = password_hash($password, PASSWORD_DEFAULT);
 
-        // เตรียมคำสั่ง SQL ด้วย prepared statement
+        // เตรียมคำสั่ง SQL
         $stmt = $conn->prepare("INSERT INTO users (username, email, phone_number, password) VALUES (?, ?, ?, ?)");
         if ($stmt === false) {
-            die("Prepare failed: " . $conn->error);
+            showModal('Error', 'Database preparation failed: ' . $conn->error);
+            exit();
         }
 
-        // ผูกค่าตัวแปรกับ prepared statement
+        // ผูกค่าและรันคำสั่ง SQL
         $stmt->bind_param("ssss", $user, $email, $phone_number, $pass);
 
-        // รันคำสั่ง SQL
         if ($stmt->execute()) {
-            echo "<script>
-                   alert('ลงทะเบียนสำเร็จ! กรุณาเข้าสู่ระบบ');
-                   window.location.href = '../Frontend/login.php';
-                 </script>";
+            ?>
+            <script>
+                function showAndRedirect() {
+                    // แสดง Modal
+                    document.getElementById('customModal').style.display = 'block';
+                    document.getElementById('modalTitle').textContent = 'สำเร็จ';
+                    document.getElementById('modalMessage').textContent = 'ลงทะเบียนสำเร็จ! กรุณาเข้าสู่ระบบ';
+                    
+                    // เพิ่ม event listener สำหรับปุ่มตกลง
+                    document.querySelector('.modal-button').onclick = function() {
+                        hideModal(); // เรียกฟังก์ชัน hideModal ที่มีอยู่แล้ว
+                        window.location.href = '../Frontend/login.php';
+                    };
+                }
+                
+                // เรียกใช้ฟังก์ชันเมื่อโหลดหน้าเสร็จ
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', showAndRedirect);
+                } else {
+                    showAndRedirect();
+                }
+            </script>
+            <?php
             exit();
         } else {
-            echo "Error: " . $stmt->error;
+            showModal('Error', 'Registration failed: ' . $stmt->error);
         }
 
-        // ปิด statement
         $stmt->close();
     } else {
-        echo "<script>
-            alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
-            window.history.back();
-        </script>";
+        ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showModal('แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบทุกช่อง', function() {
+                    window.history.back();
+                });
+            });
+        </script>
+        <?php
         exit();
     }
 }
 
-// ปิดการเชื่อมต่อฐานข้อมูล
 $conn->close();
+
+// ฟังก์ชั่นสำหรับแสดง Modal
+function showModal($title, $message, $callback = null) {
+    ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+            document.getElementById('modalTitle').textContent = '<?php echo $title; ?>';
+            document.getElementById('modalBody').innerHTML = '<?php echo $message; ?>';
+            
+            <?php if ($callback): ?>
+            document.getElementById('modalCloseBtn').onclick = function() {
+                modal.hide();
+                <?php echo $callback; ?>();
+            };
+            <?php endif; ?>
+            
+            modal.show();
+        });
+    </script>
+    <?php
+}
 ?>

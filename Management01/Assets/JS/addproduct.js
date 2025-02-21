@@ -27,9 +27,19 @@ const formProtection = {
         button.innerHTML = button.dataset.originalText;
     }
 };
+
+// Event Listener เมื่อ DOM โหลดเสร็จ
 document.addEventListener('DOMContentLoaded', () => {
+    // จัดการ input event สำหรับ newProductType
+    const productTypeInput = document.getElementById('newProductType');
+    if (productTypeInput) {
+        productTypeInput.addEventListener('input', () => {
+            productTypeInput.classList.remove('is-invalid');
+        });
+    }
+
     // จัดการฟอร์มเพิ่มสินค้า
-    const addProductForm = document.querySelector('form');
+    const addProductForm = document.querySelector('form#myForm');
     if (addProductForm) {
         addProductForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -41,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // เก็บข้อมูลฟอร์ม
             const formData = new FormData(this);
-            formData.append('add', '1'); // เพิ่ม flag add เพื่อให้ตรงกับเงื่อนไข isset($_POST['add']) ในฝั่ง PHP
+            formData.append('add', '1');
 
             // ส่งข้อมูลด้วย fetch
             fetch(window.location.href, {
@@ -49,11 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             })
             .then(response => {
-                if (response.ok) {
-                    window.location.href = 'management.php?success=1';
-                } else {
-                    throw new Error('Something went wrong');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+                window.location.href = 'management.php?success=1';
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -63,9 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 // ฟังก์ชันสำหรับเพิ่มประเภทสินค้าใหม่
 function saveNewProduct() {
-    const button = document.querySelector('.modal-footer .btn-primary');
+    const button = document.querySelector('#addProductModal .modal-footer .btn-primary');
     if (!formProtection.protect('saveProductType', button, 'กำลังบันทึก...')) {
         return;
     }
@@ -83,22 +93,32 @@ function saveNewProduct() {
     formData.append('new_product_type', '1');
     formData.append('nameType', productType);
 
-    fetch('', {
+    fetch(window.location.href, {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
+            productTypeInput.value = '';
+            productTypeInput.classList.remove('is-invalid');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addProductModal'));
+            if (modal) {
+                modal.hide();
+            }
             location.reload();
         } else {
-            alert(data.message || 'เกิดข้อผิดพลาดในการเพิ่มประเภทสินค้า');
-            formProtection.reset('saveProductType', button);
+            throw new Error(data.message || 'เกิดข้อผิดพลาดในการเพิ่มประเภทสินค้า');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('เกิดข้อผิดพลาดในการเพิ่มประเภทสินค้า');
+        alert(error.message || 'เกิดข้อผิดพลาดในการเพิ่มประเภทสินค้า');
         formProtection.reset('saveProductType', button);
     });
 }
@@ -110,29 +130,38 @@ function deleteProductType(typeId) {
         return;
     }
 
-    if (confirm('คุณแน่ใจหรือไม่ที่จะลบประเภทสินค้านี้?')) {
-        fetch('', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'delete_product_type=1&type_id=' + typeId
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert(data.message || 'เกิดข้อผิดพลาดในการลบประเภทสินค้า');
-                formProtection.reset(`deleteProductType_${typeId}`, button);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('เกิดข้อผิดพลาดในการลบประเภทสินค้า');
-            formProtection.reset(`deleteProductType_${typeId}`, button);
-        });
-    } else {
+    if (!confirm('คุณแน่ใจหรือไม่ที่จะลบประเภทสินค้านี้?')) {
         formProtection.reset(`deleteProductType_${typeId}`, button);
+        return;
     }
+
+    const formData = new URLSearchParams();
+    formData.append('delete_product_type', '1');
+    formData.append('type_id', typeId);
+
+    fetch(window.location.href, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString()
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            throw new Error(data.message || 'เกิดข้อผิดพลาดในการลบประเภทสินค้า');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.message || 'เกิดข้อผิดพลาดในการลบประเภทสินค้า');
+        formProtection.reset(`deleteProductType_${typeId}`, button);
+    });
 }

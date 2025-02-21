@@ -1,6 +1,7 @@
 <?php 
 session_start();
 require '../Database/config.php';
+include '../Frontend/modal.php';
 
 // ถ้ามีการล็อกอินแล้ว ให้ redirect ไปหน้า index.php
 if(isset($_SESSION['user_email'])) {
@@ -70,10 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: index.php");
             exit();
         } else {
-            echo "<script>alert('รหัสผ่านไม่ถูกต้อง');</script>";
+            echo "<script>showModal('แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');</script>";
         }
     } else {
-        echo "<script>alert('ไม่พบผู้ใช้งาน');</script>";
+        echo "<script>showModal('แจ้งเตือน', 'ไม่พบผู้ใช้งาน');</script>";
     }
 }
 ?>
