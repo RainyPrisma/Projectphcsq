@@ -47,3 +47,8 @@ On 1.9 No Major just do it ok
 - count system from product
 - table in database
 - etc.
+On 2.0 & 2.1 update log
+- fix some bug that still on code
+- Error log style boostrap
+- Update log compare to old version
+- ec.
