@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../Assets/src/backendreq.php');
+
 // ลบสินค้า
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
@@ -53,10 +54,9 @@ if (isset($_POST['update'])) {
 
     if ($stmt->execute()) {
         $message = "อัปเดตข้อมูลสินค้าสำเร็จ!";
-    // เพิ่มหลังจากบรรทัด $message = "";
-    if (isset($_GET['success']) && $_GET['success'] == 1) {
-        $message = "เพิ่มสินค้าใหม่สำเร็จ!";
-    }
+        if (isset($_GET['success']) && $_GET['success'] == 1) {
+            $message = "เพิ่มสินค้าใหม่สำเร็จ!";
+        }
     } else {
         $message = "เกิดข้อผิดพลาด: " . $stmt->error;
     }
@@ -91,7 +91,7 @@ $result = $conn->query($sql);
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                    <a class="nav-link text-white active" href="management.php">จัดการสินค้า</a>
+                        <a class="nav-link text-white active" href="management.php">จัดการสินค้า</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="login_logs.php">ประวัติการเข้าสู่ระบบ</a>
@@ -121,10 +121,8 @@ $result = $conn->query($sql);
     <div class="container mt-4">
         <h2>จัดการข้อมูลสินค้า</h2>
 
-        <?php if ($message): ?>
-            <div class="alert alert-success">
-                <?= $message ?>
-            </div>
+        <?php if (isset($message)): ?>
+            <div id="message" class="alert alert-success message"><?= $message ?></div>
         <?php endif; ?>
 
         <div class="search-container my-4">
@@ -136,8 +134,8 @@ $result = $conn->query($sql);
 
         <div class="mb-4">
             <a href="add_product.php" class="btn btn-success">
-            <i class="bi bi-plus-circle me-1"></i>
-            เพิ่มสินค้าใหม่
+                <i class="bi bi-plus-circle me-1"></i>
+                เพิ่มสินค้าใหม่
             </a>
         </div>
 
@@ -228,7 +226,7 @@ $result = $conn->query($sql);
             </table>
         </div>
     </div>
-
+    <script src="../Assets/JS/fadeMessage.js"></script>                    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../Assets/JS/manage_search.js"></script>
     <?php $conn->close(); ?>

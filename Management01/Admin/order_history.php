@@ -47,7 +47,7 @@ if ((isset($_GET['date_from']) && !empty($_GET['date_from'])) ||
     }
     
     $order_sql = "SELECT id, order_id, username, email, item, total_price, 	order_reference, created_at 
-                  FROM orders
+                  FROM orderhistory
                   $where_clause
                   ORDER BY created_at DESC";
     

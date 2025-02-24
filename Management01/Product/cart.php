@@ -4,6 +4,7 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require '../Backend/vendor/autoload.php';
+include '../Frontend/modal.php';
 
 if (!isset($_SESSION['user_email'])) {
     header('Location: ../login.php');
@@ -94,13 +95,13 @@ if (isset($_POST['checkout'])) {
                 $mail->Body = $emailBody;
                 $mail->send();
 
-                echo "<script>alert('Order placed successfully! Order Reference: " . $order_reference . "\\nA confirmation email has been sent.');</script>";
+                echo "<script>showModal('Order placed successfully! Order Reference: " . $order_reference . "\\nA confirmation email has been sent.');</script>";
                 unset($_SESSION['cart']);
             } catch (Exception $e) {
-                echo "<script>alert('Order placed successfully! Order Reference: " . $order_reference . "\\nBut email could not be sent.');</script>";
+                echo "<script>showModal('Order placed successfully! Order Reference: " . $order_reference . "\\nBut email could not be sent.');</script>";
             }
         } else {
-            echo "<script>alert('Error placing order. Please try again.');</script>";
+            echo "<script>showModal('Error placing order. Please try again.');</script>";
         }
         
         $stmt->close();

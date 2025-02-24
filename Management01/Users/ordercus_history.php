@@ -63,8 +63,8 @@ $result = $stmt->get_result();
                         <td><?php echo htmlspecialchars($row['item']); ?></td>
                         <td>
                             <!--ในอนาคต จะเปลี่ยนเป็นลิงค์ไปยังหน้าดาวน์โหลดใบเสร็จ-->
-                            <a href="order_detail.php?id=<?php echo $row['order_id']; ?>" 
-                               class="btn btn-sm btn-ocean">Download</a>
+                            <a href="generate_receipt.php?id=<?php echo $row['order_reference']; ?>"  
+                                class="btn btn-sm btn-ocean">Download</a>
                         </td>
                     </tr>
                     <?php endwhile; ?>
