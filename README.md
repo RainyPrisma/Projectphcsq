@@ -13,3 +13,9 @@ On 2.0 & 2.1 update log
 - Error log style boostrap
 - Update log compare to old version
 - ec.
+
+2.2 Added thing
+- New Libraly Mpdf
+- Alt dashboard.php page
+- config bug
+- etc.
