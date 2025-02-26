@@ -1,0 +1,110 @@
+body {
+    font-family: sarabun;
+    line-height: 1.6;
+    color: #333;
+ }
+ 
+ .header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 2px solid #000;
+ }
+ 
+ .header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+ }
+ 
+ .header p {
+    font-size: 16px;
+    margin: 0;
+ }
+ 
+ .order-details {
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+ }
+ 
+ .order-details p {
+    margin: 5px 0;
+    font-size: 14px;
+ }
+ 
+ .items {
+    width: 100%;
+    margin-bottom: 30px;
+    border-collapse: collapse;
+    border: 2px solid #000;
+ }
+ 
+ .items th {
+    background-color: #f4f4f4;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #000;
+    font-weight: bold;
+    font-size: 14px;
+ }
+ 
+ .items td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #000;
+    font-size: 14px;
+ }
+ 
+ .items tr:nth-child(even) {
+    background-color: #fafafa;
+ }
+ 
+ .total {
+    text-align: right;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #000;
+ }
+ 
+ .total h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+ }
+ 
+ /* เพิ่มสำหรับข้อมูลบริษัท */
+ .company-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-size: 12px;
+ }
+ 
+ /* เพิ่มสำหรับหมายเลขใบเสร็จ */
+ .receipt-number {
+    font-weight: bold;
+    color: #000;
+ }
+ 
+ /* เพิ่มสำหรับลายเซ็น */
+ .signature {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px dotted #000;
+    text-align: center;
+ }
+ 
+ .signature-line {
+    width: 200px;
+    margin: 0 auto;
+    border-top: 1px solid #000;
+    margin-top: 50px;
+ }
+ 
+ .signature-text {
+    margin-top: 10px;
+    font-size: 12px;
+ }

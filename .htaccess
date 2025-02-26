@@ -1,0 +1,15 @@
+Options -MultiViews
+RewriteEngine On
+# Set error documents with absolute paths
+ErrorDocument 404 /error_handler.php
+ErrorDocument 500 /error_handler.php
+ErrorDocument 403 /error_handler.php
+ErrorDocument 402 /error_handler.php
+ErrorDocument 400 /error_handler.php
+
+# Make sure the error handler exists
+<Files "error_handler.php">
+    Require all granted
+</Files>
+
+Options -Indexes
