@@ -1,0 +1,21 @@
+.table {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.table thead th {
+    background-color: #0077be;
+    color: white;
+    border: none;
+}
+.table tbody td {
+    vertical-align: middle;
+}
+.btn-ocean {
+    background-color: #0077be;
+    color: white;
+}
+.btn-ocean:hover {
+    background-color: #005c91;
+    color: white;
+}

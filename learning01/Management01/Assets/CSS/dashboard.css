@@ -1,0 +1,425 @@
+/* Custom Variables */
+:root {
+  --ocean-deep: #1a3c61;
+  --ocean-medium: #2c5282;
+  --ocean-light: #4299e1;
+  --sand: #f6e5c8;
+  --coral: #ff7272;
+  --seafoam: #98d7c2;
+  --white-wash: #f0f4f8;
+  --deep-sea: #172554;
+}
+
+/* Global Styles */
+body {
+  background-color: var(--white-wash) !important; /* Override Bootstrap */
+  font-family: 'Kanit', sans-serif;
+  color: var(--deep-sea);
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar Customization */
+.navbar {
+  background: linear-gradient(135deg, var(--ocean-deep), var(--ocean-medium));
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img {
+  width: 40px;
+  height: auto;
+  filter: brightness(1.2);
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+  transform: scale(1.05);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #fff;
+}
+
+.navbar-dark .btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-dark .btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+.navbar-dark .btn-danger {
+  background-color: var(--coral);
+  border-color: var(--coral);
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-dark .btn-danger:hover {
+  background-color: #e65353;
+  border-color: #e65353;
+}
+
+/* Welcome Section */
+.welcome-section {
+  background: linear-gradient(135deg, white, var(--white-wash));
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-section h2 {
+  color: var(--deep-sea);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-section .text-muted {
+  color: #6c757d !important;
+  font-size: 0.9rem;
+}
+
+/* Cards Container */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+  align-items: stretch; /* ทำให้ทุก .stat-card มีความสูงเท่ากันใน Grid */
+}
+
+/* Base Card Style */
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  width: 100%; /* กว้างเต็มใน col หรือ grid */
+  aspect-ratio: 1 / 1; /* ทำให้กว้างและยาวเท่ากัน (สี่เหลี่ยมจัตุรัส) */
+  max-width: 100%; /* ป้องกันขยายเกิน */
+  padding: 1.5rem; /* ลด padding เพื่อให้เนื้อหาไม่ล้นกรอบ */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden; /* ป้องกันเนื้อหาหลายออกนอกกรอบ */
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ocean-light), var(--seafoam));
+  border-radius: 12px 12px 0 0;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* ควบคุมข้อความใน stat-card */
+.stat-card .card-body {
+  text-align: center;
+  width: 100%;
+  height: 100%; /* ใช้ความสูงเต็มกรอบ */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* จำกัดจำนวนบรรทัดและตัดข้อความที่เกิน */
+.stat-title,
+.stat-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* ป้องกันขึ้นบรรทัดใหม่ */
+  max-width: 100%; /* จำกัดความกว้าง */
+  margin: 0; /* ลบ margin เดิมเพื่อควบคุม spacing */
+}
+
+/* ปรับขนาดตัวหนังสือสำหรับกรณีข้อความยาว */
+.stat-title {
+  font-size: 0.9rem; /* ลดขนาดเพื่อให้พอดีกับกรอบสี่เหลี่ยม */
+  color: #666;
+  margin-bottom: 0.3rem;
+}
+
+.stat-value {
+  font-size: 1.2rem; /* ลดขนาดจาก 1.5rem เพื่อให้แน่ใจว่าไม่ล้นกรอบสี่เหลี่ยม */
+  font-weight: 600;
+  color: var(--ocean-deep);
+}
+
+/* Special handling for long text in third card (สินค้าที่ชอบ) */
+.stat-card:last-child .stat-value {
+  font-size: 0.9rem; /* ลดขนาดสำหรับข้อความยาว */
+  max-width: 90%;
+  overflow-wrap: break-word; /* อนุญาตให้ขึ้นบรรทัดใหม่ถ้าจำเป็น */
+  white-space: normal; /* อนุญาตให้ขึ้นบรรทัดใหม่ */
+  line-height: 1.2;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .stats-container {
+      grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+      grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+      aspect-ratio: 1 / 1; /* ยังคงสี่เหลี่ยมจัตุรัสบนมือถือ */
+      margin-bottom: 1rem;
+      padding: 1rem; /* ลด padding เพื่อให้เนื้อหาไม่ล้น */
+  }
+
+  .stat-value {
+      font-size: 1rem; /* ลดขนาดตัวหนังสือบนมือถือ */
+  }
+
+  .stat-card:last-child .stat-value {
+      font-size: 0.8rem; /* ลดขนาดสำหรับข้อความยาวบนมือถือ */
+  }
+}
+
+/* Order Card Styles */
+.card-order {
+  border: none;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  position: relative;
+  padding: 1.5rem;
+}
+
+.card-order::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 50%, var(--seafoam) 150%);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.card-order .fw-bold {
+  font-weight: 600;
+  color: var(--deep-sea);
+  margin-bottom: 0.5rem;
+}
+
+.card-order .text-success {
+  color: var(--seafoam);
+  font-size: 0.9rem;
+}
+
+.card-order .btn-outline-primary {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  border-color: var(--ocean-light);
+  color: var(--ocean-light);
+}
+
+.card-order .btn-outline-primary:hover {
+  background-color: var(--ocean-light);
+  color: #fff;
+}
+
+/* Order History */
+.list-group {
+  margin-bottom: 1rem;
+}
+
+.list-group-item {
+  border-left: 3px solid transparent;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  padding: 0.75rem 1rem;
+}
+
+.list-group-item:hover {
+  border-left-color: var(--ocean-light);
+  background-color: rgba(66, 153, 225, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item a {
+  color: var(--ocean-light);
+  text-decoration: none;
+}
+
+.list-group-item a:hover {
+  text-decoration: underline;
+  color: var(--ocean-deep);
+}
+
+/* Product Card Styles */
+.product-card {
+  border: none;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-card .card-body {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.product-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  margin-right: 1rem;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+.product-card .card-title {
+  font-size: 1.1rem;
+  color: var(--deep-sea);
+  margin-bottom: 0.25rem;
+}
+
+.product-card .card-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.product-card .btn-success {
+  background-color: var(--seafoam);
+  border-color: var(--seafoam);
+  color: var(--deep-sea);
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.product-card .btn-success:hover {
+  background-color: #7ac2aa;
+  border-color: #7ac2aa;
+  color: var(--deep-sea);
+}
+
+/* Button Styles */
+.btn-link {
+  color: var(--ocean-light);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+  color: var(--ocean-deep);
+}
+
+/* Headers */
+h2, h3 {
+  color: var(--deep-sea);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .stats-container {
+      grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-brand img {
+      width: 30px;
+  }
+
+  .stats-container {
+      grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+      height: 180px; /* ลดขนาดสำหรับมือถือ */
+      margin-bottom: 1rem;
+  }
+
+  .stat-value {
+      font-size: 1.25rem; /* ลดขนาดตัวหนังสือบนมือถือ */
+  }
+
+  .stat-card:last-child .stat-value {
+      font-size: 0.9rem; /* ลดขนาดสำหรับข้อความยาวบนมือถือ */
+  }
+
+  .product-card .card-body {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .product-card img {
+      margin-right: 0;
+      margin-bottom: 1rem;
+  }
+
+  .card-order {
+      padding: 1rem;
+  }
+
+  .welcome-section {
+      padding: 1.5rem;
+  }
+}
+
+/* Animation for shine effect */
+@keyframes shine {
+  0% {
+      transform: translateX(-100%) rotate(45deg);
+  }
+  80%, 100% {
+      transform: translateX(100%) rotate(45deg);
+  }
+}

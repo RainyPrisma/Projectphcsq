@@ -1,0 +1,38 @@
+/* ทำให้หน้า Splash Screen เต็มจอ */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    z-index: 999;
+}
+
+/* ปรับแต่งวิดีโอให้เต็มจอ */
+.background-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ปุ่มเข้าสู่ระบบ */
+.enter-button {
+    position: relative;
+    padding: 15px 30px;
+    font-size: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.enter-button:hover {
+    background: white;
+    color: black;
+}
