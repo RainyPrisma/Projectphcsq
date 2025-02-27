@@ -6,7 +6,7 @@ include '../Backend/dashboardreq.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Marine Seafood Hub</title>
+    <title>Marine Seafood Hub</title>
     <link rel="stylesheet" href="../Assets/CSS/dashboard.css">
     <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -121,7 +121,7 @@ include '../Backend/dashboardreq.php';
                                 <div>
                                     <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
                                     <p class="card-text">฿<?php echo number_format($product['price'], 0); ?></p>
-                                    <a href="gallery.php" class="btn btn-success btn-sm">สั่งซื้อ</a>
+                                    <a href="../Product/gallery.php" class="btn btn-success btn-sm">สั่งซื้อ</a>
                                 </div>
                             </div>
                         </div>
