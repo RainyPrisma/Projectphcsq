@@ -43,7 +43,7 @@ $result = $conn->query($sql);
         </div>
     </div>
     <div class="header-buttons">
-    <input type="text" id="searchInput" placeholder="Search products...">
+        <input type="text" id="searchInput" placeholder="Search products...">
         <a href="../Frontend/<?php echo (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') ? 'index.php' : 'dashboard.php'; ?>" class="btn">Home</a>
         <a href="cart.php" class="btn">Cart (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
     </div>

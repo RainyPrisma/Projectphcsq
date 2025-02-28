@@ -18,7 +18,7 @@ require_once '../Backend/productreq.php';
     <div class="waves"></div>
   </div>
   
-  <a href="index.php" class="btn btn-custom">
+  <a href="../Frontend/<?php echo (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') ? 'index.php' : 'dashboard.php'; ?>" class="btn btn-custom">
     <i class="fas fa-arrow-left"></i> Back to Home
   </a>
   
