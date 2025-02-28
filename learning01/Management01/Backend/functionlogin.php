@@ -3,9 +3,13 @@ session_start();
 require '../Database/config.php';
 include '../Frontend/modal.php';
 
-// ถ้ามีการล็อกอินแล้ว ให้ redirect ไปหน้า index.php
+// ถ้ามีการล็อกอินแล้ว ให้ redirect ตาม role
 if(isset($_SESSION['user_email'])) {
-    header('Location: index.php');
+    if ($_SESSION['role'] == 'admin') {
+        header('Location: index.php');
+    } else {
+        header('Location: dashboard.php');
+    }
     exit();
 }
 
@@ -66,9 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Log error แต่ยังให้ login ผ่านได้
                 error_log("Login logging failed: " . $e->getMessage());
             }
-                                    
-            // ทุก role ไปที่หน้า index.php
-            header("Location: index.php");
+            
+            // เปลี่ยนเส้นทางตาม role
+            if ($user['role'] == 'admin') {
+                header("Location: index.php");
+            } else {
+                header("Location: dashboard.php");
+            }
             exit();
         } else {
             echo "<script>showModal('แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');</script>";

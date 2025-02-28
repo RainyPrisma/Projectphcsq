@@ -34,7 +34,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
                 <h1 class="h3 mb-0">Account Management</h1>
                 <div>
                     <a href="ordercus_history.php" class="btn btn-ocean me-2">Order History</a>
-                    <a href="../Frontend/index.php" class="btn btn-ocean me-2">Home</a>
+                    <a href="../Frontend/<?php echo (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') ? 'index.php' : 'dashboard.php'; ?>" class="btn btn-ocean me-2">Home</a>
                     <a href="../Frontend/logout.php" class="btn btn-danger">Logout</a>
                 </div>
             </div>
