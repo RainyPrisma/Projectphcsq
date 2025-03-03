@@ -64,4 +64,33 @@ if (isset($_POST['add_to_cart'])) {
         'price' => $price
     ];
 }
+
+// Initialize filter variables
+$category_filter = isset($_GET['category']) ? $_GET['category'] : '';
+$price_min = isset($_GET['price_min']) && $_GET['price_min'] !== '' ? (int)$_GET['price_min'] : 0;
+$price_max = isset($_GET['price_max']) && $_GET['price_max'] !== '' ? (int)$_GET['price_max'] : 1000000;
+$search_term = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Build SQL query with filters
+$sql = "SELECT * FROM productlist WHERE 1=1";
+
+// Build SQL query with filters
+$sql = "SELECT p.* FROM productdetails p 
+        INNER JOIN product c ON p.product_id = c.id 
+        WHERE 1=1";
+
+// Add category filter if selected
+if (!empty($category_filter)) {
+    $sql .= " AND c.nameType = '" . $conn->real_escape_string($category_filter) . "'";
+}
+// Add price range filter
+$sql .= " AND price >= " . $conn->real_escape_string($price_min) . " AND price <= " . $conn->real_escape_string($price_max);
+
+// Add search filter if provided
+if (!empty($search_term)) {
+    $sql .= " AND (name LIKE '%" . $conn->real_escape_string($search_term) . "%' OR detail LIKE '%" . $conn->real_escape_string($search_term) . "%')";
+}
+
+// Execute the query
+$result = $conn->query($sql);
 ?>

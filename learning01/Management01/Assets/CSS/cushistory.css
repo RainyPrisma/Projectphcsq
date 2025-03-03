@@ -1,21 +1,150 @@
-.table {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-.table thead th {
-    background-color: #0077be;
-    color: white;
-    border: none;
-}
-.table tbody td {
-    vertical-align: middle;
-}
-.btn-ocean {
-    background-color: #0077be;
-    color: white;
-}
-.btn-ocean:hover {
-    background-color: #005c91;
-    color: white;
-}
+
+        :root {
+            --ocean-blue: #0077b6;
+            --light-blue: #90e0ef;
+            --dark-blue: #023e8a;
+            --accent: #48cae4;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, var(--ocean-blue), var(--dark-blue));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .btn-ocean {
+            background-color: var(--ocean-blue);
+            color: white;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-ocean:hover {
+            background-color: var(--dark-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            border: none;
+        }
+        
+        .card-header {
+            background-color: var(--ocean-blue);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 1rem 1.5rem;
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .table th {
+            background-color: rgba(0, 119, 182, 0.1);
+            color: var(--dark-blue);
+            font-weight: 600;
+            border-top: none;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(144, 224, 239, 0.2);
+        }
+        
+        .order-badge {
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+        }
+        
+        .sort-box {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-select {
+            border-color: var(--light-blue);
+        }
+        
+        .form-select:focus {
+            border-color: var(--ocean-blue);
+            box-shadow: 0 0 0 0.25rem rgba(0, 119, 182, 0.25);
+        }
+        
+        .price-column {
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+        
+        .order-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .wave-decoration {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%230077b6"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%230077b6"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%230077b6"/></svg>');
+            background-size: cover;
+            z-index: -1;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--light-blue);
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .card-header {
+                flex-direction: column;
+                align-items: start !important;
+            }
+            
+            .order-badge {
+                margin-top: 0.5rem;
+            }
+        }
+        /* Fix for the dropdown arrow overlapping text */
+        .form-select {
+            padding-right: 2.5rem !important; /* Increase right padding to make room for the arrow */
+        }
+
+        /* You can also style the custom arrow if needed */
+        select:not([multiple]) {
+            background-position: right 0.75rem center; /* Position the arrow further right */
+        }
+
+        /* Alternative approach - create more space in the dropdown itself */
+        select option {
+            padding: 10px;
+        }
+
+        /* Make sure the dropdown is wide enough for the content */
+        #sort {
+            min-width: 140px; /* Adjust based on your longest option text */
+        }
