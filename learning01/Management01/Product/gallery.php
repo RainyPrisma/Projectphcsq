@@ -28,7 +28,7 @@ require_once '../Backend/productreq.php';
                     <h3>Categories</h3>
                     <a href="gallery.php" class="dropdown-item"><span class="icon">🏠</span>Main Page</a>
                     <a href="gallery.php?category=Fish" class="dropdown-item"><span class="icon">🐠</span>Any of Fish</a>
-                    <a href="gallery.php?category=Occt" class="dropdown-item"><span class="icon">🐙</span>Any of Squid</a>
+                    <a href="gallery.php?category=Squid" class="dropdown-item"><span class="icon">🐙</span>Any of Squid</a>
                     <a href="gallery.php?category=Shrimp" class="dropdown-item"><span class="icon">🦐</span>Any of Shrimp</a>
                     <a href="gallery.php?category=Shell" class="dropdown-item"><span class="icon">🐚</span>Any of Shell</a>
                 </div>

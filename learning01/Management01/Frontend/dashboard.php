@@ -124,20 +124,76 @@ include '../Backend/dashboardreq.php';
         <!-- Recommended Products -->
         <div class="mb-4">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="m-0">สินค้าแนะนำ</h3>
+                    <span class="badge bg-warning text-dark">คัดสรรพิเศษสำหรับคุณ</span>
                 </div>
                 <div class="card-body">
                     <div class="row g-4">
                         <?php while ($product = $recommended_result->fetch_assoc()): ?>
                             <div class="col-md-6">
-                                <div class="card product-card">
+                                <div class="card product-card shadow-sm h-100">
                                     <div class="card-body d-flex align-items-center">
-                                        <img src="<?php echo htmlspecialchars($product['image_url'] ?? 'https://via.placeholder.com/100'); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" class="me-3">
-                                        <div>
-                                            <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
-                                            <p class="card-text">฿<?php echo number_format($product['price'], 0); ?></p>
-                                            <a href="../Product/gallery.php" class="btn btn-ocean btn-sm">สั่งซื้อ</a>
+                                        <div class="position-relative">
+                                            <img src="<?php echo htmlspecialchars($product['image_url'] ?? 'https://via.placeholder.com/100'); ?>" 
+                                                alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                                                class="me-3 rounded" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <?php if (rand(0, 1)): // สมมติว่ามีส่วนลดสำหรับบางรายการ ?>
+                                                <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
+                                                    -<?php echo rand(5, 30); ?>%
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
+                                                <i class="bi bi-bookmark<?php echo rand(0, 1) ? '-fill text-warning' : ''; ?>"></i>
+                                            </div>
+                                            
+                                            <!-- Rating -->
+                                            <div class="mb-1">
+                                                <?php
+                                                $rating = rand(3, 5);
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    if ($i <= $rating) {
+                                                        echo '<i class="bi bi-star-fill text-warning"></i>';
+                                                    } else {
+                                                        echo '<i class="bi bi-star text-warning"></i>';
+                                                    }
+                                                }
+                                                ?>
+                                                <small class="text-muted ms-1">(<?php echo rand(10, 100); ?>)</small>
+                                            </div>
+                                            
+                                            <!-- Price -->
+                                            <div class="mb-2">
+                                                <?php if (rand(0, 1)): // สมมติว่ามีส่วนลดสำหรับบางรายการ ?>
+                                                    <span class="text-decoration-line-through text-muted me-2">
+                                                        ฿<?php echo number_format($product['price'] * (1 + rand(10, 30) / 100), 0); ?>
+                                                    </span>
+                                                <?php endif; ?>
+                                                <span class="fw-bold text-danger fs-5">฿<?php echo number_format($product['price'], 0); ?></span>
+                                                <small class="ms-1 text-success"><?php echo rand(0, 1) ? 'มีสต็อก' : 'สั่งล่วงหน้า'; ?></small>
+                                            </div>
+                                            
+                                            <!-- Tags -->
+                                            <div class="mb-2">
+                                                <?php 
+                                                $tags = ['สด', 'ประมงพื้นบ้าน', 'ออแกนิค', 'นำเข้า'];
+                                                $random_tags = array_rand(array_flip($tags), rand(1, 2));
+                                                if (!is_array($random_tags)) $random_tags = [$random_tags];
+                                                foreach ($random_tags as $tag): 
+                                                ?>
+                                                    <span class="badge bg-info text-dark me-1"><?php echo $tag; ?></span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                            
+                                            <!-- Buttons -->
+                                            <div class="d-flex mt-auto">
+                                                <a href="../Product/gallery.php" class="btn btn-ocean btn-sm">
+                                                    <i class="bi bi-cart-plus"></i> สั่งซื้อ
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -145,9 +201,11 @@ include '../Backend/dashboardreq.php';
                         <?php endwhile; ?>
                     </div>
                 </div>
+                <div class="card-footer text-center">
+                    <a href="../Product/gallery.php" class="btn btn-outline-ocean">ดูสินค้าทั้งหมด <i class="bi bi-arrow-right"></i></a>
+                </div>
             </div>
         </div>
-    </div>
 
     <!-- Wave Decoration -->
     <div class="wave-decoration"></div>

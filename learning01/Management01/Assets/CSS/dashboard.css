@@ -138,3 +138,26 @@ label {
 .card-footer {
   margin-top: auto; /* ทำให้ปุ่มอยู่ด้านล่างเสมอ */
 }
+
+/* ใส่ใน ../Assets/CSS/dashboard.css */
+.product-card {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 119, 182, 0.1);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 119, 182, 0.1) !important;
+  border-color: var(--accent);
+}
+
+/* สร้างปุ่มแบบ outline ที่ใช้สีจาก theme ของคุณ */
+.btn-outline-ocean {
+  color: var(--ocean-blue);
+  border-color: var(--ocean-blue);
+}
+
+.btn-outline-ocean:hover {
+  background-color: var(--ocean-blue);
+  color: white;
+}
