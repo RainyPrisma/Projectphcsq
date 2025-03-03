@@ -219,3 +219,25 @@ body {
     padding: 20px;
   }
 }
+
+.rate-limit-info {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-left: 4px solid #17a2b8;
+  font-size: 0.9rem;
+}
+
+.rate-limit-info.warning {
+  border-left-color: #ffc107;
+}
+
+.rate-limit-info.danger {
+  border-left-color: #dc3545;
+}
+
+input[readonly] {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}

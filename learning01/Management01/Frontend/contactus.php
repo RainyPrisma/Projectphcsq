@@ -1,6 +1,20 @@
 <?php
-session_start() ;
-require_once '../Backend/productreq.php';
+require_once '../Backend/submit_form.php';
+// กำหนดจำนวนการส่งสูงสุดต่อวัน
+$max_submissions_per_day = 3;
+
+// ตรวจสอบว่าวันนี้มีการบันทึกการส่งแล้วหรือไม่
+$today = date('Y-m-d');
+if (!isset($_SESSION['contact_submissions']) || $_SESSION['contact_submissions_date'] != $today) {
+    // ถ้ายังไม่มีหรือเป็นวันใหม่ ให้เริ่มนับใหม่
+    $_SESSION['contact_submissions'] = 0;
+    $_SESSION['contact_submissions_date'] = $today;
+}
+
+// ตรวจสอบว่าเกินจำนวนที่กำหนดหรือไม่
+$submission_count = $_SESSION['contact_submissions'];
+$remaining_submissions = $max_submissions_per_day - $submission_count;
+$limit_reached = ($submission_count >= $max_submissions_per_day);
 ?>
 
 <!DOCTYPE html>
@@ -48,23 +62,51 @@ require_once '../Backend/productreq.php';
 
     <section class="contact-form">
       <h2><i class="fas fa-paper-plane"></i> Send Us a Message</h2>
-      <form action="submit_form.php" method="post">
+      
+      <?php if ($limit_reached): ?>
+      <div class="rate-limit-info danger">
+        <i class="fas fa-exclamation-circle"></i> คุณได้ส่งข้อความครบตามจำนวนที่กำหนดแล้ว (<?php echo $max_submissions_per_day; ?> ข้อความต่อวัน) กรุณาลองใหม่ในวันพรุ่งนี้
+      </div>
+      <?php else: ?>
+      <div class="rate-limit-info <?php echo ($remaining_submissions <= 1) ? 'warning' : ''; ?>">
+        <i class="fas fa-info-circle"></i> คุณสามารถส่งข้อความได้อีก <?php echo $remaining_submissions; ?> ครั้งในวันนี้
+      </div>
+      <?php endif; ?>
+      
+      <!-- แสดงข้อความแจ้งเตือนถ้ามี -->
+      <?php if (isset($_SESSION['contact_success'])): ?>
+        <div class="rate-limit-info" style="border-left-color: #28a745;">
+          <i class="fas fa-check-circle"></i> <?php echo $_SESSION['contact_success']; ?>
+          <?php unset($_SESSION['contact_success']); ?>
+        </div>
+      <?php endif; ?>
+      
+      <?php if (isset($_SESSION['contact_error'])): ?>
+        <div class="rate-limit-info danger">
+          <i class="fas fa-exclamation-circle"></i> <?php echo $_SESSION['contact_error']; ?>
+          <?php unset($_SESSION['contact_error']); ?>
+        </div>
+      <?php endif; ?>
+      
+      <form action="../Backend/submit_form.php" method="post" <?php if ($limit_reached) echo 'onsubmit="return false;"'; ?>>
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" name="name" required>
+          <input type="text" id="name" name="name" required <?php if ($limit_reached) echo 'disabled'; ?>>
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userEmail); ?>" readonly>
         </div>
 
         <div class="form-group">
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
+          <textarea id="message" name="message" rows="5" required <?php if ($limit_reached) echo 'disabled'; ?>></textarea>
         </div>
 
-        <button type="submit">Send Message <i class="fas fa-paper-plane"></i></button>
+        <button type="submit" <?php if ($limit_reached) echo 'disabled style="opacity: 0.6; cursor: not-allowed;"'; ?>>
+          Send Message <i class="fas fa-paper-plane"></i>
+        </button>
       </form>
     </section>
 
