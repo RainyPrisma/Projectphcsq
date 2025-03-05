@@ -1,5 +1,6 @@
 <?php
 require_once '../Backend/submit_form.php';
+
 // กำหนดจำนวนการส่งสูงสุดต่อวัน
 $max_submissions_per_day = 3;
 
@@ -124,5 +125,7 @@ $limit_reached = ($submission_count >= $max_submissions_per_day);
       <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
     </section>
   </div>
+
+  <script src="../Assets/JS/specialchar.js"></script>
 </body>
 </html>
