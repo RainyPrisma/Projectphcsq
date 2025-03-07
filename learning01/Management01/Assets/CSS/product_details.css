@@ -130,23 +130,11 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .gallery-thumbnails {
-        justify-content: flex-start;
-    }
-    
-    .thumbnail {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .gallery-thumbnails {
         justify-content: flex-start; /* เปลี่ยนเป็น flex-start เพื่อให้จัดชิดซ้าย */
     }
     
     .thumbnail {
-        width: 80px; /* ลดขนาดลงเล็กน้อยบนมือถือ */
+        width: 80px;
         height: 80px;
     }
 }
@@ -404,4 +392,182 @@
 
 .gallery-footer p {
     margin: 5px 0;
+}
+
+/* Review Section Styles */
+.product-reviews {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.product-reviews h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #014b6e;
+    text-align: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.review-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+}
+
+.review-form h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.rating-selector {
+    margin-bottom: 15px;
+}
+
+.rating-selector label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #333;
+}
+
+.rating-selector select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100px;
+    transition: border-color 0.3s;
+}
+
+.rating-selector select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.comment-box {
+    margin-bottom: 15px;
+}
+
+.comment-box label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #333;
+}
+
+.comment-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.3s;
+}
+
+.comment-box textarea:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.submit-review-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.submit-review-btn:hover {
+    background-color: #2980b9;
+}
+
+.review-notice {
+    color: #e74c3c;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reviews-list {
+    margin-top: 20px;
+}
+
+.review-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.review-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-username {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.review-rating {
+    font-size: 1.2rem;
+    color: #f1c40f;
+}
+
+.review-comment {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.review-date {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    text-align: right;
+}
+
+/* Responsive adjustments for reviews */
+@media (max-width: 768px) {
+    .product-reviews {
+        padding: 20px;
+    }
+    
+    .review-form {
+        padding: 15px;
+    }
+    
+    .review-item {
+        padding: 10px;
+    }
+    
+    .product-reviews h2 {
+        font-size: 1.5rem;
+    }
+    
+    .review-form h3 {
+        font-size: 1.3rem;
+    }
 }

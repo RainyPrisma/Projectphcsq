@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 // Search on Enter key
-                this.searchInput.addEventListener('keypress', (e) => {
+                this.searchInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         clearTimeout(this.searchTimeout);
