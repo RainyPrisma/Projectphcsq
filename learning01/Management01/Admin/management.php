@@ -137,8 +137,11 @@ $result = $conn->query($sql);
                 <i class="bi bi-plus-circle me-1"></i>
                 เพิ่มสินค้าใหม่
             </a>
+            <a href="coupon_management.php" class="btn btn-success">
+                <i class="bi bi-plus-circle me-1"></i>
+                จัดการคูปอง
+            </a>
         </div>
-
         <div class="table-responsive">
             <table class="table">
                 <thead>
