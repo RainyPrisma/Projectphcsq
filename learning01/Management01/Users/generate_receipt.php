@@ -105,7 +105,12 @@ $mpdf->WriteHTML($html);
 $filename = 'receipt_' . $order['order_reference'] . '.pdf';
 
 // ส่ง PDF ให้ดาวน์โหลด
-$mpdf->Output($filename, 'D');
+$mode = isset($_GET['mode']) ? $_GET['mode'] : 'view';
+if ($mode == 'download') {
+    $mpdf->Output($filename, 'D');
+} else {
+    $mpdf->Output($filename, 'I');
+}
 
 $stmt->close();
 $conn->close();

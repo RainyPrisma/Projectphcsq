@@ -1,103 +1,190 @@
 :root {
-    --ocean-dark: #1a4564;
-    --ocean-medium: #2c7da0;
-    --ocean-light: #a8dadc;
+    --deep-ocean: #06283D;
+    --mid-ocean: #1363DF;
+    --shallow-ocean: #47B5FF;
+    --foam: #DFF6FF;
+    --coral: #FF6B6B;
+    --sand: #F8F0E3;
+    --seaweed: #2E8B57;
 }
 
-.bg-ocean {
-    background: linear-gradient(135deg, var(--ocean-dark), var(--ocean-medium));
+body {
+    background-color: var(--foam);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%2347b5ff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
 .navbar {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative; /* เพิ่ม */
-    z-index: 1000;    /* เพิ่ม */
-}
-
-.navbar-brand {
-    display: flex;
-    align-items: center;
+    background: linear-gradient(135deg, var(--deep-ocean), var(--mid-ocean));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid var(--shallow-ocean);
 }
 
 .navbar-brand img {
     height: 40px;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+    transition: transform 0.3s ease;
 }
 
-/* แก้ไขส่วน Hero Carousel */
-.hero-carousel {
-    height: 500px;
-    position: relative; /* เพิ่ม */
-    z-index: 1;        /* เพิ่ม */
+.navbar-brand:hover img {
+    transform: scale(1.05);
 }
 
-.carousel-item {
-    height: 500px;
-    background-size: cover;
-    background-position: center;
+.navbar-brand span {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* ส่วนอื่นๆ คงเดิม */
-.carousel-caption {
-    background: rgba(0, 0, 0, 0.5);
+.nav-link {
+    position: relative;
+    margin: 0 5px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.nav-link:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--foam);
+    transition: all 0.3s;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover:after, .nav-link.active:after {
+    width: 80%;
+}
+
+.card {
     border-radius: 10px;
-    padding: 20px;
+    border: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(6, 40, 61, 0.1);
+    background-color: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(6, 40, 61, 0.15);
 }
 
 .stat-card {
-    transition: transform 0.3s;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-left: 5px solid var(--mid-ocean);
+    background: linear-gradient(to right, rgba(223, 246, 255, 0.5), white);
 }
 
-.stat-card:hover {
-    transform: translateY(-5px);
+.stat-card h3 {
+    font-size: 1.2rem;
+    color: var(--deep-ocean);
+    margin: 0;
 }
 
-.ecosystem-card {
-    border: none;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    background: linear-gradient(135deg, #fff, var(--ocean-light) 200%);
+.card-title {
+    color: var(--deep-ocean);
+    border-bottom: 2px solid var(--shallow-ocean);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color: var(--mid-ocean);
+    border-color: var(--mid-ocean);
+}
+
+.btn-danger {
+    background-color: var(--coral);
+    border-color: var(--coral);
+}
+
+.btn-success {
+    background-color: var(--seaweed);
+    border-color: var(--seaweed);
+}
+
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: var(--shallow-ocean);
+    color: white;
+    font-weight: 500;
 }
 
 .wave-divider {
     height: 50px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%232c7da0' fill-opacity='0.2' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    margin: 30px 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2347B5FF' fill-opacity='0.3' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,106.7C960,117,1056,139,1152,138.7C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
     background-size: cover;
-    margin: 2rem 0;
+    background-repeat: no-repeat;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .hero-carousel {
-        height: 400px;
-    }
-    
-    .carousel-item {
-        height: 400px;
-    }
-    
-    .carousel-caption h1 {
-        font-size: 1.8rem;
-    }
-    
-    .carousel-caption p {
-        font-size: 1rem !important;
-    }
+/* Floating effect for cards */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
-@media (max-width: 576px) {
-    .hero-carousel {
-        height: 300px;
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Ocean-themed scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--foam);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--mid-ocean);
+    border-radius: 10px;
+}
+
+/* Bubble animation */
+.bubble {
+    position: fixed;
+    bottom: -20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    animation: rise 15s infinite ease-in;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(0.3);
+        opacity: 0;
     }
-    
-    .carousel-item {
-        height: 300px;
+    20% {
+        opacity: 0.8;
     }
-    
-    .carousel-caption h1 {
-        font-size: 1.5rem;
+    100% {
+        transform: translateY(-100vh) scale(0.8);
+        opacity: 0;
     }
 }

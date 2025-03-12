@@ -1,62 +1,49 @@
 <?php
 session_start();
 require_once dirname(__DIR__) . '../Assets/src/UserCookieManager.php';
- // เรียกใช้คลาส UserCookieManager
-
 use src\UserCookieManager;
 
 $cookieManager = new UserCookieManager();
+
 // เชื่อมต่อฐานข้อมูล
 $conn = new mysqli("localhost", "root", "1234", "management01");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// ตรวจสอบสิทธิ์ Admin
 if (!isset($_SESSION['user_email'])) {
-    header('Location: login.php');
+    header('Location: ../Frontend/login.php');
     exit();
-} else {
-    $user_email = $_SESSION['user_email'];
-    $sql = "SELECT * FROM users WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $user_email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        $user_data = $result->fetch_assoc();
-        
-        // บันทึกข้อมูลลง Cookie
-        $cookieData = [
-            'user_id' => $user_data['id'],
-            'username' => $user_data['username'],
-            'email' => $user_data['email'],
-            'last_login' => date('Y-m-d H:i:s')
-        ];
-        $cookieManager->setUserCookie($cookieData);
-        
-        // บันทึกข้อมูลลง Session
-        $_SESSION['user_email'] = $user_data['email'];
-        $_SESSION['user_name'] = $user_data['username'];
-    }
 }
 
-// ตรวจสอบ Session Timeout
-$session_timeout = 1800; // 30 นาที
-if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) > $session_timeout) {
-    session_unset();
-    session_destroy();
-    header("Location: ../Frontend/login.php");
-    exit;
+$user_email = $_SESSION['user_email'];
+$sql = "SELECT * FROM users WHERE email = ? AND role = 'admin'";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $user_email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows == 0) {
+    header('Location: ../Frontend/index.php'); // ถ้าไม่ใช่ admin กลับไปหน้า index
+    exit();
 }
+
+// ดึงข้อมูลสำหรับ Dashboard
+$total_users = $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'];
+$total_orders = $conn->query("SELECT COUNT(*) as count FROM orderhistory")->fetch_assoc()['count'];
+$total_products = $conn->query("SELECT COUNT(*) as count FROM productlist")->fetch_assoc()['count'];
+$recent_logins = $conn->query("SELECT * FROM login_logs ORDER BY login_time DESC LIMIT 5");
+$total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhistory")->fetch_assoc()['revenue'];
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarineHomepage</title>
+    <title>Admin Dashboard - Marine Seafood Hub</title>
     <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -66,7 +53,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-ocean sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center" href="../Frontend/index.php">
                 <img src="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" alt="Logo" class="me-2">
                 <span>Marine Seafood Hub</span>
             </a>
@@ -76,18 +63,18 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.php">
+                        <a class="nav-link active" href="#">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Frontend/index.php">
                             <i class="bi bi-house-fill"></i> Home
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Product/gallery.php">
                             <i class="bi bi-collection-fill"></i> Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../Frontend/contactus.php">
-                            <i class="bi bi-telephone-fill"></i> Contact Us
                         </a>
                     </li>
                     <li class="nav-item">
@@ -100,84 +87,61 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
                     <a href="../Users/account.php" class="btn btn-outline-light me-2">
                         <i class="bi bi-person-circle"></i> Account
                     </a>
-                    <a href="logout.php" class="btn btn-danger">
+                    <a href="../Frontend/logout.php" class="btn btn-danger">
                         <i class="bi bi-box-arrow-right"></i> Logout
                     </a>
                 </div>
             </div>
         </div>
     </nav>
-        <!-- Hero Carousel -->
-    <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="../Assets/images/fish.jpg" class="d-block w-100" alt="Welcome slide">
-                <div class="carousel-caption">
-                    <h1>Welcome to Marine Seafood Hub</h1>
-                    <p class="fs-4">Your Premier Destination for Marine Industry Excellence</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="../Assets/images/banner3.jpg" class="d-block w-100" alt="Sustainable slide">
-                <div class="carousel-caption">
-                    <h1>Sustainable Seafood Solutions</h1>
-                    <p class="fs-4">Leading the Way in Responsible Marine Resource Management</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="../Assets/images/banner2.jpg" class="d-block w-100" alt="Global slide">
-                <div class="carousel-caption">
-                    <h1>Global Marine Network</h1>
-                    <p class="fs-4">Connecting Businesses Across the Seven Seas</p>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
-    <!-- Main Content -->
+
+    <!-- Dashboard Content -->
     <div class="container py-4">
-        <!-- Stats Section -->
+        <h1 class="bi bi-speedometer2"> Admin Dashboard</h1>
+
+        <!-- Stats Cards -->
         <div class="row g-4 mb-4">
-            <div class="col-md-4">
-                <div class="card h-100 stat-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="bi bi-graph-up fs-1 text-primary me-3"></i>
-                            <h3>Market Growth</h3>
-                        </div>
-                        <p class="card-text fs-5">Global marine market value: $450B</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 stat-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="bi bi-box-seam fs-1 text-primary me-3"></i>
-                            <h3>Shipping Volume</h3>
-                        </div>
-                        <p class="card-text fs-5">90% of global trade by sea</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 stat-card">
+            <div class="col-md-3">
+                <div class="card stat-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <i class="bi bi-people-fill fs-1 text-primary me-3"></i>
-                            <h3>Employment</h3>
+                            <h3>Total Users</h3>
                         </div>
-                        <p class="card-text fs-5">Over 1.5M marine industry jobs</p>
+                        <p class="card-text fs-3"><?php echo $total_users; ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-cart-fill fs-1 text-success me-3"></i>
+                            <h3>Total Orders</h3>
+                        </div>
+                        <p class="card-text fs-3"><?php echo $total_orders; ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-box-seam fs-1 text-info me-3"></i>
+                            <h3>Total Products</h3>
+                        </div>
+                        <p class="card-text fs-3"><?php echo $total_products; ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-currency-dollar fs-1 text-warning me-3"></i>
+                            <h3>Total Revenue</h3>
+                        </div>
+                        <p class="card-text fs-3">$<?php echo number_format($total_revenue, 2); ?></p>
                     </div>
                 </div>
             </div>
@@ -185,49 +149,98 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
 
         <div class="wave-divider"></div>
 
-        <!-- Market Insights Section -->
+        <!-- Recent Activity -->
         <div class="row mb-4">
-            <div class="col">
-                <div class="card bg-light">
+            <div class="col-md-6">
+                <div class="card">
                     <div class="card-body">
                         <h2 class="card-title mb-3">
-                            <i class="bi bi-lightning-fill text-warning"></i> Market Insights
+                            <i class="bi bi-clock-history text-primary"></i> Recent Login Activity
                         </h2>
-                        <p class="card-text fs-5">
-                            The marine industry is experiencing rapid digital transformation, with significant investments in sustainable technologies and smart shipping solutions. Key growth areas include renewable marine energy, aquaculture, and eco-friendly shipping technologies.
-                        </p>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Login Time</th>
+                                        <th>IP Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($login = $recent_logins->fetch_assoc()): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($login['username']); ?></td>
+                                            <td><?php echo htmlspecialchars($login['email']); ?></td>
+                                            <td><?php echo $login['login_time']; ?></td>
+                                            <td><?php echo htmlspecialchars($login['ip_address']); ?></td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title mb-3">
+                            <i class="bi bi-gear-fill text-success"></i> Quick Actions
+                        </h2>
+                        <div class="d-grid gap-2">
+                            <a href="..\Admin\add_product.php" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Add New Product
+                            </a><!--ทำไว้เพื่อน mockup ให้ดู-->
+                            <a href="../Admin/login_logs.php" class="btn btn-info">
+                                <i class="bi bi-people"></i> Manage Users
+                            </a>
+                            <a href="../Admin/order_history.php" class="btn btn-warning">
+                                <i class="bi bi-cart"></i> View Orders
+                            </a>
+                            <a href="../Admin/coupon_management.php" class="btn btn-success">
+                                <i class="bi bi-ticket-perforated"></i> Manage Coupons
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Business Sectors Section -->
-        <h2 class="mb-4 text-center">Key Business Sectors</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 ecosystem-card">
-                    <div class="card-body text-center">
-                        <i class="bi bi-lightbulb fs-1 mb-3 text-warning"></i>
-                        <h3>Maritime Logistics</h3>
-                        <p class="card-text">Global shipping and port operations</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 ecosystem-card">
-                    <div class="card-body text-center">
-                        <i class="bi bi-water fs-1 mb-3 text-success"></i>
-                        <h3>Aquaculture</h3>
-                        <p class="card-text">Sustainable seafood production</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 ecosystem-card">
-                    <div class="card-body text-center">
-                        <i class="bi bi-gear-wide-connected fs-1 mb-3 text-info"></i>
-                        <h3>Marine Technology</h3>
-                        <p class="card-text">Innovation in marine equipment</p>
+        <!-- Product Categories -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title mb-3">
+                            <i class="bi bi-bar-chart-fill text-info"></i> Product Categories
+                        </h2>
+                        <?php
+                        $categories = $conn->query("SELECT p.nameType, COUNT(pl.id) as count 
+                            FROM product p 
+                            LEFT JOIN productlist pl ON p.id = pl.product_id 
+                            GROUP BY p.nameType");
+                        ?>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Product Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($category = $categories->fetch_assoc()): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($category['nameType']); ?></td>
+                                            <td><?php echo $category['count']; ?></td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -900,3 +900,29 @@
 #pagination-container button:focus {
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
 }
+
+/* Ocean-themed scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* ความกว้างของ scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #DFF6FF; /* สีพื้นหลังของ track - สีฟ้าอ่อนคล้ายฟอง */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1363DF; /* สีของตัว scrollbar - สีฟ้าเข้ม */
+  border-radius: 10px;
+  border: 2px solid #DFF6FF; /* ขอบบางๆ เพื่อให้ดูมีมิติ */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0D47A1; /* สีเมื่อ hover - สีฟ้าเข้มขึ้น */
+}
+
+/* สนับสนุน Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1363DF #DFF6FF;
+}

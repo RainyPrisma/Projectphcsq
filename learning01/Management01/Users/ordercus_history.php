@@ -139,8 +139,11 @@ $order_count = $result->num_rows;
                                             ?>
                                         </td>
                                         <td>
-                                            <a href="generate_receipt.php?id=<?php echo $row['order_reference']; ?>" class="btn btn-sm btn-ocean">
-                                                <i class="fas fa-download me-1"></i> Receipt
+                                            <a href="generate_receipt.php?id=<?php echo $row['order_reference']; ?>&mode=download" class="btn btn-sm btn-ocean">
+                                                <i class="fas fa-download me-1"></i> Download
+                                            </a>
+                                            <a href="generate_receipt.php?id=<?php echo $row['order_reference']; ?>" class="btn btn-sm btn-info">
+                                                <i class="fas fa-eye me-1"></i> View
                                             </a>
                                         </td>
                                     </tr>
@@ -166,7 +169,7 @@ $order_count = $result->num_rows;
 
     <!-- Wave Decoration -->
     <div class="wave-decoration"></div>
-
+    <script src="../Assets/JS/paginationControl.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
