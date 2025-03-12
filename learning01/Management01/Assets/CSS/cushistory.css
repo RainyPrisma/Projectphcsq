@@ -148,3 +148,47 @@
         #sort {
             min-width: 140px; /* Adjust based on your longest option text */
         }
+        #pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        #pagination-container button {
+            background-color: #ffffff;
+            border: 2px solid #3498db;
+            color: #3498db;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            outline: none;
+            cursor: pointer;
+            min-width: 40px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        #pagination-container button:hover:not(:disabled) {
+            background-color: #3498db;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        #pagination-container button.btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #pagination-container button:disabled {
+            background-color: #e0e0e0;
+            color: #888;
+            border-color: #e0e0e0;
+            cursor: not-allowed;
+        }
+        
+        #pagination-container button:focus {
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     searchInput.parentNode.insertBefore(errorContainer, searchInput.nextSibling);
     
     let searchTimeout;
-
+    // Initial search สำหรับค้นห่าข้อมูลทั้งหมดโดยเก็บจากตัวแปรที่ถูกส่งมาจาก Backend
     searchInput.addEventListener('input', function() {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             tbody.innerHTML += generateTableRow(product);
         });
     }
-
+    // สร้างตารางข้อมูลสินค้า
     function generateTableRow(product) {
         return `
             <tr>
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ${generateEditModal(product)}
         `;
     }
-
+    // สร้าง Modal แก้ไขข้อมูลสินค้า
     function generateEditModal(product) {
         return `
             <div class="modal fade" id="editModal${product.id}" tabindex="-1" aria-hidden="true">

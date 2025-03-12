@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
         }
-
+            // สร้างการเรียงลำดับอ้างอิงจากค่าที่เลือก
         setupSorting() {
             if (this.sortSelect) {
                 this.sortSelect.addEventListener('change', () => {
