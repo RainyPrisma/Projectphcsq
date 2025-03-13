@@ -79,6 +79,7 @@ $result = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
     <link href="../Assets/CSS/management.css" rel="stylesheet">
+    <script src="../Assets/JS/paginationControl.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">

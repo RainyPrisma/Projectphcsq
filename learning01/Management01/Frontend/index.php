@@ -5,37 +5,11 @@ use src\UserCookieManager;
 
 $cookieManager = new UserCookieManager();
 
-// เชื่อมต่อฐานข้อมูล
-$conn = new mysqli("localhost", "root", "1234", "management01");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// ตรวจสอบสิทธิ์ Admin
+// Redirect if not logged in or not admin (initial check)
 if (!isset($_SESSION['user_email'])) {
     header('Location: ../Frontend/login.php');
     exit();
 }
-
-$user_email = $_SESSION['user_email'];
-$sql = "SELECT * FROM users WHERE email = ? AND role = 'admin'";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $user_email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows == 0) {
-    header('Location: ../Frontend/index.php'); // ถ้าไม่ใช่ admin กลับไปหน้า index
-    exit();
-}
-
-// ดึงข้อมูลสำหรับ Dashboard
-$total_users = $conn->query("SELECT COUNT(*) as count FROM users")->fetch_assoc()['count'];
-$total_orders = $conn->query("SELECT COUNT(*) as count FROM orderhistory")->fetch_assoc()['count'];
-$total_products = $conn->query("SELECT COUNT(*) as count FROM productlist")->fetch_assoc()['count'];
-$recent_logins = $conn->query("SELECT * FROM login_logs ORDER BY login_time DESC LIMIT 5");
-$total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhistory")->fetch_assoc()['revenue'];
-
 ?>
 
 <!DOCTYPE html>
@@ -48,9 +22,9 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../Assets/CSS/index.css">
+    <script src="../Assets/JS/userdatafetch.js"></script>
 </head>
 <body class="bg-light">
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-ocean sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="../Frontend/index.php">
@@ -100,7 +74,7 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
         <h1 class="bi bi-speedometer2"> Admin Dashboard</h1>
 
         <!-- Stats Cards -->
-        <div class="row g-4 mb-4">
+        <div class="row g-4 mb-4" id="stats-container">
             <div class="col-md-3">
                 <div class="card stat-card">
                     <div class="card-body">
@@ -108,7 +82,7 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                             <i class="bi bi-people-fill fs-1 text-primary me-3"></i>
                             <h3>Total Users</h3>
                         </div>
-                        <p class="card-text fs-3"><?php echo $total_users; ?></p>
+                        <p class="card-text fs-3" id="total-users">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -119,7 +93,7 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                             <i class="bi bi-cart-fill fs-1 text-success me-3"></i>
                             <h3>Total Orders</h3>
                         </div>
-                        <p class="card-text fs-3"><?php echo $total_orders; ?></p>
+                        <p class="card-text fs-3" id="total-orders">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -130,7 +104,7 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                             <i class="bi bi-box-seam fs-1 text-info me-3"></i>
                             <h3>Total Products</h3>
                         </div>
-                        <p class="card-text fs-3"><?php echo $total_products; ?></p>
+                        <p class="card-text fs-3" id="total-products">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -141,7 +115,7 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                             <i class="bi bi-currency-dollar fs-1 text-warning me-3"></i>
                             <h3>Total Revenue</h3>
                         </div>
-                        <p class="card-text fs-3">$<?php echo number_format($total_revenue, 2); ?></p>
+                        <p class="card-text fs-3" id="total-revenue">Loading...</p>
                     </div>
                 </div>
             </div>
@@ -167,15 +141,8 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                                         <th>IP Address</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php while ($login = $recent_logins->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?php echo htmlspecialchars($login['username']); ?></td>
-                                            <td><?php echo htmlspecialchars($login['email']); ?></td>
-                                            <td><?php echo $login['login_time']; ?></td>
-                                            <td><?php echo htmlspecialchars($login['ip_address']); ?></td>
-                                        </tr>
-                                    <?php endwhile; ?>
+                                <tbody id="recent-logins">
+                                    <tr><td colspan="4">Loading...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -183,7 +150,7 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                 </div>
             </div>
 
-            <!-- Quick Actions -->
+            <!-- Quick Actions (unchanged) -->
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
@@ -191,9 +158,9 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                             <i class="bi bi-gear-fill text-success"></i> Quick Actions
                         </h2>
                         <div class="d-grid gap-2">
-                            <a href="..\Admin\add_product.php" class="btn btn-primary">
+                            <a href="../Admin/add_product.php" class="btn btn-primary">
                                 <i class="bi bi-plus-circle"></i> Add New Product
-                            </a><!--ทำไว้เพื่อน mockup ให้ดู-->
+                            </a>
                             <a href="../Admin/login_logs.php" class="btn btn-info">
                                 <i class="bi bi-people"></i> Manage Users
                             </a>
@@ -217,12 +184,6 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                         <h2 class="card-title mb-3">
                             <i class="bi bi-bar-chart-fill text-info"></i> Product Categories
                         </h2>
-                        <?php
-                        $categories = $conn->query("SELECT p.nameType, COUNT(pl.id) as count 
-                            FROM product p 
-                            LEFT JOIN productlist pl ON p.id = pl.product_id 
-                            GROUP BY p.nameType");
-                        ?>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -231,13 +192,8 @@ $total_revenue = $conn->query("SELECT SUM(total_price) as revenue FROM orderhist
                                         <th>Product Count</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php while ($category = $categories->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?php echo htmlspecialchars($category['nameType']); ?></td>
-                                            <td><?php echo $category['count']; ?></td>
-                                        </tr>
-                                    <?php endwhile; ?>
+                                <tbody id="product-categories">
+                                    <tr><td colspan="2">Loading...</td></tr>
                                 </tbody>
                             </table>
                         </div>
