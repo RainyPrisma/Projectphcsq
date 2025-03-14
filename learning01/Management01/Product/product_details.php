@@ -1,14 +1,9 @@
 <?php
 session_start();
-require_once '../Backend/productreq.php';
-
+include '../Database/config.php';
+include '../Database/usersessioncheck.php';
 // อัพเดท timestamp ของกิจกรรมล่าสุด
 $_SESSION['last_activity'] = time();
-
-// ตรวจสอบการเชื่อมต่อฐานข้อมูล
-if (!isset($conn) || $conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // ดึงข้อมูลสินค้าจาก productlist
 if (isset($_GET['id'])) {

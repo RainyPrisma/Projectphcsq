@@ -5,6 +5,9 @@ use src\UserCookieManager;
 
 $cookieManager = new UserCookieManager();
 
+// ตั้งค่า timezone
+date_default_timezone_set('Asia/Bangkok');
+
 // Redirect if not logged in or not admin (initial check)
 if (!isset($_SESSION['user_email'])) {
     header('Location: ../Frontend/login.php');
