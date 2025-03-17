@@ -15,19 +15,6 @@ include '../Backend/dashboardreq.php';
 </head>
 
 <body>
-    <!-- Fish Animation Background -->
-    <div class="fish-container">
-        <?php for($i = 0; $i < 5; $i++): ?>
-            <div class="fish" style=">
-                top: <?php echo rand(10, 90); ?>%;
-                animation-duration: <?php echo rand(15, 25); ?>s;
-                animation-delay: <?php echo rand(0, 5); ?>s;
-                width: <?php echo rand(20, 40); ?>px;
-                opacity: <?php echo rand(1, 3) / 10; ?>;
-            "></div>
-        <?php endfor; ?>
-    </div>
-
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-ocean sticky-top">
         <div class="container">
@@ -288,7 +275,7 @@ include '../Backend/dashboardreq.php';
                             </div>
                             <span class="small text-muted">(<?php echo rand(45, 120); ?> รีวิว)</span>
                         </div>
-                        <a href="#" class="btn btn-sm btn-outline-warning mt-3">
+                        <a href="../Product/gallery.php" class="btn btn-sm btn-outline-warning mt-3">
                             <i class="bi bi-bag-heart-fill me-1"></i> สั่งซื้ออีกครั้ง
                         </a>
                     </div>
@@ -302,17 +289,6 @@ include '../Backend/dashboardreq.php';
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="m-0">กิจกรรมล่าสุด</h3>
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-filter me-1"></i> กรอง
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="#">ทั้งหมด</a></li>
-                                <li><a class="dropdown-item" href="#">การสั่งซื้อ</a></li>
-                                <li><a class="dropdown-item" href="#">การจัดส่ง</a></li>
-                                <li><a class="dropdown-item" href="#">การชำระเงิน</a></li>
-                            </ul>
-                        </div>
                     </div>
                     <div class="card-body">
                         <ul class="timeline">
@@ -375,7 +351,7 @@ include '../Backend/dashboardreq.php';
                     <div class="card-body">
                         <?php if ($latest_order): ?>
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <span class="badge bg-primary p-2">คำสั่งซื้อ #<?php echo htmlspecialchars($latest_order['order_id']); ?></span>
+                                <span class="badge bg-primary p-2">คำสั่งซื้อ #<?php echo htmlspecialchars($latest_order['order_reference']); ?></span>
                                 <span class="fw-bold fs-5">฿<?php echo number_format($latest_order['total_price'], 0); ?></span>
                             </div>
                             <div class="mb-3 p-3 border rounded bg-light">
