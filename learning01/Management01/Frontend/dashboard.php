@@ -1,5 +1,5 @@
 <?php
-include '../Backend/dashboardreq.php';
+    include '../Backend/dashboardreq.php';
 ?>
 <!DOCTYPE html>
 <html lang="th">
@@ -48,69 +48,28 @@ include '../Backend/dashboardreq.php';
                         </a>
                     </li>
                 </ul>
-                <div class="d-flex align-items-center">
-                    <div class="dropdown me-3">
-                        <a href="#" class="text-decoration-none text-white position-relative" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-bell-fill fs-5"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                3
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="notificationDropdown" style="width: 300px;">
-                            <li><h6 class="dropdown-header">การแจ้งเตือน</h6></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-box-seam text-primary fs-4"></i>
-                                    </div>
-                                    <div class="ms-3">
-                                        <p class="mb-0 fw-bold">คำสั่งซื้อได้จัดส่งแล้ว</p>
-                                        <p class="text-muted small mb-0">สินค้าของคุณกำลังอยู่ระหว่างการจัดส่ง</p>
-                                        <p class="text-muted small mb-0">2 ชั่วโมงที่แล้ว</p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-percent text-success fs-4"></i>
-                                    </div>
-                                    <div class="ms-3">
-                                        <p class="mb-0 fw-bold">โปรโมชั่นพิเศษ</p>
-                                        <p class="text-muted small mb-0">รับส่วนลด 15% สำหรับการสั่งซื้อครั้งถัดไป</p>
-                                        <p class="text-muted small mb-0">1 วันที่แล้ว</p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="flex-shrink-0">
-                                        <i class="bi bi-tag-fill text-warning fs-4"></i>
-                                    </div>
-                                    <div class="ms-3">
-                                        <p class="mb-0 fw-bold">สินค้าใหม่มาแล้ว</p>
-                                        <p class="text-muted small mb-0">กุ้งมังกรแช่แข็งคุณภาพพรีเมียม</p>
-                                        <p class="text-muted small mb-0">3 วันที่แล้ว</p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-center text-primary" href="#">ดูการแจ้งเตือนทั้งหมด</a></li>
-                        </ul>
-                    </div>
-                    <a href="../Users/account.php" class="btn btn-outline-light me-2 position-relative">
-                        <i class="bi bi-person-circle me-1"></i> บัญชีของฉัน
-                        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-                            <span class="visually-hidden">Online</span>
-                        </span>
+                <!-- Notification Dropdown -->
+                <div class="dropdown me-3">
+                    <a href="#" class="text-decoration-none text-white position-relative" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell-fill fs-5"></i>
+                        <span id="unread_count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                     </a>
-                    <a href="logout.php" class="btn btn-danger">
-                        <i class="bi bi-box-arrow-right me-1"></i> ออกจากระบบ
-                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="notificationDropdown" style="width: 300px;">
+                        <li><h6 class="dropdown-header">การแจ้งเตือน</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <div id="notification_list"></div>
+                        <li><a class="dropdown-item text-center text-primary" href="../Notification/notification.php">ดูการแจ้งเตือนทั้งหมด</a></li>
+                    </ul>
                 </div>
+                <a href="../Users/account.php" class="btn btn-outline-light me-2 position-relative">
+                    <i class="bi bi-person-circle me-1"></i> บัญชีของฉัน
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                        <span class="visually-hidden">Online</span>
+                    </span>
+                </a>
+                <a href="logout.php" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right me-1"></i> ออกจากระบบ
+                </a>
             </div>
         </div>
     </nav>
@@ -120,34 +79,64 @@ include '../Backend/dashboardreq.php';
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <h2 class="fw-bold">ยินดีต้อนรับ คุณ <?php echo htmlspecialchars($user_data['username']); ?> <i class="bi bi-emoji-smile text-warning"></i></h2>
-                    <p class="mb-0"><i class="bi bi-clock-history me-1"></i>เข้าสู่ระบบล่าสุด: <?php echo date('d ม.ค. Y H:i น.', strtotime($cookieData['last_login'])); ?></p>
-                    <div class="d-flex align-items-center mt-3">
-                        <div class="badge bg-primary me-2 p-2">
-                            <i class="bi bi-award me-1"></i> สมาชิก <?php echo rand(1, 3) == 1 ? 'VIP' : 'ทั่วไป'; ?>
-                        </div>
-                        <div class="badge bg-info text-dark me-2 p-2">
-                            <i class="bi bi-gem me-1"></i> <?php echo rand(20, 500); ?> พอยท์
-                        </div>
-                        <div class="badge bg-warning text-dark p-2">
-                            <i class="bi bi-truck me-1"></i> ฟรีค่าส่ง <?php echo rand(0, 1) ? '✓' : '✗'; ?>
-                        </div>
-                    </div>
+                    <h2 class="fw-bold">ยินดีต้อนรับ คุณ <span id="username"></span> <i class="bi bi-emoji-smile text-warning"></i></h2>
+                    <p class="mb-0"><i class="bi bi-clock-history me-1"></i>เข้าสู่ระบบล่าสุด: <span id="last_login"></span></p>
                 </div>
                 <div class="col-md-4 d-flex align-items-center justify-content-end">
-                    <div class="weather-widget p-3 text-center">
+                    <div class="weather-widget p-3 text-center" id="weatherWidget">
                         <div class="weather-icon">
                             <i class="bi bi-cloud-sun-fill"></i>
                         </div>
                         <h5 class="mb-0">สภาพทะเลวันนี้</h5>
-                        <p class="mb-1">สงบ · คลื่น 0.5 ม.</p>
-                        <small>อัพเดทล่าสุด: <?php echo date('H:i น.'); ?></small>
+                        <p class="mb-1" id="weatherStatus">โหลดข้อมูล...</p>
+                        <small>อัพเดทล่าสุด: <span id="weatherUpdateTime"><?php echo date('H:i น.'); ?></span></small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+        <!-- Carousel Section -->
+    <div id="promoCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://www.malandaseafood.com.au/wp-content/uploads/2020/06/slider3.jpg" class="d-block w-100" alt="Slide 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>โปรโมชั่นพิเศษ!</h5>
+                    <p>ลด 20% สำหรับสินค้าทะเลสดทุกชนิด</p>
+                    <a href="../Product/gallery.php" class="btn btn-danger">ช้อปเลย</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://www.coastalseafoods.com/Themes/Default/Content/Images/fortune-fish-gourmet-seafood.jpg" class="d-block w-100" alt="Slide 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>สินค้าใหม่</h5>
+                    <p>กุ้งสดคุณภาพสูงจากท่าเรือ</p>
+                    <a href="../Product/gallery.php" class="btn btn-success">ดูรายการ</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://www.nbfoodexportdirectory.ca/new-brunswick-seafood-directory/images/seafood-banner-new.jpg" class="d-block w-100" alt="Slide 3">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>ปลาทะเลสด</h5>
+                    <p>ส่งตรงถึงคุณภายใน 24 ชม.</p>
+                    <a href="../Product/gallery.php" class="btn btn-primary">เลือกซื้อ</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
     <!-- Main Content -->
     <div class="container">
         <!-- Quick Actions -->
@@ -198,11 +187,9 @@ include '../Backend/dashboardreq.php';
                             </div>
                             <h3 class="card-title fw-bold">โปรโมชั่นสินค้าทะเลสดทุกชนิด ลด 20%</h3>
                             <p class="card-text">เฉพาะสั่งซื้อภายในสัปดาห์นี้เท่านั้น! สินค้าคุณภาพส่งตรงจากท่าเรือ</p>
-                            <div class="d-flex align-items-center">
-                                <a href="../Product/gallery.php" class="btn btn-danger">
-                                    <i class="bi bi-basket me-1"></i> ช้อปเลย
-                                </a>
-                            </div>
+                            <a href="../Product/gallery.php" class="btn btn-danger">
+                                <i class="bi bi-basket me-1"></i> ช้อปเลย
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-4 d-none d-md-block">
@@ -212,7 +199,7 @@ include '../Backend/dashboardreq.php';
             </div>
         </div>
 
-        <!-- Stats Section with Icons and Animation -->
+        <!-- Stats Section -->
         <div class="row g-4 mb-4">
             <div class="col-md-4">
                 <div class="card stat-card text-center h-100">
@@ -224,13 +211,10 @@ include '../Backend/dashboardreq.php';
                             <i class="bi bi-cart-fill fs-1 text-primary mb-3"></i>
                         </div>
                         <h5 class="card-title">สั่งซื้อทั้งหมด</h5>
-                        <p class="card-text fs-3 fw-bold"><?php echo $total_orders; ?> ครั้ง</p>
+                        <p class="card-text fs-3 fw-bold" id="total_orders">0 ครั้ง</p>
                         <div class="progress mt-2" style="height: 10px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo min(100, $total_orders * 5); ?>%" aria-valuenow="<?php echo $total_orders; ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-primary" role="progressbar" id="total_orders_progress" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        <p class="text-muted mt-2 mb-0 small">
-                            <i class="bi bi-graph-up-arrow me-1"></i> เพิ่มขึ้น <?php echo rand(5, 20); ?>% จากเดือนที่แล้ว
-                        </p>
                     </div>
                 </div>
             </div>
@@ -244,13 +228,10 @@ include '../Backend/dashboardreq.php';
                             <i class="bi bi-wallet2 fs-1 text-success mb-3"></i>
                         </div>
                         <h5 class="card-title">ยอดใช้จ่ายรวม</h5>
-                        <p class="card-text fs-3 fw-bold">฿<?php echo number_format($total_spending, 0); ?></p>
+                        <p class="card-text fs-3 fw-bold" id="total_spending">฿0</p>
                         <div class="progress mt-2" style="height: 10px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo min(100, $total_spending / 100); ?>%" aria-valuenow="<?php echo $total_spending; ?>" aria-valuemin="0" aria-valuemax="10000"></div>
+                            <div class="progress-bar bg-success" role="progressbar" id="total_spending_progress" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10000"></div>
                         </div>
-                        <p class="text-muted mt-2 mb-0 small">
-                            <i class="bi bi-graph-up-arrow me-1"></i> เพิ่มขึ้น <?php echo rand(3, 15); ?>% จากไตรมาสที่แล้ว
-                        </p>
                     </div>
                 </div>
             </div>
@@ -264,74 +245,105 @@ include '../Backend/dashboardreq.php';
                             <i class="bi bi-star-fill fs-1 text-warning mb-3"></i>
                         </div>
                         <h5 class="card-title">สินค้าที่ชอบ</h5>
-                        <p class="card-text fs-5"><?php echo htmlspecialchars($most_purchased_item); ?></p>
-                        <div class="d-flex justify-content-center mt-2">
-                            <div class="me-2">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
-                            </div>
-                            <span class="small text-muted">(<?php echo rand(45, 120); ?> รีวิว)</span>
-                        </div>
-                        <a href="../Product/gallery.php" class="btn btn-sm btn-outline-warning mt-3">
-                            <i class="bi bi-bag-heart-fill me-1"></i> สั่งซื้ออีกครั้ง
+                        <p class="card-text fs-5" id="most_purchased_item">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders and Recent Activities Side by Side -->
+        <div class="row mb-4">
+        <!-- Recent Orders (Left Side) -->
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="m-0">คำสั่งซื้อล่าสุด</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="timeline">
+                        <?php if (!empty($orders)): ?>
+                            <?php foreach ($orders as $order): ?>
+                                <li class="timeline-item">
+                                    <div class="timeline-marker bg-warning">
+                                        <i class="bi bi-cart-fill"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h5 class="mb-1">คำสั่งซื้อ</h5>
+                                        <p class="mb-0"><?php echo htmlspecialchars("คุณ {$order['username']} ซื้อสินค้า: {$order['item']} (เลขที่ออเดอร์: {$order['order_reference']})"); ?></p>
+                                        <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime($order['created_at'])); ?></p>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li class="timeline-item">
+                                <div class="timeline-marker bg-secondary">
+                                    <i class="bi bi-info-circle"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h5 class="mb-1">ไม่มีคำสั่งซื้อ</h5>
+                                    <p class="mb-0">ยังไม่มีคำสั่งซื้อล่าสุด</p>
+                                    <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.'); ?></p>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-clock-history me-1"></i> ดูทั้งหมด
                         </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Recent Activity Timeline -->
-        <div class="row mb-4">
-            <div class="col-lg-8">
+    <!-- Recent Activities (Right Side) -->
+        <div class="col-lg-6">
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="m-0">กิจกรรมล่าสุด</h3>
                     </div>
                     <div class="card-body">
                         <ul class="timeline">
-                            <li class="timeline-item">
-                                <div class="timeline-marker bg-primary">
-                                    <i class="bi bi-cart-check-fill"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <h5 class="mb-1">สั่งซื้อสำเร็จ</h5>
-                                    <p class="mb-0">คำสั่งซื้อ #<?php echo rand(10000, 99999); ?> สำเร็จแล้ว</p>
-                                    <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime('-1 hours')); ?></p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-marker bg-success">
-                                    <i class="bi bi-credit-card-fill"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <h5 class="mb-1">ชำระเงินสำเร็จ</h5>
-                                    <p class="mb-0">ชำระเงินคำสั่งซื้อ #<?php echo rand(10000, 99999); ?> จำนวน ฿<?php echo number_format(rand(500, 5000), 0); ?></p>
-                                    <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime('-1 day')); ?></p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-marker bg-info">
-                                    <i class="bi bi-truck"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <h5 class="mb-1">จัดส่งสินค้า</h5>
-                                    <p class="mb-0">คำสั่งซื้อ #<?php echo rand(10000, 99999); ?> อยู่ระหว่างการจัดส่ง</p>
-                                    <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime('-2 days')); ?></p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-marker bg-warning">
-                                    <i class="bi bi-star-fill"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <h5 class="mb-1">ให้คะแนนสินค้า</h5>
-                                    <p class="mb-0">คุณให้คะแนน <?php echo rand(4, 5); ?> ดาว สำหรับ <?php echo htmlspecialchars($most_purchased_item); ?></p>
-                                    <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime('-3 days')); ?></p>
-                                </div>
-                            </li>
+                            <?php if (!empty($activities)): ?>
+                                <?php foreach ($activities as $activity): ?>
+                                    <li class="timeline-item">
+                                        <div class="timeline-marker 
+                                            <?php 
+                                                if ($activity['activity_type'] === 'login') echo 'bg-primary'; 
+                                                elseif ($activity['activity_type'] === 'review') echo 'bg-success'; 
+                                                elseif ($activity['activity_type'] === 'purchase') echo 'bg-warning'; 
+                                            ?>">
+                                            <i class="bi bi-<?php 
+                                                if ($activity['activity_type'] === 'login') echo 'box-arrow-in-right'; 
+                                                elseif ($activity['activity_type'] === 'review') echo 'star-fill'; 
+                                                elseif ($activity['activity_type'] === 'purchase') echo 'cart-fill'; 
+                                            ?>"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h5 class="mb-1">
+                                                <?php 
+                                                    if ($activity['activity_type'] === 'login') echo 'เข้าสู่ระบบ'; 
+                                                    elseif ($activity['activity_type'] === 'review') echo 'รีวิวสินค้า'; 
+                                                    elseif ($activity['activity_type'] === 'purchase') echo 'การซื้อสินค้า'; 
+                                                ?>
+                                            </h5>
+                                            <p class="mb-0"><?php echo htmlspecialchars($activity['description']); ?></p>
+                                            <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime($activity['activity_time'])); ?></p>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li class="timeline-item">
+                                    <div class="timeline-marker bg-secondary">
+                                        <i class="bi bi-info-circle"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h5 class="mb-1">ไม่มีกิจกรรม</h5>
+                                        <p class="mb-0">ยังไม่มีกิจกรรมล่าสุด</p>
+                                        <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.'); ?></p>
+                                    </div>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                         <div class="text-center mt-3">
                             <a href="#" class="btn btn-sm btn-outline-secondary">
@@ -341,65 +353,15 @@ include '../Backend/dashboardreq.php';
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Latest Order with Enhanced Details -->
+            <!-- Latest Order 
             <div class="col-lg-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h3 class="m-0">คำสั่งซื้อล่าสุด</h3>
-                    </div>
-                    <div class="card-body">
-                        <?php if ($latest_order): ?>
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <span class="badge bg-primary p-2">คำสั่งซื้อ #<?php echo htmlspecialchars($latest_order['order_reference']); ?></span>
-                                <span class="fw-bold fs-5">฿<?php echo number_format($latest_order['total_price'], 0); ?></span>
-                            </div>
-                            <div class="mb-3 p-3 border rounded bg-light">
-                                <div class="mb-2">
-                                    <i class="bi bi-clock me-1 text-secondary"></i>
-                                    <span class="text-muted">วันที่สั่งซื้อ:</span>
-                                    <span class="fw-medium ms-2"><?php echo date('d ม.ค. Y', strtotime($latest_order['created_at'])); ?></span>
-                                </div>
-                                <div class="mb-2">
-                                    <i class="bi bi-geo-alt me-1 text-secondary"></i>
-                                    <span class="text-muted">วิธีจัดส่ง:</span>
-                                    <span class="fw-medium ms-2">Kerry Express (ด่วนพิเศษ)</span>
-                                </div>
-                                <div>
-                                    <i class="bi bi-credit-card me-1 text-secondary"></i>
-                                    <span class="text-muted">วิธีชำระเงิน:</span>
-                                    <span class="fw-medium ms-2">บัตรเครดิต</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="me-3">
-                                    <div class="status-circle bg-success">
-                                        <i class="bi bi-check-lg text-white"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="text-success fw-bold">สถานะ: <?php echo htmlspecialchars($latest_order['order_reference'] ?? 'กำลังดำเนินการ'); ?></div>
-                                    <div class="small">คาดว่าจะจัดส่งถึง: <?php echo date('d ม.ค. Y', strtotime($latest_order['created_at'] . ' + 2 days')); ?></div>
-                                </div>
-                            </div>
-                            <div class="progress mb-3" style="height: 8px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="d-flex justify-content-between small text-muted mb-4">
-                                <span>รับออเดอร์</span>
-                                <span>กำลังเตรียมจัดส่ง</span>
-                                <span>จัดส่งแล้ว</span>
-                                <span>สำเร็จ</span>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <a href="../Users/ordercus_history.php" class="btn btn-ocean">
-                                    <i class="bi bi-eye me-1"></i> ดูรายละเอียด
-                                </a>
-                                <a href="#" class="btn btn-outline-primary">
-                                    <i class="bi bi-geo-alt me-1"></i> ติดตามพัสดุ
-                                </a>
-                            </div>
-                        <?php else: ?>
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h3 class="m-0">คำสั่งซื้อล่าสุด</h3>
+                        </div>
+                        <div class="card-body" id="latest_order_container">
                             <div class="text-center py-4">
                                 <i class="bi bi-bag-x fs-1 text-muted mb-3"></i>
                                 <p class="text-muted">ยังไม่มีคำสั่งซื้อ</p>
@@ -407,11 +369,11 @@ include '../Backend/dashboardreq.php';
                                     <i class="bi bi-cart-plus me-1"></i> เริ่มการช้อปปิ้ง
                                 </a>
                             </div>
-                        <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+                            -->
 
         <!-- Popular Categories -->
         <div class="card mb-4">
@@ -428,7 +390,7 @@ include '../Backend/dashboardreq.php';
                                     <i class="bi bi-water text-primary"></i>
                                 </div>
                                 <h6 class="card-title text-dark mb-0">ปลาทะเล</h6>
-                                <small class="text-muted"><?php echo rand(20, 50); ?> รายการ</small>
+                                <small class="text-muted">20 รายการ</small>
                             </div>
                         </a>
                     </div>
@@ -439,7 +401,7 @@ include '../Backend/dashboardreq.php';
                                     <i class="bi bi-egg-fried text-warning"></i>
                                 </div>
                                 <h6 class="card-title text-dark mb-0">กุ้ง</h6>
-                                <small class="text-muted"><?php echo rand(20, 50); ?> รายการ</small>
+                                <small class="text-muted">30 รายการ</small>
                             </div>
                         </a>
                     </div>
@@ -449,8 +411,8 @@ include '../Backend/dashboardreq.php';
                                 <div class="category-icon mb-3">
                                     <i class="bi bi-palette text-danger"></i>
                                 </div>
-                                <h6 class="card-title text-dark mb-0">ปู(เร็วๆนี้)</h6>
-                                <small class="text-muted"><?php echo rand(20, 50); ?> รายการ</small>
+                                <h6 class="card-title text-dark mb-0">ปู (เร็วๆนี้)</h6>
+                                <small class="text-muted">15 รายการ</small>
                             </div>
                         </a>
                     </div>
@@ -461,7 +423,7 @@ include '../Backend/dashboardreq.php';
                                     <i class="bi bi-eyeglasses text-info"></i>
                                 </div>
                                 <h6 class="card-title text-dark mb-0">หอย</h6>
-                                <small class="text-muted"><?php echo rand(20, 50); ?> รายการ</small>
+                                <small class="text-muted">25 รายการ</small>
                             </div>
                         </a>
                     </div>
@@ -472,7 +434,7 @@ include '../Backend/dashboardreq.php';
                                     <i class="bi bi-droplet-fill text-success"></i>
                                 </div>
                                 <h6 class="card-title text-dark mb-0">หมึก</h6>
-                                <small class="text-muted"><?php echo rand(20, 50); ?> รายการ</small>
+                                <small class="text-muted">40 รายการ</small>
                             </div>
                         </a>
                     </div>
@@ -483,7 +445,7 @@ include '../Backend/dashboardreq.php';
                                     <i class="bi bi-droplet-fill text-success"></i>
                                 </div>
                                 <h6 class="card-title text-dark mb-0">อื่นๆ</h6>
-                                <small class="text-muted"><?php echo rand(20, 50); ?> รายการ</small>
+                                <small class="text-muted">10 รายการ</small>
                             </div>
                         </a>
                     </div>
@@ -497,5 +459,8 @@ include '../Backend/dashboardreq.php';
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../Assets/JS/notifications.js"></script>
+    <script src="../API/dashboard.js"></script>
+    <script src="../Assets/JS/weather.js"></script>
 </body>
 </html>

@@ -52,7 +52,7 @@
         
         /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, var(--ocean-secondary), var(--ocean-tertiary));
+            background-image: url(https://i.pinimg.com/originals/94/b1/20/94b12031b93496cacdedfb0dd8287a90.gif) ;
             color: white;
             padding: 2rem 0;
             margin-bottom: 2rem;
@@ -396,4 +396,55 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        /* ปรับแต่ง Dropdown */
+        .dropdown-menu {
+            width: 350px !important; /* เพิ่มความกว้างจาก 300px เป็น 350px เพื่อรองรับข้อความยาว */
+            max-height: 400px; /* จำกัดความสูงของ Dropdown เพื่อให้เลื่อนได้ */
+            overflow-y: auto; /* เพิ่ม scrollbar ถ้ารายการเยอะ */
+        }
+
+        /* ปรับแต่งรายการแจ้งเตือน */
+        .dropdown-item {
+            padding: 10px 15px; /* เพิ่ม padding เพื่อให้มีระยะห่าง */
+            white-space: normal !important; /* อนุญาตให้ข้อความตัดคำและขึ้นบรรทัดใหม่ */
+        }
+
+        /* ปรับแต่งข้อความในส่วน .ms-3 */
+        .dropdown-item .ms-3 {
+            display: flex;
+            flex-direction: column;
+            gap: 4px; /* เพิ่มช่องว่างระหว่าง <p> แต่ละอัน */
+        }
+
+        /* ปรับแต่ง <p> ใน .ms-3 */
+        .dropdown-item .ms-3 p {
+            margin-bottom: 0; /* คงค่าเดิม */
+            line-height: 1.4; /* เพิ่มระยะห่างระหว่างบรรทัด */
+            font-size: 0.9rem; /* ลดขนาดฟอนต์เล็กน้อยเพื่อให้ข้อความไม่แน่นเกินไป */
+        }
+
+        /* ปรับแต่งไอคอน */
+        .dropdown-item .flex-shrink-0 i {
+            margin-right: 10px; /* เพิ่มระยะห่างระหว่างไอคอนและข้อความ */
+        }
+
+        /* ปรับแต่ง divider */
+        .dropdown-divider {
+            margin: 0; /* ลบ margin ของ divider เพื่อให้แนบกับรายการ */
+        }
+        /* ปรับแต่งสไลด์ให้เข้ากับธีม */
+        .carousel-item img {
+            height: 400px; /* ความสูงของสไลด์ */
+            object-fit: cover; /* ปรับภาพให้เต็มพื้นที่ */
+        }
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.6); /* กล่องข้อความทึบ */
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            .carousel-item img {
+                height: 250px;
+            }
         }
