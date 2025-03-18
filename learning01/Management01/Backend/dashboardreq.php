@@ -100,4 +100,83 @@ $order_history_result = $stmt_order_history->get_result();
 // 6. สินค้าแนะนำ (เลือกสินค้าที่มีการสั่งซื้อบ่อยหรือล่าสุด)
 $sql_recommended = "SELECT name, price, image_url FROM productlist WHERE image_url IS NOT NULL ORDER BY quantity DESC, orderdate DESC LIMIT 2";
 $recommended_result = $conn->query($sql_recommended);
+
+// ดึงข้อมูลการแจ้งเตือน
+$query = "SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 5";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$notifications = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $notifications[] = $row;
+    }
+}
+
+// นับจำนวนการแจ้งเตือนที่ยังไม่ได้อ่าน
+$query_unread = "SELECT COUNT(*) as unread_count FROM notifications WHERE user_id = ? AND is_read = 0";
+$stmt_unread = $conn->prepare($query_unread);
+$stmt_unread->bind_param("i", $user_id);
+$stmt_unread->execute();
+$unread_result = $stmt_unread->get_result();
+$unread_count = $unread_result->fetch_assoc()['unread_count'];
+
+// ตรวจสอบสถานะจากการดำเนินการ
+$status_message = '';
+$status_type = '';
+if (isset($_GET['status'])) {
+    switch ($_GET['status']) {
+        case 'marked':
+            $status_message = "ทำเครื่องหมายว่าอ่านแล้วสำเร็จ";
+            $status_type = "success";
+            break;
+        case 'no_change':
+            $status_message = "แจ้งเตือนนี้ถูกอ่านแล้ว หรือไม่พบแจ้งเตือน";
+            $status_type = "info";
+            break;
+        case 'missing_id':
+            $status_message = "ไม่พบรหัสแจ้งเตือน";
+            $status_type = "warning";
+            break;
+        case 'cleared':
+            $status_message = "เคลียร์การแจ้งเตือนทั้งหมดสำเร็จ";
+            $status_type = "success";
+            break;
+        case 'no_notifications':
+            $status_message = "ไม่มีแจ้งเตือนให้เคลียร์";
+            $status_type = "info";
+            break;
+        case 'error':
+            $status_message = "เกิดข้อผิดพลาด กรุณาลองใหม่";
+            $status_type = "danger";
+            break;
+    }
+}
+
+    // ดึงข้อมูลคำสั่งซื้อล่าสุดจาก orderhistory
+    $order_query = "SELECT username, item, created_at, order_reference FROM orderhistory ORDER BY created_at DESC LIMIT 5";
+    $order_result = $conn->query($order_query);
+    $orders = [];
+    if ($order_result) {
+        while ($row = $order_result->fetch_assoc()) {
+            $orders[] = $row;
+        }
+        $order_result->free();
+    }
+    // ดึงข้อมูลจาก View recent_activities
+    $query = "SELECT activity_type, id, description, activity_time FROM recent_activities ORDER BY activity_time DESC LIMIT 5";
+    $result = $conn->query($query);
+    $activities = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $activities[] = $row;
+        }
+        $result->free();
+    }
+
+$stmt->close();
+$stmt_unread->close();
+$conn->close();
 ?>
