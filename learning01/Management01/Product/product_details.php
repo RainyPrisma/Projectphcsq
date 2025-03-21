@@ -1,11 +1,24 @@
 <?php
 session_start();
-include '../Database/config.php';
-include '../Database/usersessioncheck.php';
-// อัพเดท timestamp ของกิจกรรมล่าสุด
+require_once '../Backend/productreq.php';
+
 $_SESSION['last_activity'] = time();
 
-// ดึงข้อมูลสินค้าจาก productlist
+if (!isset($conn) || $conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+//เก็บ session
+$is_admin = false;
+if (isset($_SESSION['user_id'])) {
+    $sql = "SELECT role FROM users WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+    $is_admin = ($user['role'] === 'admin');
+    $stmt->close();
+}
+
 if (isset($_GET['id'])) {
     $product_name = $_GET['id'];
     $sql = "SELECT * FROM productlist WHERE name = ?";
@@ -24,19 +37,161 @@ if (isset($_GET['id'])) {
     exit();
 }
 
-// ดึงรูปภาพเพิ่มเติมจาก product_images
-$sql_images = "SELECT imagelink FROM product_images WHERE product_id = ? ORDER BY image_order ASC LIMIT 5";
-$stmt_images = $conn->prepare($sql_images);
-$stmt_images->bind_param("i", $product['id']);
-$stmt_images->execute();
-$images_result = $stmt_images->get_result();
 $additional_images = [];
-
-while ($image = $images_result->fetch_assoc()) {
-    $additional_images[] = $image['imagelink'];
+if (!empty($product['additional_images'])) {
+    $additional_images = json_decode($product['additional_images'], true);
+    if (!is_array($additional_images)) {
+        $additional_images = [];
+    }
 }
 
-// จัดการ Add to Cart
+if ($is_admin && isset($_POST['update_product'])) {
+    $new_name = $_POST['name'];
+    $new_detail = $_POST['detail'];
+    $new_price = (float)$_POST['price'];
+    $new_quantity = (int)$_POST['quantity'];
+
+    $sql_update = "UPDATE productlist SET name = ?, detail = ?, price = ?, quantity = ? WHERE id = ?";
+    $stmt_update = $conn->prepare($sql_update);
+    $stmt_update->bind_param("ssdii", $new_name, $new_detail, $new_price, $new_quantity, $product['id']);
+    $stmt_update->execute();
+    $stmt_update->close();
+
+    if ($new_name !== $product_name) {
+        header("Location: product_details.php?id=" . urlencode($new_name));
+    } else {
+        header("Location: product_details.php?id=" . urlencode($product_name));
+    }
+    exit();
+}
+
+if ($is_admin && isset($_POST['update_images'])) {
+    $new_images = $_FILES['new_images'];
+    $upload_dir = "../uploads/Additional_IMAGE/"; // เปลี่ยนโฟลเดอร์
+    $old_upload_dir = "../uploads/"; // โฟลเดอร์เก่า
+    $current_images = $additional_images;
+    $upload_message = [];
+
+    // ตรวจสอบและย้ายไฟล์เก่าไปยังโฟลเดอร์ใหม่
+    foreach ($current_images as $index => $image_path) {
+        $old_path = $image_path;
+        $file_name = basename($image_path);
+        $new_path = $upload_dir . $file_name;
+
+        if (strpos($old_path, "../uploads/Additional_IMAGE/") === false && file_exists($old_path)) {
+            if (rename($old_path, $new_path)) {
+                $current_images[$index] = $new_path;
+            }
+        }
+    }
+
+    if (!file_exists($upload_dir)) {
+        if (!mkdir($upload_dir, 0755, true)) {
+            $upload_message[] = "ไม่สามารถสร้างโฟลเดอร์ $upload_dir ได้";
+        }
+    }
+
+    if (!is_writable($upload_dir)) {
+        $upload_message[] = "โฟลเดอร์ $upload_dir ไม่มีสิทธิ์ในการเขียน กรุณาตั้งค่า permission เป็น 0755 หรือ 0777";
+    } else {
+        foreach ($new_images['tmp_name'] as $key => $tmp_name) {
+            if ($new_images['error'][$key] === UPLOAD_ERR_OK && count($current_images) < 5) {
+                $file_name = "product_" . $product['id'] . "_" . uniqid() . "_" . basename($new_images['name'][$key]);
+                $file_path = $upload_dir . $file_name;
+
+                $file_already_exists = false;
+                foreach ($current_images as $existing_image) {
+                    if (basename($existing_image) === $file_name) {
+                        $file_already_exists = true;
+                        break;
+                    }
+                }
+
+                if (!$file_already_exists) {
+                    $image_type = exif_imagetype($tmp_name);
+                    $max_width = 800;
+                    $max_height = 800;
+
+                    list($width, $height) = getimagesize($tmp_name);
+                    $new_width = $width;
+                    $new_height = $height;
+
+                    if ($width > $max_width || $height > $max_height) {
+                        $ratio = min($max_width / $width, $max_height / $height);
+                        $new_width = $width * $ratio;
+                        $new_height = $height * $ratio;
+                    }
+
+                    if ($image_type == IMAGETYPE_JPEG) {
+                        $image = imagecreatefromjpeg($tmp_name);
+                    } elseif ($image_type == IMAGETYPE_PNG) {
+                        $image = imagecreatefrompng($tmp_name);
+                    } else {
+                        move_uploaded_file($tmp_name, $file_path);
+                        $current_images[] = $file_path;
+                        $upload_message[] = "อัปโหลดรูปภาพ $file_name สำเร็จ (ไม่รองรับการปรับขนาด)";
+                        continue;
+                    }
+
+                    $resized_image = imagecreatetruecolor($new_width, $new_height);
+                    if ($image_type == IMAGETYPE_PNG) {
+                        imagealphablending($resized_image, false);
+                        imagesavealpha($resized_image, true);
+                    }
+                    imagecopyresampled($resized_image, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+                    if ($image_type == IMAGETYPE_JPEG) {
+                        imagejpeg($resized_image, $file_path, 75);
+                    } elseif ($image_type == IMAGETYPE_PNG) {
+                        imagepng($resized_image, $file_path, 6);
+                    }
+
+                    imagedestroy($image);
+                    imagedestroy($resized_image);
+
+                    if (file_exists($file_path)) {
+                        $current_images[] = $file_path;
+                        $upload_message[] = "อัปโหลดและปรับขนาดรูปภาพ $file_name สำเร็จ";
+                    } else {
+                        $upload_message[] = "เกิดข้อผิดพลาดในการบันทึก $file_name";
+                    }
+                } else {
+                    $upload_message[] = "รูปภาพ $file_name ซ้ำกับที่มีอยู่แล้ว";
+                }
+            } elseif ($new_images['error'][$key] !== UPLOAD_ERR_NO_FILE) {
+                $upload_message[] = "เกิดข้อผิดพลาดในการอัปโหลดไฟล์: " . $new_images['name'][$key] . " (Error Code: " . $new_images['error'][$key] . ")";
+            }
+        }
+
+        if (count($current_images) > 5) {
+            $current_images = array_slice($current_images, 0, 5);
+            $upload_message[] = "สามารถอัปโหลดได้สูงสุด 5 รูปเท่านั้น";
+        }
+
+        $new_images_json = json_encode($current_images);
+        $sql_update_images = "UPDATE productlist SET additional_images = ? WHERE id = ?";
+        $stmt_update_images = $conn->prepare($sql_update_images);
+        if ($stmt_update_images) {
+            $stmt_update_images->bind_param("si", $new_images_json, $product['id']);
+            if ($stmt_update_images->execute()) {
+                $upload_message[] = "บันทึกข้อมูลรูปภาพในฐานข้อมูลสำเร็จ";
+            } else {
+                $upload_message[] = "เกิดข้อผิดพลาดในการบันทึกข้อมูลในฐานข้อมูล: " . $stmt_update_images->error;
+            }
+            $stmt_update_images->close();
+        } else {
+            $upload_message[] = "เกิดข้อผิดพลาดในการเตรียมคำสั่ง SQL: " . $conn->error;
+        }
+    }
+
+    if (!empty($upload_message)) {
+        $_SESSION['upload_message'] = implode("<br>", $upload_message);
+    }
+
+    header("Location: product_details.php?id=" . urlencode($product_name));
+    exit();
+}
+
 if (isset($_POST['add_to_cart'])) {
     $product_name = trim($_POST['name']);
     $detail = trim($_POST['detail']);
@@ -44,11 +199,9 @@ if (isset($_POST['add_to_cart'])) {
     $custom_quantity = isset($_POST['custom_quantity']) ? (int)$_POST['custom_quantity'] : 1;
     $price = (float)$_POST['product_price'];
 
-    // ตรวจสอบข้อมูลที่ส่งมา
     if ($custom_quantity <= 0 || $custom_quantity > $quantity_in_stock) {
         $_SESSION['add_to_cart_message'] = "จำนวนสินค้าที่ต้องการ ($custom_quantity) ไม่ถูกต้องหรือเกินสต็อกที่มี ($quantity_in_stock)";
     } else {
-        // ตรวจสอบว่าตะกร้ามีอยู่แล้วหรือไม่
         if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
@@ -56,7 +209,6 @@ if (isset($_POST['add_to_cart'])) {
         $item_found = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['name'] === $product_name) {
-                // อัปเดตจำนวนถ้าพบสินค้าในตะกร้า
                 $new_quantity = $item['quantity'] + $custom_quantity;
                 if ($new_quantity > $quantity_in_stock) {
                     $_SESSION['add_to_cart_message'] = "จำนวนสินค้าที่ต้องการ ($new_quantity) เกินสต็อกที่มี ($quantity_in_stock)";
@@ -69,7 +221,6 @@ if (isset($_POST['add_to_cart'])) {
             }
         }
 
-        // เพิ่มรายการใหม่ถ้าไม่พบในตะกร้า
         if (!$item_found) {
             $_SESSION['cart'][] = [
                 'name' => $product_name,
@@ -82,7 +233,6 @@ if (isset($_POST['add_to_cart'])) {
     }
 }
 
-// ดึงสินค้าที่เกี่ยวข้องจาก productlist
 $category = explode(' ', $product['detail'])[0];
 $sql_related = "SELECT * FROM productlist WHERE detail LIKE ? AND name != ? LIMIT 4";
 $stmt_related = $conn->prepare($sql_related);
@@ -91,7 +241,6 @@ $stmt_related->bind_param("ss", $category_param, $product_name);
 $stmt_related->execute();
 $related_results = $stmt_related->get_result();
 
-// Review Section
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 $has_purchased = false;
 if ($user_id) {
@@ -105,7 +254,6 @@ if ($user_id) {
     $stmt_purchase->close();
 }
 
-// Handle review submission
 if (isset($_POST['submit_review']) && $has_purchased) {
     $rating = (int)$_POST['rating'];
     $comment = trim($_POST['comment']);
@@ -126,7 +274,6 @@ if (isset($_POST['submit_review']) && $has_purchased) {
     }
 }
 
-// ดึงรีวิวที่มีอยู่
 $sql_reviews = "SELECT r.*, u.username 
                 FROM product_reviews r 
                 JOIN users u ON r.user_id = u.id 
@@ -152,6 +299,58 @@ $stmt_reviews->close();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../Assets/JS/script.js"></script>
     <script src="../Assets/JS/gallerydetailsproduct.js"></script>
+    <script src="../Assets/JS/product_navigation.js"></script>
+    <style>
+        .thumbnail {
+            position: relative;
+            display: inline-block;
+            margin: 5px;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .admin-edit {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .admin-edit form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .admin-edit label {
+            font-weight: bold;
+        }
+        .admin-edit input[type="text"],
+        .admin-edit textarea,
+        .admin-edit input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .admin-edit button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .admin-edit button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 <header class="gallery-header">
@@ -183,7 +382,20 @@ $stmt_reviews->close();
 </header>
 
 <main class="product-details-container">
-    <!-- Cart Message -->
+    <?php if (isset($_SESSION['upload_message'])): ?>
+    <div class="alert alert-info text-center mt-2" id="upload-message">
+        <?php 
+            echo $_SESSION['upload_message']; 
+            unset($_SESSION['upload_message']);
+        ?>
+    </div>
+    <script>
+        setTimeout(function() {
+            document.getElementById('upload-message').style.display = 'none';
+        }, 5000);
+    </script>
+    <?php endif; ?>
+
     <?php if (isset($_SESSION['add_to_cart_message'])): ?>
     <div class="alert alert-success text-center mt-2" id="cart-message">
         <?php 
@@ -201,15 +413,23 @@ $stmt_reviews->close();
     <div class="product-details">
         <div class="product-image">
             <div class="main-image">
-                <img id="main-product-image" src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                <button class="image-nav-button prev-button" id="prev-image">&lt;</button>
+                    <img id="main-product-image" src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                <button class="image-nav-button next-button" id="next-image">&gt;</button>
             </div>
             <div class="gallery-thumbnails">
                 <div class="thumbnail active" data-image="<?php echo htmlspecialchars($product['image_url']); ?>">
                     <img src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?> - Main View">
                 </div>
-                <?php foreach ($additional_images as $image_url): ?>
+                <?php foreach ($additional_images as $index => $image_url): ?>
                     <div class="thumbnail" data-image="<?php echo htmlspecialchars($image_url); ?>">
                         <img src="<?php echo htmlspecialchars($image_url); ?>" alt="<?php echo htmlspecialchars($product['name']); ?> - Additional View">
+                        <?php if ($is_admin): ?>
+                            <form method="POST" style="display:inline;">
+                                <input type="hidden" name="image_index" value="<?php echo $index; ?>">
+                                <button type="submit" name="delete_image" class="delete-btn">X</button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -262,7 +482,35 @@ $stmt_reviews->close();
         </div>
     </div>
     
-    <!-- Related Products -->
+    <?php if ($is_admin): ?>
+        <div class="admin-edit">
+            <h3>แก้ไขข้อมูลสินค้า</h3>
+            <form method="POST" action="">
+                <label>ชื่อสินค้า:</label>
+                <input type="text" name="name" value="<?php echo htmlspecialchars($product['name']); ?>" required>
+                
+                <label>รายละเอียด:</label>
+                <textarea name="detail" required><?php echo htmlspecialchars($product['detail']); ?></textarea>
+                
+                <label>ราคา:</label>
+                <input type="number" name="price" step="0.01" value="<?php echo htmlspecialchars($product['price']); ?>" required>
+                
+                <label>จำนวน:</label>
+                <input type="number" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>" required>
+                
+                <button type="submit" name="update_product">บันทึกการเปลี่ยนแปลง</button>
+            </form>
+
+            <h3>จัดการรูปภาพเพิ่มเติม (เพิ่มได้อีก <?php echo 5 - count($additional_images); ?> รูป)</h3>
+            <form method="POST" action="" enctype="multipart/form-data">
+                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                <label>อัปโหลดรูปภาพใหม่ (สูงสุด 5 รูป):</label>
+                <input type="file" name="new_images[]" multiple accept="image/*" onchange="limitFiles(this, <?php echo 5 - count($additional_images); ?>)">
+                <button type="submit" name="update_images">อัปเดตรูปภาพ</button>
+            </form>
+        </div>
+    <?php endif; ?>
+
     <div class="related-products">
         <h2>สินค้าที่เกี่ยวข้อง</h2>
         <div class="related-products-grid">
@@ -282,7 +530,6 @@ $stmt_reviews->close();
         </div>
     </div>
 
-    <!-- Review Section -->
     <div class="product-reviews">
         <h2>รีวิวสินค้า</h2>
         
@@ -355,12 +602,25 @@ $stmt_reviews->close();
     <p>ติดต่อ: info@customseafoods.com | โทร: 02-123-4567</p>
 </footer>
 
+<script>
+    function limitFiles(input, max) {
+        if (input.files.length > max) {
+            alert("คุณสามารถอัปโหลดได้สูงสุด " + max + " รูปเท่านั้น");
+            input.value = "";
+        }
+    }
+
+    document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            document.getElementById('main-product-image').src = this.getAttribute('data-image');
+        });
+    });
+</script>
+
 </body>
 </html>
 <?php
-// ปิดการเชื่อมต่อฐานข้อมูล
 $stmt->close();
-$stmt_images->close();
 $stmt_related->close();
 $conn->close();
 ?>

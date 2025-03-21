@@ -24,19 +24,60 @@ if (isset($_POST['update'])) {
     $detail = $_POST['detail'];
     $price = $_POST['price'];
     $quantity = $_POST['quantity'];
-    $image_url = $_POST['image_url'];
     $orderdate = $_POST['orderdate'];
+
+    // ดึงข้อมูลรูปภาพเก่าก่อน
+    $stmt = $conn->prepare("SELECT image_url FROM productlist WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $old_image = $result->fetch_assoc()['image_url'];
+    $stmt->close();
+
+    // การจัดการไฟล์รูปภาพ
+    $image_path = $old_image; // ค่าเริ่มต้นคือรูปภาพเก่า
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $target_dir = "../uploads/Mainpicture/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        
+        // เพิ่ม product_id ในชื่อไฟล์
+        $image_name = time() . '_product_' . $product_id . '_' . basename($_FILES["image"]["name"]);
+        $target_file = $target_dir . $image_name;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        
+        $check = getimagesize($_FILES["image"]["tmp_name"]);
+        if ($check !== false) {
+            $allowed_types = array('jpg', 'jpeg', 'png', 'gif');
+            if (in_array($imageFileType, $allowed_types)) {
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                    $image_path = $target_file;
+                    // ลบรูปภาพเก่า ถ้ามี
+                    if (!empty($old_image) && file_exists($old_image)) {
+                        unlink($old_image);
+                    }
+                } else {
+                    $message = "เกิดข้อผิดพลาดในการอัพโหลดไฟล์";
+                }
+            } else {
+                $message = "อนุญาตเฉพาะไฟล์ JPG, JPEG, PNG และ GIF เท่านั้น";
+            }
+        } else {
+            $message = "ไฟล์ที่เลือกไม่ใช่รูปภาพ";
+        }
+    }
 
     $stmt = $conn->prepare("UPDATE productlist SET 
         product_id = ?,
         name = ?, 
         detail = ?, 
         price = ?, 
-        quantity = ?, 
+        quantity = ?,
         image_url = ?, 
         orderdate = ? 
         WHERE id = ?");
-        
+    
     if (!$stmt) {
         die('Prepare failed: ' . $conn->error);
     }
@@ -47,7 +88,7 @@ if (isset($_POST['update'])) {
         $detail,
         $price,
         $quantity,
-        $image_url,
+        $image_path,
         $orderdate,
         $id
     );
@@ -183,7 +224,7 @@ $result = $conn->query($sql);
                                         <h5 class="modal-title">แก้ไขข้อมูลสินค้า</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
-                                    <form method="post">
+                                    <form method="post" enctype="multipart/form-data"> <!-- เพิ่ม enctype -->
                                         <div class="modal-body">
                                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                             <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
@@ -206,15 +247,17 @@ $result = $conn->query($sql);
                                             <div class="mb-3">
                                                 <label class="form-label">วันที่สั่ง</label>
                                                 <input type="datetime-local" class="form-control" name="orderdate" 
-                                                       value="<?= date('Y-m-d\TH:i', strtotime($row['orderdate'])) ?>" required>
+                                                    value="<?= date('Y-m-d\TH:i', strtotime($row['orderdate'])) ?>" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">URL รูปภาพ</label>
-                                                <input type="text" class="form-control" name="image_url" 
-                                                       value="<?= htmlspecialchars($row['image_url']) ?>" required>
-                                                <div class="mt-2">
-                                                    <img src="<?= htmlspecialchars($row['image_url']) ?>" alt="Preview" style="max-width: 100px;">
-                                                </div>
+                                                <label class="form-label">รูปภาพสินค้า</label>
+                                                <input type="file" class="form-control" name="image" accept="image/*">
+                                                <?php if (!empty($row['image_url'])): ?>
+                                                    <div class="mt-2">
+                                                        <p>รูปภาพปัจจุบัน:</p>
+                                                        <img src="<?= htmlspecialchars($row['image_url']) ?>" alt="Current Image" style="max-width: 100px;">
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

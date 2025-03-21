@@ -64,6 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // รีเฟรชครั้งแรกเมื่อโหลดหน้า
     refreshNotifications();
 
-    // รีเฟรชทุก 60 วินาที
+    // รีเฟรชทุก 10 วินาที
     setInterval(refreshNotifications, 10000);
 });

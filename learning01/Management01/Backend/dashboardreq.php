@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once dirname(__DIR__) . '../Assets/src/UserCookieManager.php';
+require_once dirname(__DIR__) . '/Assets/src/UserCookieManager.php';
 use src\UserCookieManager;
 
 $cookieManager = new UserCookieManager();
@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_email'])) {
     exit();
 } else {
     $user_email = $_SESSION['user_email'];
-    $sql = "SELECT * FROM users WHERE email = ? LIMIT 1"; // ดึงข้อมูลผู้ใช้จาก orders
+    $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $user_email);
     $stmt->execute();
@@ -48,7 +48,7 @@ if (!isset($_SESSION['last_activity']) || (time() - $_SESSION['last_activity']) 
 }
 $_SESSION['last_activity'] = time();
 
-// ดึงข้อมูลสถิติ (ใช้ email หรือ username แทน user_id)
+// ดึงข้อมูลสถิติ
 $email = $user_data['email'];
 
 // 1. จำนวนคำสั่งซื้อทั้งหมด
@@ -67,23 +67,20 @@ $stmt_total_spending->execute();
 $total_spending_result = $stmt_total_spending->get_result()->fetch_assoc();
 $total_spending = $total_spending_result['total_spending'] ?? 0;
 
-// 3. สินค้าที่ซื้อบ่อยที่สุด (ดึงเฉพาะชื่อสินค้าแรกจาก item)
+// 3. สินค้าที่ซื้อบ่อยที่สุด
 $sql_most_purchased = "SELECT item FROM orderhistory WHERE email = ? GROUP BY item ORDER BY COUNT(*) DESC LIMIT 1";
 $stmt_most_purchased = $conn->prepare($sql_most_purchased);
 $stmt_most_purchased->bind_param("s", $email);
 $stmt_most_purchased->execute();
 $most_purchased_result = $stmt_most_purchased->get_result()->fetch_assoc();
-
-// แยกชื่อสินค้าแรกจาก item (สมมติว่า item เป็นข้อความแยกด้วย comma หรือ plain text)
 $most_purchased_item = 'ยังไม่มี';
 if ($most_purchased_result) {
     $item_text = $most_purchased_result['item'];
-    // ถ้า item เป็นข้อความแยกด้วย comma (เช่น "ปูม้า, กุ้งลายเสือ")
     $items = explode(',', $item_text);
-    $most_purchased_item = trim($items[0]); // ใช้ชื่อสินค้าแรกและตัดช่องว่าง
+    $most_purchased_item = trim($items[0]);
 }
 
-// 4. คำสั่งซื้อล่าสุด (จาก orderhistory)
+// 4. คำสั่งซื้อล่าสุด
 $sql_latest_order = "SELECT order_id, total_price, created_at, order_reference FROM orderhistory WHERE email = ? ORDER BY created_at DESC LIMIT 1";
 $stmt_latest_order = $conn->prepare($sql_latest_order);
 $stmt_latest_order->bind_param("s", $email);
@@ -97,17 +94,34 @@ $stmt_order_history->bind_param("s", $email);
 $stmt_order_history->execute();
 $order_history_result = $stmt_order_history->get_result();
 
-// 6. สินค้าแนะนำ (เลือกสินค้าที่มีการสั่งซื้อบ่อยหรือล่าสุด)
-$sql_recommended = "SELECT name, price, image_url FROM productlist WHERE image_url IS NOT NULL ORDER BY quantity DESC, orderdate DESC LIMIT 2";
-$recommended_result = $conn->query($sql_recommended);
+// 6. ดึงข้อมูลหมวดหมู่ยอดนิยม
+$sql_popular_categories = "
+    SELECT p.nameType AS category, COUNT(*) AS order_count, SUM(pus.จำนวน) AS total_quantity
+    FROM purchases_by_user_split pus
+    JOIN productlist pl ON pus.สินค้า LIKE CONCAT('%', pl.name, '%')
+    JOIN product p ON pl.product_id = p.id
+    GROUP BY p.nameType
+    ORDER BY total_quantity DESC
+    LIMIT 6
+";
+$popular_categories_result = $conn->query($sql_popular_categories);
+$popular_categories = [];
+if ($popular_categories_result) {
+    while ($row = $popular_categories_result->fetch_assoc()) {
+        $popular_categories[] = [
+            'category' => $row['category'],
+            'order_count' => $row['order_count'],
+            'total_quantity' => $row['total_quantity']
+        ];
+    }
+}
 
-// ดึงข้อมูลการแจ้งเตือน
+// 7. การแจ้งเตือน
 $query = "SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 5";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $user_data['id']);
 $stmt->execute();
 $result = $stmt->get_result();
-
 $notifications = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -118,7 +132,7 @@ if ($result->num_rows > 0) {
 // นับจำนวนการแจ้งเตือนที่ยังไม่ได้อ่าน
 $query_unread = "SELECT COUNT(*) as unread_count FROM notifications WHERE user_id = ? AND is_read = 0";
 $stmt_unread = $conn->prepare($query_unread);
-$stmt_unread->bind_param("i", $user_id);
+$stmt_unread->bind_param("i", $user_data['id']);
 $stmt_unread->execute();
 $unread_result = $stmt_unread->get_result();
 $unread_count = $unread_result->fetch_assoc()['unread_count'];
@@ -128,55 +142,53 @@ $status_message = '';
 $status_type = '';
 if (isset($_GET['status'])) {
     switch ($_GET['status']) {
-        case 'marked':
-            $status_message = "ทำเครื่องหมายว่าอ่านแล้วสำเร็จ";
-            $status_type = "success";
-            break;
-        case 'no_change':
-            $status_message = "แจ้งเตือนนี้ถูกอ่านแล้ว หรือไม่พบแจ้งเตือน";
-            $status_type = "info";
-            break;
-        case 'missing_id':
-            $status_message = "ไม่พบรหัสแจ้งเตือน";
-            $status_type = "warning";
-            break;
-        case 'cleared':
-            $status_message = "เคลียร์การแจ้งเตือนทั้งหมดสำเร็จ";
-            $status_type = "success";
-            break;
-        case 'no_notifications':
-            $status_message = "ไม่มีแจ้งเตือนให้เคลียร์";
-            $status_type = "info";
-            break;
-        case 'error':
-            $status_message = "เกิดข้อผิดพลาด กรุณาลองใหม่";
-            $status_type = "danger";
-            break;
+        case 'marked': $status_message = "ทำเครื่องหมายว่าอ่านแล้วสำเร็จ"; $status_type = "success"; break;
+        case 'no_change': $status_message = "แจ้งเตือนนี้ถูกอ่านแล้ว หรือไม่พบแจ้งเตือน"; $status_type = "info"; break;
+        case 'missing_id': $status_message = "ไม่พบรหัสแจ้งเตือน"; $status_type = "warning"; break;
+        case 'cleared': $status_message = "เคลียร์การแจ้งเตือนทั้งหมดสำเร็จ"; $status_type = "success"; break;
+        case 'no_notifications': $status_message = "ไม่มีแจ้งเตือนให้เคลียร์"; $status_type = "info"; break;
+        case 'error': $status_message = "เกิดข้อผิดพลาด กรุณาลองใหม่"; $status_type = "danger"; break;
     }
 }
 
-    // ดึงข้อมูลคำสั่งซื้อล่าสุดจาก orderhistory
-    $order_query = "SELECT username, item, created_at, order_reference FROM orderhistory ORDER BY created_at DESC LIMIT 5";
-    $order_result = $conn->query($order_query);
-    $orders = [];
-    if ($order_result) {
-        while ($row = $order_result->fetch_assoc()) {
-            $orders[] = $row;
-        }
-        $order_result->free();
+// ดึงข้อมูลคำสั่งซื้อล่าสุด
+$order_query = "SELECT username, item, created_at, order_reference 
+                FROM orderhistory 
+                WHERE email = ? 
+                ORDER BY created_at DESC 
+                LIMIT 5";
+$stmt_order = $conn->prepare($order_query);
+$stmt_order->bind_param("s", $email);
+$stmt_order->execute();
+$order_result = $stmt_order->get_result();
+$orders = [];
+if ($order_result) {
+    while ($row = $order_result->fetch_assoc()) {
+        $orders[] = $row;
     }
-    // ดึงข้อมูลจาก View recent_activities
-    $query = "SELECT activity_type, id, description, activity_time FROM recent_activities ORDER BY activity_time DESC LIMIT 5";
-    $result = $conn->query($query);
-    $activities = [];
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            $activities[] = $row;
-        }
-        $result->free();
+    $order_result->free();
+}
+
+// ดึงข้อมูลจาก View recent_activities
+$query = "SELECT activity_type, id, description, activity_time 
+          FROM recent_activities 
+          WHERE email = ? 
+          ORDER BY activity_time DESC 
+          LIMIT 5";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+$activities = [];
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $activities[] = $row;
     }
+    $result->free();
+}
 
 $stmt->close();
 $stmt_unread->close();
+$stmt_order->close();
 $conn->close();
 ?>
