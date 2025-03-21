@@ -1,17 +1,72 @@
 <?php
-    include '../Backend/dashboardreq.php';
+include '../Backend/dashboardreq.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Marine Seafood Hub</title>
-    <link rel="stylesheet" href="../Assets/CSS/dashboard.css">
+    <!-- Favicon -->
     <link rel="icon" href="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" type="image/png">
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../Assets/CSS/dashboard.css">
+    <style>
+        /* เพิ่มสไตล์เพิ่มเติมเพื่อความสวยงาม */
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f5f7fa;
+        }
+        .navbar-brand img {
+            transition: transform 0.3s ease;
+        }
+        .navbar-brand img:hover {
+            transform: scale(1.1);
+        }
+        .weather-widget {
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 20px;
+        }
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .wave-decoration {
+            background: url('https://www.transparenttextures.com/patterns/wave.png') repeat-x;
+            height: 50px;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,7 +77,7 @@
                 <img src="https://customseafoods.com/cdn/shop/files/CS_Logo_2_1000.webp?v=1683664967" alt="Logo" width="40" class="me-2">
                 <span>Marine Seafood Hub</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -61,6 +116,7 @@
                         <li><a class="dropdown-item text-center text-primary" href="../Notification/notification.php">ดูการแจ้งเตือนทั้งหมด</a></li>
                     </ul>
                 </div>
+                <!-- User Account and Logout -->
                 <a href="../Users/account.php" class="btn btn-outline-light me-2 position-relative">
                     <i class="bi bi-person-circle me-1"></i> บัญชีของฉัน
                     <span class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
@@ -75,19 +131,19 @@
     </nav>
 
     <!-- Page Header -->
-    <div class="page-header">
+    <div class="page-header py-4 bg-light">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h2 class="fw-bold">ยินดีต้อนรับ คุณ <span id="username"></span> <i class="bi bi-emoji-smile text-warning"></i></h2>
-                    <p class="mb-0"><i class="bi bi-clock-history me-1"></i>เข้าสู่ระบบล่าสุด: <span id="last_login"></span></p>
+                    <h2 class="fw-bold">ยินดีต้อนรับ คุณ <span id="username"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span> <i class="bi bi-emoji-smile text-warning"></i></h2>
+                    <p class="mb-0"><i class="bi bi-clock-history me-1"></i>เข้าสู่ระบบล่าสุด: <span id="last_login"><?php echo htmlspecialchars($cookieData['last_login']); ?></span></p>
                 </div>
-                <div class="col-md-4 d-flex align-items-center justify-content-end">
-                    <div class="weather-widget p-3 text-center" id="weatherWidget">
+                <div class="col-md-4 d-flex justify-content-end">
+                    <div class="weather-widget p-3 text-center">
                         <div class="weather-icon">
-                            <i class="bi bi-cloud-sun-fill"></i>
+                            <i class="bi bi-cloud-sun-fill fs-3"></i>
                         </div>
-                        <h5 class="mb-0">สภาพทะเลวันนี้</h5>
+                        <h5 class="mb-1">สภาพทะเลวันนี้</h5>
                         <p class="mb-1" id="weatherStatus">โหลดข้อมูล...</p>
                         <small>อัพเดทล่าสุด: <span id="weatherUpdateTime"><?php echo date('H:i น.'); ?></span></small>
                     </div>
@@ -95,50 +151,52 @@
             </div>
         </div>
     </div>
-        <!-- Carousel Section -->
-    <div id="promoCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://www.malandaseafood.com.au/wp-content/uploads/2020/06/slider3.jpg" class="d-block w-100" alt="Slide 1">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>โปรโมชั่นพิเศษ!</h5>
-                    <p>ลด 20% สำหรับสินค้าทะเลสดทุกชนิด</p>
-                    <a href="../Product/gallery.php" class="btn btn-danger">ช้อปเลย</a>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.coastalseafoods.com/Themes/Default/Content/Images/fortune-fish-gourmet-seafood.jpg" class="d-block w-100" alt="Slide 2">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>สินค้าใหม่</h5>
-                    <p>กุ้งสดคุณภาพสูงจากท่าเรือ</p>
-                    <a href="../Product/gallery.php" class="btn btn-success">ดูรายการ</a>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.nbfoodexportdirectory.ca/new-brunswick-seafood-directory/images/seafood-banner-new.jpg" class="d-block w-100" alt="Slide 3">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>ปลาทะเลสด</h5>
-                    <p>ส่งตรงถึงคุณภายใน 24 ชม.</p>
-                    <a href="../Product/gallery.php" class="btn btn-primary">เลือกซื้อ</a>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+
     <!-- Main Content -->
-    <div class="container">
+    <div class="container py-4">
+        <!-- Carousel Section -->
+        <div id="promoCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://www.malandaseafood.com.au/wp-content/uploads/2020/06/slider3.jpg" class="d-block w-100" alt="Slide 1">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>โปรโมชั่นพิเศษ!</h5>
+                        <p>ลด 20% สำหรับสินค้าทะเลสดทุกชนิด</p>
+                        <a href="../Product/gallery.php" class="btn btn-danger">ช้อปเลย</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://www.coastalseafoods.com/Themes/Default/Content/Images/fortune-fish-gourmet-seafood.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>สินค้าใหม่</h5>
+                        <p>กุ้งสดคุณภาพสูงจากท่าเรือ</p>
+                        <a href="../Product/gallery.php" class="btn btn-success">ดูรายการ</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://www.nbfoodexportdirectory.ca/new-brunswick-seafood-directory/images/seafood-banner-new.jpg" class="d-block w-100" alt="Slide 3">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>ปลาทะเลสด</h5>
+                        <p>ส่งตรงถึงคุณภายใน 24 ชม.</p>
+                        <a href="../Product/gallery.php" class="btn btn-primary">เลือกซื้อ</a>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
         <!-- Quick Actions -->
         <div class="row g-3 mb-4">
             <div class="col-6 col-md-3">
@@ -211,9 +269,9 @@
                             <i class="bi bi-cart-fill fs-1 text-primary mb-3"></i>
                         </div>
                         <h5 class="card-title">สั่งซื้อทั้งหมด</h5>
-                        <p class="card-text fs-3 fw-bold" id="total_orders">0 ครั้ง</p>
+                        <p class="card-text fs-3 fw-bold" id="total_orders"><?php echo htmlspecialchars($total_orders); ?> ครั้ง</p>
                         <div class="progress mt-2" style="height: 10px;">
-                            <div class="progress-bar bg-primary" role="progressbar" id="total_orders_progress" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-primary" role="progressbar" id="total_orders_progress" style="width: <?php echo min($total_orders * 10, 100); ?>%" aria-valuenow="<?php echo $total_orders; ?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -228,9 +286,9 @@
                             <i class="bi bi-wallet2 fs-1 text-success mb-3"></i>
                         </div>
                         <h5 class="card-title">ยอดใช้จ่ายรวม</h5>
-                        <p class="card-text fs-3 fw-bold" id="total_spending">฿0</p>
+                        <p class="card-text fs-3 fw-bold" id="total_spending">฿<?php echo number_format($total_spending, 2); ?></p>
                         <div class="progress mt-2" style="height: 10px;">
-                            <div class="progress-bar bg-success" role="progressbar" id="total_spending_progress" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10000"></div>
+                            <div class="progress-bar bg-success" role="progressbar" id="total_spending_progress" style="width: <?php echo min($total_spending / 100, 100); ?>%" aria-valuenow="<?php echo $total_spending; ?>" aria-valuemin="0" aria-valuemax="10000"></div>
                         </div>
                     </div>
                 </div>
@@ -245,59 +303,59 @@
                             <i class="bi bi-star-fill fs-1 text-warning mb-3"></i>
                         </div>
                         <h5 class="card-title">สินค้าที่ชอบ</h5>
-                        <p class="card-text fs-5" id="most_purchased_item">-</p>
+                        <p class="card-text fs-5" id="most_purchased_item"><?php echo htmlspecialchars($most_purchased_item); ?></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Recent Orders and Recent Activities Side by Side -->
-        <div class="row mb-4">
-        <!-- Recent Orders (Left Side) -->
-        <div class="col-lg-6">
-            <div class="card h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="m-0">คำสั่งซื้อล่าสุด</h3>
-                </div>
-                <div class="card-body">
-                    <ul class="timeline">
-                        <?php if (!empty($orders)): ?>
-                            <?php foreach ($orders as $order): ?>
+        <!-- Recent Orders and Recent Activities -->
+        <div class="row g-4 mb-4">
+            <!-- Recent Orders -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="m-0">คำสั่งซื้อล่าสุด</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="timeline">
+                            <?php if (!empty($orders)): ?>
+                                <?php foreach ($orders as $order): ?>
+                                    <li class="timeline-item">
+                                        <div class="timeline-marker bg-warning">
+                                            <i class="bi bi-cart-fill"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h5 class="mb-1">คำสั่งซื้อ</h5>
+                                            <p class="mb-0"><?php echo htmlspecialchars("คุณ {$order['username']} ซื้อสินค้า: {$order['item']} (เลขที่ออเดอร์: {$order['order_reference']})"); ?></p>
+                                            <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime($order['created_at'])); ?></p>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
                                 <li class="timeline-item">
-                                    <div class="timeline-marker bg-warning">
-                                        <i class="bi bi-cart-fill"></i>
+                                    <div class="timeline-marker bg-secondary">
+                                        <i class="bi bi-info-circle"></i>
                                     </div>
                                     <div class="timeline-content">
-                                        <h5 class="mb-1">คำสั่งซื้อ</h5>
-                                        <p class="mb-0"><?php echo htmlspecialchars("คุณ {$order['username']} ซื้อสินค้า: {$order['item']} (เลขที่ออเดอร์: {$order['order_reference']})"); ?></p>
-                                        <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.', strtotime($order['created_at'])); ?></p>
+                                        <h5 class="mb-1">ไม่มีคำสั่งซื้อ</h5>
+                                        <p class="mb-0">ยังไม่มีคำสั่งซื้อล่าสุด</p>
+                                        <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.'); ?></p>
                                     </div>
                                 </li>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <li class="timeline-item">
-                                <div class="timeline-marker bg-secondary">
-                                    <i class="bi bi-info-circle"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <h5 class="mb-1">ไม่มีคำสั่งซื้อ</h5>
-                                    <p class="mb-0">ยังไม่มีคำสั่งซื้อล่าสุด</p>
-                                    <p class="text-muted small mb-0"><?php echo date('d ม.ค. Y H:i น.'); ?></p>
-                                </div>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                    <div class="text-center mt-3">
-                        <a href="#" class="btn btn-sm btn-outline-secondary">
-                            <i class="bi bi-clock-history me-1"></i> ดูทั้งหมด
-                        </a>
+                            <?php endif; ?>
+                        </ul>
+                        <div class="text-center mt-3">
+                            <a href="../Users/ordercus_history.php" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-clock-history me-1"></i> ดูทั้งหมด
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    <!-- Recent Activities (Right Side) -->
-        <div class="col-lg-6">
+            <!-- Recent Activities -->
+            <div class="col-lg-6">
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="m-0">กิจกรรมล่าสุด</h3>
@@ -355,109 +413,83 @@
             </div>
         </div>
 
-            <!-- Latest Order 
-            <div class="col-lg-4">
-                    <div class="card h-100">
-                        <div class="card-header">
-                            <h3 class="m-0">คำสั่งซื้อล่าสุด</h3>
-                        </div>
-                        <div class="card-body" id="latest_order_container">
-                            <div class="text-center py-4">
-                                <i class="bi bi-bag-x fs-1 text-muted mb-3"></i>
-                                <p class="text-muted">ยังไม่มีคำสั่งซื้อ</p>
-                                <a href="../Product/gallery.php" class="btn btn-ocean">
-                                    <i class="bi bi-cart-plus me-1"></i> เริ่มการช้อปปิ้ง
+            <!-- Popular Categories -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="m-0">หมวดหมู่ยอดนิยม</h3>
+                    <span class="badge bg-ocean">แนะนำ</span>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <?php 
+                        $category_mapping = [
+                            'Squid' => [
+                                'url' => '../Product/Occt.php',
+                                'emoji' => '🐙', // Unicode Emoji สำหรับปลาหมึก
+                                'color' => 'text-success', // สีเขียว
+                                'bg_color' => 'bg-success-subtle' // พื้นหลังสีเขียวอ่อน
+                            ],
+                            'Fish' => [
+                                'url' => '../Product/Fish.php',
+                                'emoji' => '🐟', // Unicode Emoji สำหรับปลา
+                                'color' => 'text-primary', // สีน้ำเงิน
+                                'bg_color' => 'bg-primary-subtle' // พื้นหลังสีน้ำเงินอ่อน
+                            ],
+                            'Shrimp' => [
+                                'url' => '../Product/Shrimp.php',
+                                'emoji' => '🦐', // Unicode Emoji สำหรับกุ้ง
+                                'color' => 'text-warning', // สีเหลือง
+                                'bg_color' => 'bg-warning-subtle' // พื้นหลังสีเหลืองอ่อน
+                            ],
+                            'Shell' => [
+                                'url' => '../Product/Shell.php',
+                                'emoji' => '🐚', // Unicode Emoji สำหรับหอย
+                                'color' => 'text-info', // สีฟ้าอ่อน
+                                'bg_color' => 'bg-info-subtle' // พื้นหลังสีฟ้าอ่อน
+                            ],
+                            'Unknown' => [
+                                'url' => '../Product/gallery.php',
+                                'emoji' => '❓', // Unicode Emoji สำหรับเครื่องหมายคำถาม
+                                'color' => 'text-secondary', // สีเทา
+                                'bg_color' => 'bg-secondary-subtle' // พื้นหลังสีเทาอ่อน
+                            ],
+                            'MyEgo' => [
+                                'url' => '../Product/gallery.php',
+                                'emoji' => '⭐', // Unicode Emoji สำหรับดาว
+                                'color' => 'text-danger', // สีแดง
+                                'bg_color' => 'bg-danger-subtle' // พื้นหลังสีแดงอ่อน
+                            ],
+                            'อื่นๆ' => [
+                                'url' => '../Product/gallery.php',
+                                'emoji' => '📦', // Unicode Emoji สำหรับกล่อง
+                                'color' => 'text-muted', // สีเทาเข้ม
+                                'bg_color' => 'bg-light' // พื้นหลังสีเทาอ่อน
+                            ]
+                        ];
+
+                        foreach ($popular_categories as $cat): 
+                            $category = $cat['category'];
+                            $mapping = $category_mapping[$category] ?? $category_mapping['อื่นๆ'];
+                        ?>
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <a href="<?php echo $mapping['url']; ?>" class="card category-card text-center text-decoration-none h-100">
+                                    <div class="card-body">
+                                        <div class="category-icon mb-3 <?php echo $mapping['bg_color']; ?>">
+                                            <span class="category-emoji <?php echo $mapping['color']; ?>"><?php echo $mapping['emoji']; ?></span>
+                                        </div>
+                                        <h6 class="card-title text-dark mb-0"><?php echo htmlspecialchars($category); ?></h6>
+                                        <small class="text-muted"><?php echo $cat['total_quantity']; ?> รายการ</small>
+                                    </div>
                                 </a>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
-                            -->
-
-        <!-- Popular Categories -->
-        <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="m-0">หมวดหมู่ยอดนิยม</h3>
-                <span class="badge bg-ocean">แนะนำ</span>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <a href="../Product/Fish.php" class="card category-card text-center text-decoration-none h-100">
-                            <div class="card-body">
-                                <div class="category-icon mb-3">
-                                    <i class="bi bi-water text-primary"></i>
-                                </div>
-                                <h6 class="card-title text-dark mb-0">ปลาทะเล</h6>
-                                <small class="text-muted">20 รายการ</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <a href="../Product/Shrimp.php" class="card category-card text-center text-decoration-none h-100">
-                            <div class="card-body">
-                                <div class="category-icon mb-3">
-                                    <i class="bi bi-egg-fried text-warning"></i>
-                                </div>
-                                <h6 class="card-title text-dark mb-0">กุ้ง</h6>
-                                <small class="text-muted">30 รายการ</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <a href="../Product/Gallery.php" class="card category-card text-center text-decoration-none h-100">
-                            <div class="card-body">
-                                <div class="category-icon mb-3">
-                                    <i class="bi bi-palette text-danger"></i>
-                                </div>
-                                <h6 class="card-title text-dark mb-0">ปู (เร็วๆนี้)</h6>
-                                <small class="text-muted">15 รายการ</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <a href="../Product/Shell.php" class="card category-card text-center text-decoration-none h-100">
-                            <div class="card-body">
-                                <div class="category-icon mb-3">
-                                    <i class="bi bi-eyeglasses text-info"></i>
-                                </div>
-                                <h6 class="card-title text-dark mb-0">หอย</h6>
-                                <small class="text-muted">25 รายการ</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <a href="../Product/Occt.php" class="card category-card text-center text-decoration-none h-100">
-                            <div class="card-body">
-                                <div class="category-icon mb-3">
-                                    <i class="bi bi-droplet-fill text-success"></i>
-                                </div>
-                                <h6 class="card-title text-dark mb-0">หมึก</h6>
-                                <small class="text-muted">40 รายการ</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <a href="../Product/gallery.php" class="card category-card text-center text-decoration-none h-100">
-                            <div class="card-body">
-                                <div class="category-icon mb-3">
-                                    <i class="bi bi-droplet-fill text-success"></i>
-                                </div>
-                                <h6 class="card-title text-dark mb-0">อื่นๆ</h6>
-                                <small class="text-muted">10 รายการ</small>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Wave Decoration -->
     <div class="wave-decoration"></div>
 
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../Assets/JS/notifications.js"></script>
     <script src="../API/dashboard.js"></script>

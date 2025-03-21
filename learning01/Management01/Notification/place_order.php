@@ -18,7 +18,7 @@ $total_price = (float)$_POST['total_price']; // ราคารวม
 $discount = isset($_POST['discount']) ? (float)$_POST['discount'] : 0.00; // ส่วนลด (ถ้ามี)
 
 // สร้างรหัสอ้างอิงคำสั่งซื้อ (order_reference)
-$order_reference = "ORD" . time() . rand(100, 999); // ตัวอย่างการสร้างรหัส เช่น ORD1710741234567
+//$order_reference = "ORD" . time() . rand(100, 999); // ตัวอย่างการสร้างรหัส เช่น ORD1710741234567
 
 // บันทึกคำสั่งซื้อลงตาราง orderhistory
 $query = "INSERT INTO orderhistory (order_reference, username, email, item, total_price, discount, created_at) 
