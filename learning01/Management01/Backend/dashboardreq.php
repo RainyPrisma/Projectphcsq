@@ -94,23 +94,20 @@ $stmt_order_history->bind_param("s", $email);
 $stmt_order_history->execute();
 $order_history_result = $stmt_order_history->get_result();
 
-// 6. ดึงข้อมูลหมวดหมู่ยอดนิยม
-$sql_popular_categories = "
-    SELECT p.nameType AS category, COUNT(*) AS order_count, SUM(pus.จำนวน) AS total_quantity
+// 6. ดึงข้อมูลสินค้าที่คนซื้อมากที่สุด (จากทุกผู้ใช้)
+$sql_popular_products = "
+    SELECT pus.สินค้า AS product_name, SUM(pus.จำนวน) AS total_quantity
     FROM purchases_by_user_split pus
-    JOIN productlist pl ON pus.สินค้า LIKE CONCAT('%', pl.name, '%')
-    JOIN product p ON pl.product_id = p.id
-    GROUP BY p.nameType
+    GROUP BY pus.สินค้า
     ORDER BY total_quantity DESC
     LIMIT 6
 ";
-$popular_categories_result = $conn->query($sql_popular_categories);
-$popular_categories = [];
-if ($popular_categories_result) {
-    while ($row = $popular_categories_result->fetch_assoc()) {
-        $popular_categories[] = [
-            'category' => $row['category'],
-            'order_count' => $row['order_count'],
+$popular_products_result = $conn->query($sql_popular_products);
+$popular_products = [];
+if ($popular_products_result) {
+    while ($row = $popular_products_result->fetch_assoc()) {
+        $popular_products[] = [
+            'product_name' => $row['product_name'],
             'total_quantity' => $row['total_quantity']
         ];
     }

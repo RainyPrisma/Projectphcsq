@@ -15,7 +15,7 @@
         <form id="registerForm" action="../Backend/register.php" method="POST" onsubmit="return validateForm()">
             <div class="field">
                 <span class="fas fa-user"></span>
-                <input type="text" id="username" name="username" required placeholder="Username">
+                <input type="text" id="username" name="username" onkeydown="return noSpecialChars(event)" required placeholder="Username">
             </div>
             <div class="field space">
                 <span class="fas fa-envelope"></span>

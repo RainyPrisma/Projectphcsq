@@ -1,0 +1,1636 @@
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-73905fa97f2sm6804166b3a.34 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-73905fa97f2sm6804166b3a.34 - gsmtp
+
+PHPMailer Debug [1]: SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-73905fa97f2sm6804166b3a.34 - gsmtp
+
+PHPMailer Debug [2]: SMTP Error: Could not authenticate.
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-73905fa97f2sm6804166b3a.34 - gsmtp
+
+PHPMailer Debug [2]: SMTP Error: Could not authenticate.
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-227811bdc91sm60720805ad.140 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-227811bdc91sm60720805ad.140 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<nicechinicechi12@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-227811bdc91sm60720805ad.140 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-227811bdc91sm60720805ad.140 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 05:54:01 +0100
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: nicechinicechi12@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <IncqycD7O4mANeSHeOTILdSKcKacApQi0GjNpTioI@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: คลิกที่นี่เพื่อรีเซ็ตรหัสผ่าน: <a href='http://localhost/learning01/Management01/Backend/forgot_password.php?token=2fc9df26b012f3a29eb5d44d0b12f47ae938ba50025b2dface5164ce07981127'>http://localhost/learning01/Management01/Backend/forgot_password.php?token=2fc9df26b012f3a29eb5d44d0b12f47ae938ba50025b2dface5164ce07981127</a><br>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742792045 d9443c01a7336-227811bdc91sm60720805ad.140 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-227811bdc91sm60720805ad.140 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-227811f44bbsm60610555ad.232 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-227811f44bbsm60610555ad.232 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<nicechinicechi12@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-227811f44bbsm60610555ad.232 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-227811f44bbsm60610555ad.232 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 11:59:52 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: nicechinicechi12@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <47m3NrcgRX7401zmTOxlo4iP2yXiBCJzO3sDpz8hzg@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: คลิกที่นี่เพื่อรีเซ็ตรหัสผ่าน: <a href='http://localhost/learning01/Management01/Backend/forgot_password.php?token=c4f7117d9efc37607a649ef2d26bc289ba0651beef370f4066bd5b364cf73ade'>http://localhost/learning01/Management01/Backend/forgot_password.php?token=c4f7117d9efc37607a649ef2d26bc289ba0651beef370f4066bd5b364cf73ade</a><br>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742792396 d9443c01a7336-227811f44bbsm60610555ad.232 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-227811f44bbsm60610555ad.232 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-73905fd5644sm6950658b3a.48 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-73905fd5644sm6950658b3a.48 - gsmtp
+
+PHPMailer Debug [1]: SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-73905fd5644sm6950658b3a.48 - gsmtp
+
+PHPMailer Debug [2]: SMTP Error: Could not authenticate.
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-73905fd5644sm6950658b3a.48 - gsmtp
+
+PHPMailer Debug [2]: SMTP Error: Could not authenticate.
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 98e67ed59e1d1-301bf61a3e8sm11248219a91.38 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK 98e67ed59e1d1-301bf61a3e8sm11248219a91.38 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<nicechinicechi12@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK 98e67ed59e1d1-301bf61a3e8sm11248219a91.38 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead 98e67ed59e1d1-301bf61a3e8sm11248219a91.38 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 13:10:46 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: nicechinicechi12@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <YeRDSKEwJslSOB41yrlzQUwx0uYKMH1s025CbQxEEZs@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: คลิกที่นี่เพื่อรีเซ็ตรหัสผ่าน: <a href='http://localhost/learning01/Management01/Backend/forgot_password.php?token=e5066d56727b65d769103f6dd4fdf6ef367bd3e2f40ed746f2ffc3c1b8df9a9a'>http://localhost/learning01/Management01/Backend/forgot_password.php?token=e5066d56727b65d769103f6dd4fdf6ef367bd3e2f40ed746f2ffc3c1b8df9a9a</a><br>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742796650 98e67ed59e1d1-301bf61a3e8sm11248219a91.38 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection 98e67ed59e1d1-301bf61a3e8sm11248219a91.38 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-227811b8075sm62316965ad.128 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-227811b8075sm62316965ad.128 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-227811b8075sm62316965ad.128 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-227811b8075sm62316965ad.128 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 13:24:27 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: bignagniza13@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <Fl5ADKt4GAgdOj0Z6AWFaM8hWFvwQU55eWCaVzSU@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <!DOCTYPE html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <html lang="th">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta charset="UTF-8">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <title>Resetpassword Request</title>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <link rel="stylesheet" href="../Assets/CSS/password.css">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <div class="container">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="header">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h1>AdminSeafoodHub</h1>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="content">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h2>รีเซ็ตรหัสผ่าน</h2>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>สวัสดีคุณ,</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>เราได้รับคำขอให้รีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ กรุณาคลิกปุ่มด้านล่างเพื่อดำเนินการต่อ:</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <a href="http://localhost/learning01/Management01/Backend/forgot_password.php?token=2901080e502d8aa91ecaa1fbf3abb5038c8367028f9f6782f7d8a70a0ad508a9" class="button">รีเซ็ตรหัสผ่าน</a>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง หากคุณไม่ได้ร้องขอการรีเซ็ตนี้ กรุณาละเว้นอีเมลนี้</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="footer">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>หากมีคำถาม กรุณาติดต่อเราที่ <a href="mailto:support@yourapp.com">support@yourapp.com</a></p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>&copy; 2025 Your App. สงวนลิขสิทธิ์.</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742797469 d9443c01a7336-227811b8075sm62316965ad.128 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-227811b8075sm62316965ad.128 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 41be03b00d2f7-af8a2803dd2sm6329388a12.19 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK 41be03b00d2f7-af8a2803dd2sm6329388a12.19 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK 41be03b00d2f7-af8a2803dd2sm6329388a12.19 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead 41be03b00d2f7-af8a2803dd2sm6329388a12.19 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 13:28:38 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: bignagniza13@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <SM80lRhoLqB0U6SF5lvPyg6vTuBrc0dcH6jUc2EfLqg@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <!DOCTYPE html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <html lang="th">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta charset="UTF-8">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <title>Resetpassword Request</title>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <link rel="stylesheet" href="../Assets/CSS/password.css">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <div class="container">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="header">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h1>AdminSeafoodHub</h1>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="content">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h2>รีเซ็ตรหัสผ่าน</h2>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>สวัสดีคุณ,</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>เราได้รับคำขอให้รีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ กรุณาคลิกปุ่มด้านล่างเพื่อดำเนินการต่อ:</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <a href="http://localhost/learning01/Management01/Backend/forgot_password.php?token=876376b78cf6f0e864a63a87f8c8f6b2e68f309c6e9d3c3c2ea3b75629dcd19e" class="button">รีเซ็ตรหัสผ่าน</a>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง หากคุณไม่ได้ร้องขอการรีเซ็ตนี้ กรุณาละเว้นอีเมลนี้</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="footer">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>หากมีคำถาม กรุณาติดต่อเราที่ <a href="mailto:support@yourapp.com">support@yourapp.com</a></p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>&copy; 2025 Your App. สงวนลิขสิทธิ์.</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742797721 41be03b00d2f7-af8a2803dd2sm6329388a12.19 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection 41be03b00d2f7-af8a2803dd2sm6329388a12.19 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-227811f14easm62429355ad.222 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-227811f14easm62429355ad.222 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-227811f14easm62429355ad.222 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-227811f14easm62429355ad.222 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 13:30:28 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: bignagniza13@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <UlrprAVZohIOep9BTX1nxzec99x120jXvZ6nmhzvIbc@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <!DOCTYPE html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <html lang="th">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta charset="UTF-8">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <title>Resetpassword Request</title>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <link rel="stylesheet" href="../Assets/CSS/password.css">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <div class="container">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="header">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h1>AdminSeafoodHub</h1>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="content">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h2>รีเซ็ตรหัสผ่าน</h2>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>สวัสดีคุณ,</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>เราได้รับคำขอให้รีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ กรุณาคลิกปุ่มด้านล่างเพื่อดำเนินการต่อ:</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <a href="http://localhost/learning01/Management01/Backend/forgot_password.php?token=d6453647e03ac017503623c3e9fde4a2ac837931ed54c128c5e708c26376d9df" class="button">รีเซ็ตรหัสผ่าน</a>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง หากคุณไม่ได้ร้องขอการรีเซ็ตนี้ กรุณาละเว้นอีเมลนี้</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="footer">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>หากมีคำถาม กรุณาติดต่อเราที่ <a href="mailto:support@yourapp.com">support@yourapp.com</a></p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>&copy; 2025 Your App. สงวนลิขสิทธิ์.</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742797831 d9443c01a7336-227811f14easm62429355ad.222 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-227811f14easm62429355ad.222 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-227811da3b1sm62903925ad.181 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-227811da3b1sm62903925ad.181 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-227811da3b1sm62903925ad.181 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-227811da3b1sm62903925ad.181 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 13:30:31 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: bignagniza13@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <m8rjCKrYrCcWNiFvKP2MRuqE408dwzH72v8xfvrtvHQ@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <!DOCTYPE html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <html lang="th">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta charset="UTF-8">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <title>Resetpassword Request</title>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <link rel="stylesheet" href="../Assets/CSS/password.css">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <div class="container">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="header">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h1>AdminSeafoodHub</h1>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="content">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h2>รีเซ็ตรหัสผ่าน</h2>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>สวัสดีคุณ,</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>เราได้รับคำขอให้รีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ กรุณาคลิกปุ่มด้านล่างเพื่อดำเนินการต่อ:</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <a href="http://localhost/learning01/Management01/Backend/forgot_password.php?token=abebc7bcf458daa61a2c394a451c1fc4629e4bd320c742c6aa1ee23175dd10d2" class="button">รีเซ็ตรหัสผ่าน</a>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง หากคุณไม่ได้ร้องขอการรีเซ็ตนี้ กรุณาละเว้นอีเมลนี้</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="footer">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>หากมีคำถาม กรุณาติดต่อเราที่ <a href="mailto:support@yourapp.com">support@yourapp.com</a></p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>&copy; 2025 Your App. สงวนลิขสิทธิ์.</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742797834 d9443c01a7336-227811da3b1sm62903925ad.181 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-227811da3b1sm62903925ad.181 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-73905fab61dsm7081078b3a.30 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d2e1a72fcca58-73905fab61dsm7081078b3a.30 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d2e1a72fcca58-73905fab61dsm7081078b3a.30 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d2e1a72fcca58-73905fab61dsm7081078b3a.30 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Mon, 24 Mar 2025 13:47:18 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: bignagniza13@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <ZRjsfEhfbNerv7TF44gZpX9eQ855emP2mO5JZa1Uus@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <!DOCTYPE html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <html lang="th">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <meta charset="UTF-8">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <title>Resetpassword Request</title>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <style>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         body {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-family: Arial, sans-serif;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #f4f4f4;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .container {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             max-width: 600px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 0 auto;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 20px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             border-radius: 8px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .header {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 20px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #007bff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             border-radius: 8px 8px 0 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .header h1 {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 24px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .content {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 20px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .content p {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 16px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #333333;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             line-height: 1.5;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .button {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             display: inline-block;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 12px 24px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #007bff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-decoration: none;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             border-radius: 5px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 16px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 20px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .button:hover {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #0056b3;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .footer {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 10px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 14px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #777777;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .footer p {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 5px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </style>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="container">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <div class="header">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <h1>Your App</h1>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <div class="content">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <h2>รีเซ็ตรหัสผ่าน</h2>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>สวัสดีคุณ bignagniza13@gmail.com,</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>เราได้รับคำขอให้รีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ กรุณาคลิกปุ่มด้านล่างเพื่อดำเนินการต่อ:</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <a href="http://localhost/learning01/Management01/Backend/forgot_password.php?token=e02b65f702766e9113c13f1b92fab9a849f283e27eaaf72ec313ad72c068770d" class="button">รีเซ็ตรหัสผ่าน</a>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง หากคุณไม่ได้ร้องขอการรีเซ็ตนี้ กรุณาละเว้นอีเมลนี้</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <div class="footer">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>หากมีคำถาม กรุณาติดต่อเราที่ <a href="mailto:support@AdminSeafoodHub.com">support@AdminSeafoodHub.com</a></p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>© 2025 SeafoodHUB. สงวนลิขสิทธิ์.</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742798841 d2e1a72fcca58-73905fab61dsm7081078b3a.30 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-73905fab61dsm7081078b3a.30 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d2e1a72fcca58-73905fd66d6sm9393342b3a.61 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d2e1a72fcca58-73905fd66d6sm9393342b3a.61 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<nicechinicechi12@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d2e1a72fcca58-73905fd66d6sm9393342b3a.61 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d2e1a72fcca58-73905fd66d6sm9393342b3a.61 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Tue, 25 Mar 2025 12:25:26 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: nicechinicechi12@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <UiB9yYN7PKFXOCrUOEC6TR1vwcGa9AuLjd5eGPGz0Q@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <!DOCTYPE html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <html lang="th">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <meta charset="UTF-8">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <title>Resetpassword Request</title>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <style>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         body {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-family: Arial, sans-serif;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #f4f4f4;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .container {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             max-width: 600px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 0 auto;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 20px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             border-radius: 8px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .header {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 20px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #007bff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             border-radius: 8px 8px 0 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .header h1 {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 24px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .content {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 20px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .content p {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 16px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #333333;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             line-height: 1.5;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .button {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             display: inline-block;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 12px 24px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #007bff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-decoration: none;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             border-radius: 5px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 16px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 20px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .button:hover {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             background-color: #0056b3;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .footer {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             padding: 10px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             font-size: 14px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             color: #777777;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         .footer p {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             margin: 5px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </style>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="container">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <div class="header">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <h1>Seafood HUB</h1>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <div class="content">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <h2>Reset password</h2>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>สวัสดีคุณ คุณลูกค้าครับ,</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>เราได้รับคำขอให้รีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ กรุณาคลิกปุ่มด้านล่างเพื่อดำเนินการต่อ:</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <a href="http://localhost/learning01/Management01/Backend/forgot_password.php?token=73fefa677c2c06ed05ba1bfcabff57a07bc9651d13e597d0f13987ae88a2a607" class="button">รีเซ็ตรหัสผ่าน</a>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง หากคุณไม่ได้ร้องขอการรีเซ็ตนี้ กรุณาละเว้นอีเมลนี้</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <div class="footer">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>หากมีคำถาม กรุณาติดต่อเราที่ <a href="mailto:support@AdminSeafoodHub.com">support@AdminSeafoodHub.com</a></p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                             <p>© 2025 SeafoodHUB. สงวนลิขสิทธิ์.</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742880330 d2e1a72fcca58-73905fd66d6sm9393342b3a.61 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d2e1a72fcca58-73905fd66d6sm9393342b3a.61 - gsmtp
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP d9443c01a7336-22780f3a746sm82258875ad.21 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: STARTTLS
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+PHPMailer Debug [1]: CLIENT -> SERVER: EHLO localhost
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [203.149.11.196]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+PHPMailer Debug [1]: CLIENT -> SERVER: AUTH LOGIN
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+PHPMailer Debug [1]: CLIENT -> SERVER: [credentials hidden]
+PHPMailer Debug [2]: SERVER -> CLIENT: 235 2.7.0 Accepted
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MAIL FROM:<bignagniza13@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.0 OK d9443c01a7336-22780f3a746sm82258875ad.21 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: RCPT TO:<nicechinicechi12@gmail.com>
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.1.5 OK d9443c01a7336-22780f3a746sm82258875ad.21 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: DATA
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 354 Go ahead d9443c01a7336-22780f3a746sm82258875ad.21 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Date: Tue, 25 Mar 2025 13:42:56 +0700
+
+PHPMailer Debug [1]: CLIENT -> SERVER: To: nicechinicechi12@gmail.com
+
+PHPMailer Debug [1]: CLIENT -> SERVER: From: AdminSeafoodHub <bignagniza13@gmail.com>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Subject: Resetpassword Request
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Message-ID: <jBCnaY6Oa3U4tvxsnZn6t2lSYx5zjgjTkGz8aNKyM@localhost>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: X-Mailer: PHPMailer 6.9.3 (https://github.com/PHPMailer/PHPMailer)
+
+PHPMailer Debug [1]: CLIENT -> SERVER: MIME-Version: 1.0
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+
+PHPMailer Debug [1]: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <!DOCTYPE html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <html lang="th">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta charset="UTF-8">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <title>Resetpassword Request</title>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <style>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     body {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         font-family: Arial, sans-serif;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         background-color: #f4f4f4;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         margin: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         padding: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .container {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         max-width: 600px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         margin: 0 auto;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         background-color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         padding: 20px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         border-radius: 8px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .header {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         padding: 20px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         background-color: #007bff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         border-radius: 8px 8px 0 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .header h1 {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         margin: 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         font-size: 24px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .content {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         padding: 20px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .content p {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         font-size: 16px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         color: #333333;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         line-height: 1.5;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .button {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         display: inline-block;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         padding: 12px 24px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         background-color: #007bff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         color: #ffffff;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         text-decoration: none;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         border-radius: 5px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         font-size: 16px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         margin: 20px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .button:hover {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         background-color: #0056b3;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .footer {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         text-align: center;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         padding: 10px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         font-size: 14px;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         color: #777777;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     .footer p {
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         margin: 5px 0;
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     }
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </style>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </head>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             <body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 <div class="container">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="header">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h1>Seafood HUB</h1>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="content">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <h2>Reset password</h2>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>สวัสดีคุณ คุณลูกค้าครับ,</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>เราได้รับคำขอให้รีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ กรุณาคลิกปุ่มด้านล่างเพื่อดำเนินการต่อ:</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <a href="http://localhost/learning01/Management01/Backend/forgot_password.php?token=0363ad3d2e244861beb93b2ca16ceee80a763b8265f4f8dffbba4f63339fb327" class="button">รีเซ็ตรหัสผ่าน</a>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>ลิงก์นี้จะหมดอายุใน 1 ชั่วโมง หากคุณไม่ได้ร้องขอการรีเซ็ตนี้ กรุณาละเว้นอีเมลนี้</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     <div class="footer">
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>หากมีคำถาม กรุณาติดต่อเราที่ <a href="mailto:support@AdminSeafoodHub.com">support@AdminSeafoodHub.com</a></p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                         <p>© 2025 SeafoodHUB. สงวนลิขสิทธิ์.</p>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                     </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:                 </div>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </body>
+
+PHPMailer Debug [1]: CLIENT -> SERVER:             </html>
+
+PHPMailer Debug [1]: CLIENT -> SERVER: 
+
+PHPMailer Debug [1]: CLIENT -> SERVER: .
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 250 2.0.0 OK  1742884980 d9443c01a7336-22780f3a746sm82258875ad.21 - gsmtp
+
+PHPMailer Debug [1]: CLIENT -> SERVER: QUIT
+
+PHPMailer Debug [2]: SERVER -> CLIENT: 221 2.0.0 closing connection d9443c01a7336-22780f3a746sm82258875ad.21 - gsmtp
+

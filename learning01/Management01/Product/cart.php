@@ -4,7 +4,7 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require '../Backend/vendor/autoload.php';
-include '../Frontend/modal.php';
+// include '../Frontend/modal.php'; // ลบออก เพราะจะใช้ SweetAlert แทน
 
 if (!isset($_SESSION['user_email']) || !isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
@@ -46,13 +46,11 @@ if (isset($_POST['apply_coupon'])) {
             $current_date = date('Y-m-d H:i:s');
             $total_price = 0;
 
-            // คำนวณยอดรวมก่อนส่วนลด
             foreach ($_SESSION['cart'] as $item) {
                 $quantity = isset($item['quantity']) ? $item['quantity'] : 1;
                 $total_price += $item['price'] * $quantity;
             }
 
-            // ตรวจสอบเงื่อนไขคูปอง
             if ($current_date < $coupon['valid_from'] || $current_date > $coupon['valid_until']) {
                 $coupon_message = "คูปองนี้หมดอายุแล้ว";
                 $coupon_message_type = "danger";
@@ -63,14 +61,12 @@ if (isset($_POST['apply_coupon'])) {
                 $coupon_message = "คูปองนี้ถูกใช้ครบจำนวนแล้ว";
                 $coupon_message_type = "danger";
             } else {
-                // คำนวณส่วนลด
                 if ($coupon['discount_type'] == 'percentage') {
                     $discount_amount = ($coupon['discount_amount'] / 100) * $total_price;
                 } else {
                     $discount_amount = $coupon['discount_amount'];
                 }
 
-                // เก็บข้อมูลคูปองใน session เพื่อใช้ตอนชำระเงิน
                 $_SESSION['applied_coupon'] = [
                     'coupon_id' => $coupon['coupon_id'],
                     'coupon_code' => $coupon['coupon_code'],
@@ -104,20 +100,24 @@ if (isset($_POST['remove_item'])) {
         unset($_SESSION['cart'][$index]);
         $_SESSION['cart'] = array_values($_SESSION['cart']);
     }
+    echo json_encode(['status' => 'success', 'message' => 'ลบสินค้าสำเร็จ']);
+    exit();
 }
 
 // ล้างตะกร้า
 if (isset($_POST['clear_cart'])) {
     unset($_SESSION['cart']);
     unset($_SESSION['applied_coupon']);
+    echo json_encode(['status' => 'success', 'message' => 'ล้างตะกร้าสำเร็จ']);
+    exit();
 }
 
 // ชำระเงิน
 if (isset($_POST['checkout'])) {
     if (!isset($_SESSION['user_email'])) {
-        echo "<script>showModal('Error: No email found! Please login.');</script>";
+        echo json_encode(['status' => 'error', 'message' => 'Error: No email found! Please login.']);
+        exit();
     } else {
-        // คำนวณยอดรวมและรวบรวมรายการสินค้า
         $total_price = 0;
         $items_list = array();
         
@@ -126,7 +126,6 @@ if (isset($_POST['checkout'])) {
             $total_price += $item['price'] * $quantity;
             $items_list[] = $item['name'] . " (x" . $quantity . ")";
             
-            // อัพเดตจำนวนสินค้าในฐานข้อมูล
             $update_sql = "UPDATE productlist SET quantity = quantity - ? WHERE name = ? AND quantity >= ?";
             $stmt = $conn->prepare($update_sql);
             $stmt->bind_param("isi", $quantity, $item['name'], $quantity);
@@ -134,13 +133,11 @@ if (isset($_POST['checkout'])) {
             $stmt->close();
         }
 
-        // หักส่วนลดถ้ามี
         $discount = 0;
         if (isset($_SESSION['applied_coupon'])) {
             $discount = $_SESSION['applied_coupon']['discount_amount'];
             $total_price -= $discount;
 
-            // อัปเดต current_usage ของคูปอง
             $coupon_id = $_SESSION['applied_coupon']['coupon_id'];
             $update_coupon_sql = "UPDATE coupons SET current_usage = current_usage + 1 WHERE coupon_id = ?";
             $stmt = $conn->prepare($update_coupon_sql);
@@ -149,10 +146,7 @@ if (isset($_POST['checkout'])) {
             $stmt->close();
         }
 
-        // สร้าง order reference
         $order_reference = 'ORD-' . date('ymd') . '-' . rand(1000, 9999);
-        
-        // บันทึกข้อมูลการสั่งซื้อ
         $username = $_SESSION['username'] ?? 'Guest';
         $items_string = implode(", ", $items_list);
   
@@ -162,7 +156,6 @@ if (isset($_POST['checkout'])) {
         $stmt->bind_param("ssssdd", $order_reference, $username, $user_email, $items_string, $total_price, $discount);
         
         if ($stmt->execute()) {
-            // เพิ่มการแจ้งเตือนในตาราง notifications
             $user_id = $_SESSION['user_id'];
             $title = "สั่งซื้อสำเร็จ";
             $message = "คำสั่งซื้อ #$order_reference สำเร็จแล้ว (ยอดรวม: $" . number_format($total_price, 2) . ")";
@@ -175,7 +168,6 @@ if (isset($_POST['checkout'])) {
             $stmt_notify->execute();
             $stmt_notify->close();
 
-            // ส่งอีเมลยืนยันการสั่งซื้อ
             $mail = new PHPMailer(true);
             try {
                 $mail->isSMTP();
@@ -186,7 +178,7 @@ if (isset($_POST['checkout'])) {
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
-                $mail->setFrom('bignagniza13@gmail.com', 'AdminSeafoodMagica');
+                $mail->setFrom('bignagniza13@gmail.com', 'AdminSeafoodHub');
                 $mail->addAddress($user_email);
                 $mail->isHTML(true);
                 $mail->Subject = 'Your Order Confirmation';
@@ -197,29 +189,28 @@ if (isset($_POST['checkout'])) {
                     $emailBody .= "<p>Discount Applied: $" . number_format($discount, 2) . "</p>";
                 }
                 $emailBody .= "<p>Here are the details:</p><ul>";
-                
                 foreach ($items_list as $item) {
                     $emailBody .= "<li>" . $item . "</li>";
                 }
-                
                 $emailBody .= "</ul><p><strong>Total: $" . number_format($total_price, 2) . "</strong></p>";
 
                 $mail->Body = $emailBody;
                 $mail->send();
 
-                echo "<script>showModal('Order placed successfully! Order Reference: " . $order_reference . "\\nA confirmation email has been sent.');</script>";
+                echo json_encode(['status' => 'success', 'message' => "Order placed successfully! Order Reference: $order_reference\nA confirmation email has been sent."]);
                 unset($_SESSION['cart']);
                 unset($_SESSION['applied_coupon']);
             } catch (Exception $e) {
-                echo "<script>showModal('Order placed successfully! Order Reference: " . $order_reference . "\\nBut email could not be sent.');</script>";
+                echo json_encode(['status' => 'success', 'message' => "Order placed successfully! Order Reference: $order_reference\nBut email could not be sent."]);
                 unset($_SESSION['cart']);
                 unset($_SESSION['applied_coupon']);
             }
         } else {
-            echo "<script>showModal('Error placing order. Please try again.');</script>";
+            echo json_encode(['status' => 'error', 'message' => 'Error placing order. Please try again.']);
         }
         
         $stmt->close();
+        exit();
     }
 }
 
@@ -228,13 +219,15 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="../Assets/CSS/cart.css">
-    <!-- เพิ่ม Bootstrap CSS เพื่อให้ alert และปุ่มทำงานได้ -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!--tempocss-->
+    <!-- รวม SweetAlert2 และ sweet_alert_helper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../Assets/JS/sweet_alert_helper.js"></script>
     <style>
                 body {
             font-family: Arial, sans-serif;
@@ -491,7 +484,6 @@ $conn->close();
                 <?php endforeach; ?>
             </div>
 
-            <!-- ช่องกรอกคูปอง -->
             <div class="coupon-section">
                 <form method="POST" class="coupon-form">
                     <div class="form-group">
@@ -512,7 +504,6 @@ $conn->close();
                 <?php endif; ?>
             </div>
 
-            <!-- แสดงยอดรวม -->
             <div class="cart-total">
                 <p style="margin: 0;"><strong>Subtotal: $<?php echo number_format($total, 2); ?></strong></p>
                 <?php if (isset($_SESSION['applied_coupon'])): ?>
@@ -531,7 +522,6 @@ $conn->close();
                     <button type="submit" name="checkout" class="btn btn-checkout">Proceed to Checkout</button>
                 </form>
             </div>
-
         <?php else: ?>
             <div class="empty-cart">
                 <h2>Your cart is empty</h2>
@@ -540,7 +530,7 @@ $conn->close();
         <?php endif; ?>
     </div>
 
-    <!-- เพิ่ม Bootstrap JavaScript เพื่อให้ alert และปุ่มปิดทำงาน -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../Assets/JS/cart.js"></script>
 </body>
 </html>

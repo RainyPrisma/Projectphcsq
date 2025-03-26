@@ -495,3 +495,30 @@ body {
 .next-button {
     right: 10px;
 }
+
+/* เพิ่มสไตล์เพื่อให้รู้ว่ารูปภาพสามารถลากได้ */
+.thumbnail {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+    cursor: move; /* เปลี่ยนเคอร์เซอร์ให้รู้ว่าลากได้ */
+}
+.sortable-ghost {
+    opacity: 0.5; /* เอฟเฟกต์ขณะลาก */
+}
+
+/* เพิ่มสไตล์สำหรับจำกัดข้อความ */
+.product-details-container {
+    max-width: 100%;
+    overflow: hidden;
+}
+.product-info {
+    max-width: 100%;
+}
+.product-description p,
+.shipping-info p {
+    max-width: 100%;
+    overflow-wrap: break-word; /* ตัดคำและขึ้นบรรทัดใหม่เมื่อถึงขอบ */
+    white-space: normal; /* อนุญาตให้ขึ้นบรรทัดใหม่ */
+    margin: 0; /* ลบ margin เพื่อให้ข้อความแนบชิด */
+}

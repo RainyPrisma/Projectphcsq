@@ -30,10 +30,24 @@ require_once '../Backend/productreq.php';
                 <div class="dropdown-category">
                     <h3>Categories</h3>
                     <a href="gallery.php" class="dropdown-item"><span class="icon">🏠</span>Main Page</a>
-                    <a href="gallery.php?category=Fish" class="dropdown-item"><span class="icon">🐠</span>Any of Fish</a>
-                    <a href="gallery.php?category=Squid" class="dropdown-item"><span class="icon">🐙</span>Any of Squid</a>
-                    <a href="gallery.php?category=Shrimp" class="dropdown-item"><span class="icon">🦐</span>Any of Shrimp</a>
-                    <a href="gallery.php?category=Shell" class="dropdown-item"><span class="icon">🐚</span>Any of Shell</a>
+                    <?php foreach ($categories as $cat): ?>
+                        <a href="gallery.php?category=<?php echo urlencode($cat); ?>" class="dropdown-item">
+                            <span class="icon">
+                                <?php
+                                $icons = [
+                                    'Fish' => '🐠',
+                                    'Squid' => '🐙',
+                                    'Shrimp' => '🦐',
+                                    'Shell' => '🐚',
+                                    'Unknown' => '❓',
+                                    'MyEgo' => '⭐'
+                                ];
+                                echo $icons[$cat] ?? '📦';
+                                ?>
+                            </span>
+                            Any of <?php echo htmlspecialchars($cat); ?>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
                 <div class="dropdown-category">
                     <h3>Special</h3>
@@ -68,10 +82,12 @@ require_once '../Backend/productreq.php';
                         <label for="category"><i class="fas fa-tag"></i> Category:</label>
                         <select name="category" id="category" class="form-select">
                             <option value="">All Categories</option>
-                            <option value="Fish" <?php echo isset($category_filter) && $category_filter == 'Fish' ? 'selected' : ''; ?>>Fish</option>
-                            <option value="Squid" <?php echo isset($category_filter) && $category_filter == 'Squid' ? 'selected' : ''; ?>>Squid</option>
-                            <option value="Shrimp" <?php echo isset($category_filter) && $category_filter == 'Shrimp' ? 'selected' : ''; ?>>Shrimp</option>
-                            <option value="Shell" <?php echo isset($category_filter) && $category_filter == 'Shell' ? 'selected' : ''; ?>>Shell</option>
+                            <?php foreach ($categories as $cat): ?>
+                                <option value="<?php echo htmlspecialchars($cat); ?>" 
+                                        <?php echo isset($category_filter) && $category_filter == $cat ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($cat); ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -221,7 +237,7 @@ require_once '../Backend/productreq.php';
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Custom Seafoods. All rights reserved.</p>
+            <p>© <?php echo date('Y'); ?> Custom Seafoods. All rights reserved.</p>
         </div>
     </footer>
 </body>
