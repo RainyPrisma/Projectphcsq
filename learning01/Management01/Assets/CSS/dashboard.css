@@ -52,7 +52,10 @@
         
         /* Page Header */
         .page-header {
-            background-image: url(https://i.pinimg.com/originals/94/b1/20/94b12031b93496cacdedfb0dd8287a90.gif) ;
+            background-image: url(https://nsman.safra.sg/wp-content/uploads/2022/06/ModernSeafoodRestaurants-MainPix.gif);
+            background-size: cover;        /* ทำให้รูปเต็มพื้นที่ */
+            background-position: center;   /* จัดกึ่งกลางรูป */
+            height: 50vh;                 /* ความสูงเต็มหน้าจอ */
             color: white;
             padding: 2rem 0;
             margin-bottom: 2rem;

@@ -216,10 +216,10 @@ include '../Backend/dashboardreq.php';
                 </a>
             </div>
             <div class="col-6 col-md-3">
-                <a href="#" class="card text-center h-100 text-decoration-none">
+                <a href="../Product/gallery.php" class="card text-center h-100 text-decoration-none">
                     <div class="card-body">
                         <i class="bi bi-heart fs-1 text-danger mb-2"></i>
-                        <h5 class="card-title text-dark">รายการโปรด</h5>
+                        <p class="card-text fs-5" id="most_purchased_item"><?php echo htmlspecialchars($most_purchased_item); ?></p>
                     </div>
                 </a>
             </div>
@@ -416,60 +416,60 @@ include '../Backend/dashboardreq.php';
             <!-- Popular Categories -->
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="m-0">หมวดหมู่ยอดนิยม</h3>
-                    <span class="badge bg-ocean">แนะนำ</span>
+                    <h3 class="m-0">สินค้าที่ขายดีที่สุด</h3>
+                    <span class="badge bg-ocean">ยอดนิยม</span>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         <?php 
-                        $category_mapping = [
+                        $product_mapping = [
                             'Squid' => [
-                                'url' => '../Product/Occt.php',
-                                'emoji' => '🐙', // Unicode Emoji สำหรับปลาหมึก
-                                'color' => 'text-success', // สีเขียว
-                                'bg_color' => 'bg-success-subtle' // พื้นหลังสีเขียวอ่อน
+                                'url' => 'http://localhost/learning01/Management01/Product/gallery.php?category=Squid&price_min=0&price_max=',
+                                'emoji' => '🐙',
+                                'color' => 'text-success',
+                                'bg_color' => 'bg-success-subtle'
                             ],
                             'Fish' => [
-                                'url' => '../Product/Fish.php',
-                                'emoji' => '🐟', // Unicode Emoji สำหรับปลา
-                                'color' => 'text-primary', // สีน้ำเงิน
-                                'bg_color' => 'bg-primary-subtle' // พื้นหลังสีน้ำเงินอ่อน
+                                'url' => 'http://localhost/learning01/Management01/Product/gallery.php?category=Fish&price_min=0&price_max=',
+                                'emoji' => '🐟',
+                                'color' => 'text-primary',
+                                'bg_color' => 'bg-primary-subtle'
                             ],
                             'Shrimp' => [
-                                'url' => '../Product/Shrimp.php',
-                                'emoji' => '🦐', // Unicode Emoji สำหรับกุ้ง
-                                'color' => 'text-warning', // สีเหลือง
-                                'bg_color' => 'bg-warning-subtle' // พื้นหลังสีเหลืองอ่อน
+                                'url' => 'http://localhost/learning01/Management01/Product/gallery.php?category=Shrimp&price_min=0&price_max=',
+                                'emoji' => '🦐',
+                                'color' => 'text-warning',
+                                'bg_color' => 'bg-warning-subtle'
                             ],
                             'Shell' => [
-                                'url' => '../Product/Shell.php',
-                                'emoji' => '🐚', // Unicode Emoji สำหรับหอย
-                                'color' => 'text-info', // สีฟ้าอ่อน
-                                'bg_color' => 'bg-info-subtle' // พื้นหลังสีฟ้าอ่อน
+                                'url' => 'http://localhost/learning01/Management01/Product/gallery.php?category=Shell&price_min=0&price_max=',
+                                'emoji' => '🐚',
+                                'color' => 'text-info',
+                                'bg_color' => 'bg-info-subtle'
                             ],
                             'Unknown' => [
                                 'url' => '../Product/gallery.php',
-                                'emoji' => '❓', // Unicode Emoji สำหรับเครื่องหมายคำถาม
-                                'color' => 'text-secondary', // สีเทา
-                                'bg_color' => 'bg-secondary-subtle' // พื้นหลังสีเทาอ่อน
+                                'emoji' => '❓',
+                                'color' => 'text-secondary',
+                                'bg_color' => 'bg-secondary-subtle'
                             ],
                             'MyEgo' => [
                                 'url' => '../Product/gallery.php',
-                                'emoji' => '⭐', // Unicode Emoji สำหรับดาว
-                                'color' => 'text-danger', // สีแดง
-                                'bg_color' => 'bg-danger-subtle' // พื้นหลังสีแดงอ่อน
+                                'emoji' => '⭐',
+                                'color' => 'text-danger',
+                                'bg_color' => 'bg-danger-subtle'
                             ],
                             'อื่นๆ' => [
                                 'url' => '../Product/gallery.php',
-                                'emoji' => '📦', // Unicode Emoji สำหรับกล่อง
-                                'color' => 'text-muted', // สีเทาเข้ม
-                                'bg_color' => 'bg-light' // พื้นหลังสีเทาอ่อน
+                                'emoji' => '📦',
+                                'color' => 'text-muted',
+                                'bg_color' => 'bg-light'
                             ]
                         ];
 
-                        foreach ($popular_categories as $cat): 
-                            $category = $cat['category'];
-                            $mapping = $category_mapping[$category] ?? $category_mapping['อื่นๆ'];
+                        foreach ($popular_products as $prod): 
+                            $product_name = $prod['product_name'];
+                            $mapping = $product_mapping[$product_name] ?? $product_mapping['อื่นๆ'];
                         ?>
                             <div class="col-6 col-md-4 col-lg-2">
                                 <a href="<?php echo $mapping['url']; ?>" class="card category-card text-center text-decoration-none h-100">
@@ -477,8 +477,8 @@ include '../Backend/dashboardreq.php';
                                         <div class="category-icon mb-3 <?php echo $mapping['bg_color']; ?>">
                                             <span class="category-emoji <?php echo $mapping['color']; ?>"><?php echo $mapping['emoji']; ?></span>
                                         </div>
-                                        <h6 class="card-title text-dark mb-0"><?php echo htmlspecialchars($category); ?></h6>
-                                        <small class="text-muted"><?php echo $cat['total_quantity']; ?> รายการ</small>
+                                        <h6 class="card-title text-dark mb-0"><?php echo htmlspecialchars($product_name); ?></h6>
+                                        <small class="text-muted"><?php echo $prod['total_quantity']; ?> รายการ</small>
                                     </div>
                                 </a>
                             </div>

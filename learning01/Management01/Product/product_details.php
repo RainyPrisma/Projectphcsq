@@ -45,6 +45,50 @@ if (!empty($product['additional_images'])) {
     }
 }
 
+// ฟังก์ชันเรียงลำดับรูปภาพ
+if ($is_admin && isset($_POST['sort_images'])) {
+    $new_order = json_decode($_POST['sort_images'], true);
+    if (is_array($new_order) && !empty($new_order)) {
+        $sorted_images = [];
+        foreach ($new_order as $index) {
+            if (isset($additional_images[$index])) {
+                $sorted_images[] = $additional_images[$index];
+            }
+        }
+        $additional_images = $sorted_images;
+        $sorted_images_json = json_encode($additional_images);
+        $sql_sort_images = "UPDATE productlist SET additional_images = ? WHERE id = ?";
+        $stmt_sort_images = $conn->prepare($sql_sort_images);
+        $stmt_sort_images->bind_param("si", $sorted_images_json, $product['id']);
+        $stmt_sort_images->execute();
+        $stmt_sort_images->close();
+        $_SESSION['upload_message'] = "เรียงลำดับรูปภาพเรียบร้อยแล้ว";
+    }
+    exit("Sort completed");
+}
+
+// สำหรับลบรูปภาพ
+if ($is_admin && isset($_POST['delete_image']) && isset($_POST['image_index'])) {
+    $image_index = (int)$_POST['image_index'];
+    if (isset($additional_images[$image_index])) {
+        $image_to_delete = $additional_images[$image_index];
+        if (file_exists($image_to_delete)) {
+            unlink($image_to_delete);
+        }
+        unset($additional_images[$image_index]);
+        $additional_images = array_values($additional_images);
+        $updated_images_json = json_encode($additional_images);
+        $sql_delete_image = "UPDATE productlist SET additional_images = ? WHERE id = ?";
+        $stmt_delete_image = $conn->prepare($sql_delete_image);
+        $stmt_delete_image->bind_param("si", $updated_images_json, $product['id']);
+        $stmt_delete_image->execute();
+        $stmt_delete_image->close();
+        $_SESSION['upload_message'] = "ลบรูปภาพเรียบร้อยแล้ว";
+    }
+    header("Location: product_details.php?id=" . urlencode($product_name));
+    exit();
+}
+
 if ($is_admin && isset($_POST['update_product'])) {
     $new_name = $_POST['name'];
     $new_detail = $_POST['detail'];
@@ -300,11 +344,16 @@ $stmt_reviews->close();
     <script src="../Assets/JS/script.js"></script>
     <script src="../Assets/JS/gallerydetailsproduct.js"></script>
     <script src="../Assets/JS/product_navigation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- รวม SweetAlert2 และ Helper -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../Assets/JS/sweet_alert_helper.js"></script>
     <style>
         .thumbnail {
             position: relative;
             display: inline-block;
             margin: 5px;
+            cursor: move;
         }
         .delete-btn {
             position: absolute;
@@ -349,6 +398,9 @@ $stmt_reviews->close();
         }
         .admin-edit button:hover {
             background-color: #45a049;
+        }
+        .sortable-ghost {
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -413,22 +465,19 @@ $stmt_reviews->close();
     <div class="product-details">
         <div class="product-image">
             <div class="main-image">
-                <button class="image-nav-button prev-button" id="prev-image">&lt;</button>
-                    <img id="main-product-image" src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                <button class="image-nav-button next-button" id="next-image">&gt;</button>
+                <button class="image-nav-button prev-button" id="prev-image"><</button>
+                <img id="main-product-image" src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                <button class="image-nav-button next-button" id="next-image">></button>
             </div>
-            <div class="gallery-thumbnails">
+            <div class="gallery-thumbnails" id="sortable-thumbnails">
                 <div class="thumbnail active" data-image="<?php echo htmlspecialchars($product['image_url']); ?>">
                     <img src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?> - Main View">
                 </div>
                 <?php foreach ($additional_images as $index => $image_url): ?>
-                    <div class="thumbnail" data-image="<?php echo htmlspecialchars($image_url); ?>">
+                    <div class="thumbnail" data-image="<?php echo htmlspecialchars($image_url); ?>" data-index="<?php echo $index; ?>">
                         <img src="<?php echo htmlspecialchars($image_url); ?>" alt="<?php echo htmlspecialchars($product['name']); ?> - Additional View">
                         <?php if ($is_admin): ?>
-                            <form method="POST" style="display:inline;">
-                                <input type="hidden" name="image_index" value="<?php echo $index; ?>">
-                                <button type="submit" name="delete_image" class="delete-btn">X</button>
-                            </form>
+                            <button class="delete-btn" data-index="<?php echo $index; ?>">X</button>
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
@@ -440,7 +489,7 @@ $stmt_reviews->close();
             
             <div class="product-description">
                 <h3>รายละเอียดสินค้า</h3>
-                <p><?php echo htmlspecialchars($product['detail']); ?></p>
+                <p class="description-text"><?php echo htmlspecialchars($product['detail']); ?></p>
                 
                 <?php if (isset($product['nutrition'])): ?>
                 <div class="nutrition-facts">
@@ -476,8 +525,8 @@ $stmt_reviews->close();
             
             <div class="shipping-info">
                 <h3>การจัดส่งและการคืนสินค้า</h3>
-                <p><strong>การจัดส่ง:</strong> จัดส่งฟรีเมื่อซื้อครบ 1,000 บาท</p>
-                <p><strong>รับประกันความสด:</strong> หากได้รับสินค้าไม่สด สามารถขอเงินคืนได้ภายใน 24 ชั่วโมง</p>
+                <p class="shipping-text"><strong>การจัดส่ง:</strong> จัดส่งฟรีเมื่อซื้อครบ 1,000 บาท</p>
+                <p class="shipping-text"><strong>รับประกันความสด:</strong> หากได้รับสินค้าไม่สด สามารถขอเงินคืนได้ภายใน 24 ชั่วโมง</p>
             </div>
         </div>
     </div>
@@ -603,20 +652,9 @@ $stmt_reviews->close();
 </footer>
 
 <script>
-    function limitFiles(input, max) {
-        if (input.files.length > max) {
-            alert("คุณสามารถอัปโหลดได้สูงสุด " + max + " รูปเท่านั้น");
-            input.value = "";
-        }
-    }
-
-    document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-        thumbnail.addEventListener('click', function() {
-            document.getElementById('main-product-image').src = this.getAttribute('data-image');
-        });
-    });
+    const isAdmin = <?php echo json_encode($is_admin); ?>;
 </script>
-
+<script src="../Assets/JS/product_details.js"></script>
 </body>
 </html>
 <?php

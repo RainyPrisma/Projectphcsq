@@ -15,7 +15,9 @@ $mpdf = new Mpdf([
     'mode' => 'utf-8',
     'format' => 'A4',
     'default_font' => 'sarabun',
-    'default_font_size' => 14,
+    'default_font_size' => 14, // ลดขนาดฟอนต์ลงจาก 18
+    'margin_top' => 50,       // เพิ่ม margin ด้านบนเพื่อรองรับ header
+    'margin_header' => 10,    // ระยะห่างระหว่าง header กับขอบกระดาษ
     'fontDir' => [__DIR__ . '/../../vendor/mpdf/mpdf/ttfonts'],
     'fontdata' => [
         'sarabun' => [
@@ -23,9 +25,6 @@ $mpdf = new Mpdf([
         ]
     ]
 ]);
-
-// Register font
-$mpdf->AddFont('sarabun');
 
 if (!isset($_GET['id'])) {
     die('Order ID not provided');
@@ -46,14 +45,25 @@ if (!$order) {
     die('Order not found or unauthorized access');
 }
 
-// โหลด CSS file
+// โหลด CSS จากไฟล์
 $stylesheet = file_get_contents('../Assets/CSS/receipt_style.css');
 $mpdf->WriteHTML($stylesheet, 1);
 
-// แยกรายการสินค้า (ถ้ามีหลายรายการ)
-$items = explode(",", $order['item']);
+// HTML สำหรับ header ที่จะแสดงทุกหน้า
+$header_html = '
+<div class="company-info">
+    <h2>Custom Seafoods</h2>
+    <p>123 ถนนตัวอย่าง, เขตตัวอย่าง, กรุงเทพฯ 10xxx</p>
+    <p>โทร: 02-xxx-xxxx | อีเมล: info@customseafoods.com</p>
+    <p>เลขประจำตัวผู้เสียภาษี: xxxxxxxxxxxxx</p>
+</div>
+';
 
-// สร้าง HTML สำหรับรายการสินค้า
+// กำหนด header ให้แสดงทุกหน้า
+$mpdf->SetHTMLHeader($header_html);
+
+// แยกรายการสินค้า
+$items = explode(",", $order['item']);
 $items_html = '';
 foreach ($items as $item) {
     $items_html .= '<tr>
@@ -62,15 +72,8 @@ foreach ($items as $item) {
     </tr>';
 }
 
-// สร้าง HTML สำหรับใบเสร็จ
+// HTML เนื้อหาหลัก
 $html = '
-<div class="company-info">
-    <h2>Custom Seafoods</h2>
-    <p>123 ถนนตัวอย่าง, เขตตัวอย่าง, กรุงเทพฯ 10xxx</p>
-    <p>โทร: 02-xxx-xxxx | อีเมล: info@customseafoods.com</p>
-    <p>เลขประจำตัวผู้เสียภาษี: xxxxxxxxxxxxx</p>
-</div>
-
 <div class="header">
     <h1>ใบเสร็จรับเงิน / RECEIPT</h1>
     <p class="receipt-number">เลขที่: ' . $order['order_reference'] . '</p>
@@ -84,7 +87,7 @@ $html = '
 <table class="items">
     <tr>
         <th>รายการสินค้า</th>
-        <th style="text-align: right;">ราคา</th>
+        <th class="text-right">ราคา</th>
     </tr>
     ' . $items_html . '
 </table>
@@ -104,7 +107,7 @@ $mpdf->WriteHTML($html);
 // สร้างชื่อไฟล์
 $filename = 'receipt_' . $order['order_reference'] . '.pdf';
 
-// ส่ง PDF ให้ดาวน์โหลด
+// ส่ง PDF ให้ดาวน์โหลดหรือดู
 $mode = isset($_GET['mode']) ? $_GET['mode'] : 'view';
 if ($mode == 'download') {
     $mpdf->Output($filename, 'D');
